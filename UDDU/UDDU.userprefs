@@ -1,0 +1,16 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Player.boo">
+    <Files>
+      <File FileName="Assets\Camera1.boo" Line="16" Column="4" />
+      <File FileName="Assets\Player.boo" Line="53" Column="45" />
+      <File FileName="Assets\Camera2.boo" Line="16" Column="4" />
+      <File FileName="Assets\TopWorld.boo" Line="5" Column="1" />
+      <File FileName="Assets\BotWorld.boo" Line="10" Column="20" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
