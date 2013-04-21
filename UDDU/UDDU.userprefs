@@ -1,12 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Player.boo">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Player.boo">
     <Files>
-      <File FileName="Assets\Camera1.boo" Line="16" Column="4" />
-      <File FileName="Assets\Player.boo" Line="53" Column="45" />
-      <File FileName="Assets\Camera2.boo" Line="16" Column="4" />
-      <File FileName="Assets\TopWorld.boo" Line="5" Column="1" />
-      <File FileName="Assets\BotWorld.boo" Line="10" Column="20" />
+      <File FileName="Assets\Scripts\Player.boo" Line="19" Column="31" />
+      <File FileName="Assets\Scripts\Player2.boo" Line="12" Column="1" />
+      <File FileName="Assets\Scripts\Camera2.boo" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Camera1.boo" Line="16" Column="4" />
+      <File FileName="Assets\Scripts\Spring.boo" Line="13" Column="29" />
+      <File FileName="Assets\Scripts\MainMenuScript.boo" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

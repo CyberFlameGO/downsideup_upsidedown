@@ -4,60 +4,63 @@ class Player (MonoBehaviour):
 	
 	public speed as single = 6.0
 	public jump_speed as single = 8.0
-	jumping = 0.0
-	public gravity as single = 20.0
+	public other as GameObject
+	public phase_thresh as single = 0.8
 	
-	static public phase as single = 0.0
-	public phase_weight as single = 0.5
-	public phase_friction as single = 0.1
-	
-	phase_speed as single = 0.0
+	grounded = 0.0
 
 	def Start ():
 		pass
 	
 	def Update ():
 		
-		controller = GetComponent(CharacterController)
-		
-		moveDirection = Vector3(Input.GetAxis("Horizontal"), 0, 0)
-		moveDirection = transform.TransformDirection(moveDirection)
-		moveDirection *= speed
-		
-		if (controller.isGrounded) and Input.GetButton("Jump"):
-			jumping = jump_speed
-		if jumping > 0.0:
-			moveDirection.y = jumping
-			jumping -= gravity * Time.deltaTime
-			if jumping < 0.0: jumping = 0.0
-		
-		moveDirection.y -= gravity 
-		controller.Move(moveDirection * Time.deltaTime)
-		
-		if phase > 0.0:
-			phase_speed -= phase_weight * Time.deltaTime
-		elif phase < 0.0:
-			phase_speed += phase_weight * Time.deltaTime
-		
-		phase_speed -= phase_speed * phase_friction * Time.deltaTime
-		
-		phase += phase_speed * Time.deltaTime
-		
-		if Mathf.Abs(phase_speed) < 0.05 and Mathf.Abs(phase) < 0.05:
-			phase_speed = 0.0
-			phase = 0.0
-			phase_speed = Input.GetAxis("Vertical")/2
+		phase = Input.GetAxis("Vertical")
+		print(phase)
+		#Change mass based on phase.
+		rigidbody.mass = phase + 1.01
+		#Phase in and out of existence.
+		if phase < -phase_thresh:
+			renderer.enabled = false
+			collider.enabled = false
 		else:
-			phase_speed += Input.GetAxis("Vertical") * Time.deltaTime
+			renderer.enabled = true
+			collider.enabled = true
+		
+		rigidbody.velocity.x = Input.GetAxis("Horizontal") * speed
+		
+		#Only jump if we've been grounded at least briefly.
+		if grounded > 0.1:
+			if Input.GetButtonDown("Jump"):
+				rigidbody.velocity.y = jump_speed
+		if Mathf.Abs(rigidbody.velocity.y) < 0.5:
+			grounded += Time.deltaTime
+		else:
+			grounded = 0
 			
-		#phase = Input.GetAxis("Vertical")
-		
-		if phase > 0.0:
-			gameObject.layer = 8
-		elif phase < 0.0:
-			gameObject.layer = 9
+		if phase > -phase_thresh and phase < phase_thresh:
+			#Average character positions.
+			x = transform.position.x
+			y = transform.position.y
+			transform.position.x = (transform.position.x + other.transform.position.x)/2
+			transform.position.y = (transform.position.y + other.transform.position.y)/2
+			other.transform.position.x = (x + other.transform.position.x)/2
+			other.transform.position.y = (y + other.transform.position.y)/2
+			#Average character velocities.
+			x = rigidbody.velocity.x
+			y = rigidbody.velocity.y
+			rigidbody.velocity.x = (rigidbody.velocity.x + other.rigidbody.velocity.x)/2
+			rigidbody.velocity.y = (rigidbody.velocity.y + other.rigidbody.velocity.y)/2
+			other.rigidbody.velocity.x = (x + other.rigidbody.velocity.x)/2
+			other.rigidbody.velocity.y = (y + other.rigidbody.velocity.y)/2
+		elif phase < -phase_thresh:
+			#Player1 is inactive, set to player2.
+			transform.position.x = other.transform.position.x
+			transform.position.y = other.transform.position.y
+			rigidbody.velocity.x = other.rigidbody.velocity.x
+			rigidbody.velocity.y = other.rigidbody.velocity.y
 		else:
-			gameObject.layer = 0		
-                                  
-		
-
+			#Player2 is inactive, set to player1.
+			other.transform.position.x = transform.position.x
+			other.transform.position.y = transform.position.y
+			other.rigidbody.velocity.x = rigidbody.velocity.x
+			other.rigidbody.velocity.y = rigidbody.velocity.y
