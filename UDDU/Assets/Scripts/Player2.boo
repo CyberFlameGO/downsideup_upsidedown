@@ -26,6 +26,13 @@ class Player2 (MonoBehaviour):
 			collider.enabled = true
 		
 		rigidbody.velocity.x = Input.GetAxis("Horizontal") * speed
+		if Input.GetAxis("Horizontal") < 0:
+			if Mathf.Round(transform.eulerAngles.y) != 180:
+				transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y-10)
+		elif Input.GetAxis("Horizontal") > 0:
+			if Mathf.Round(transform.eulerAngles.y) != 0:
+				transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y+10)
+		
 		if grounded > 0.1:
 		
 			if Input.GetButtonDown("Jump"):
@@ -35,3 +42,10 @@ class Player2 (MonoBehaviour):
 			grounded += Time.deltaTime
 		else:
 			grounded = 0
+			
+			
+	def OnMouseDown():
+		
+		if Player.holding != null:
+			Player.holding.transform.parent = null
+			Player.holding = null

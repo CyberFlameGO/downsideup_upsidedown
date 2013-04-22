@@ -46,8 +46,11 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Camera1.boo" />
      <Compile Include="Assets\Scripts\Camera2.boo" />
+     <Compile Include="Assets\Scripts\CameraPoint.boo" />
+     <Compile Include="Assets\Scripts\Falls.boo" />
      <Compile Include="Assets\Scripts\LoadLevelsScript.boo" />
      <Compile Include="Assets\Scripts\MainMenuScript.boo" />
+     <Compile Include="Assets\Scripts\PickUp.boo" />
      <Compile Include="Assets\Scripts\Player.boo" />
      <Compile Include="Assets\Scripts\Player2.boo" />
      <Compile Include="Assets\Scripts\Spring.boo" />

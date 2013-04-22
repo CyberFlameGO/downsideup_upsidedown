@@ -8,6 +8,7 @@ class Player (MonoBehaviour):
 	public phase_thresh as single = 0.8
 	
 	grounded = 0.0
+	public static holding as GameObject = null
 
 	def Start ():
 		pass
@@ -27,6 +28,12 @@ class Player (MonoBehaviour):
 			collider.enabled = true
 		
 		rigidbody.velocity.x = Input.GetAxis("Horizontal") * speed
+		if Input.GetAxis("Horizontal") < 0:
+			if Mathf.Round(transform.eulerAngles.y) != 180:
+				transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y-10)
+		elif Input.GetAxis("Horizontal") > 0:
+			if Mathf.Round(transform.eulerAngles.y) != 0:
+				transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y+10)
 		
 		#Only jump if we've been grounded at least briefly.
 		if grounded > 0.1:
@@ -64,3 +71,9 @@ class Player (MonoBehaviour):
 			other.transform.position.y = transform.position.y
 			other.rigidbody.velocity.x = rigidbody.velocity.x
 			other.rigidbody.velocity.y = rigidbody.velocity.y
+			
+	def OnMouseDown():
+		
+		if holding != null:
+			holding.transform.parent = null
+			holding = null
