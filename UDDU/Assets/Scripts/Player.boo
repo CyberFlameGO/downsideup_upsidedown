@@ -16,7 +16,7 @@ class Player (MonoBehaviour):
 	def Update ():
 		
 		phase = Input.GetAxis("Vertical")
-		print(phase)
+		# print(phase)
 		#Change mass based on phase.
 		rigidbody.mass = phase + 1.01
 		#Phase in and out of existence.
