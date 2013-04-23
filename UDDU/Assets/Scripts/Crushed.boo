@@ -16,5 +16,5 @@ class Crushed (MonoBehaviour):
 			matInstance = Instantiate(mat)
 			renderer.material = matInstance #BLOOD!
 			# Destroy(gameObject);
-		elif collision.rigidbody.velocity != Vector3.zero: # crush them
+		elif collision.rigidbody.velocity.y > 0: # falling, crush them
 			transform.localScale += Vector3(transform.localScale.y*1.5, -transform.localScale.y/1.5, transform.localScale.y*1.5)
