@@ -1,7 +1,7 @@
 import UnityEngine
 
 class Shoot (MonoBehaviour): 
-	public bullet as Transform
+	public bullet as GameObject
 	public bulletSpeed as single  = 1000F
 
 	private shootTime as single =0
@@ -13,7 +13,8 @@ class Shoot (MonoBehaviour):
 	def Update ():
 		if (Time.time-shootTime) > 2: #shoot every 2 secs
 			pos as Vector3 = Vector3(transform.position.x,transform.position.y+0.5,transform.position.z)
-			bullet as Transform = Instantiate(bullet, pos, transform.rotation)
+			bullet as GameObject = Instantiate(bullet, pos, transform.rotation)
+			bullet.layer = gameObject.layer
 			Physics.IgnoreCollision(bullet.collider, collider)
 
 	    	# Add force to the cloned object in the object's forward direction
