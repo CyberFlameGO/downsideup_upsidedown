@@ -36,7 +36,10 @@ class Player (MonoBehaviour):
 			renderer.enabled = true
 			collider.enabled = true
 		
-		rigidbody.velocity.x = Input.GetAxis("Horizontal") * speed
+		if Physics.Raycast(transform.position, Vector3.right * Input.GetAxis("Horizontal"), 0.5) == false:
+			rigidbody.velocity.x = Input.GetAxis("Horizontal") * speed
+		
+		#Rotation.
 		if Input.GetAxis("Horizontal") < 0:
 			if Mathf.Round(transform.eulerAngles.y) != 180:
 				transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y-10)
@@ -44,11 +47,12 @@ class Player (MonoBehaviour):
 			if Mathf.Round(transform.eulerAngles.y) != 0:
 				transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y+10)
 		
-		#Only jump if we've been grounded at least briefly.
+		#Only jump if we're grounded.
 		if grounded > 0.1:
 			if Input.GetButtonDown("Jump"):
 				rigidbody.velocity.y = jump_speed
-		if Mathf.Abs(rigidbody.velocity.y) < 0.5:
+				
+		if Mathf.Abs(rigidbody.velocity.y) < 0.1:
 			grounded += Time.deltaTime
 		else:
 			grounded = 0
