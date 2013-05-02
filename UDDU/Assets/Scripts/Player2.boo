@@ -25,7 +25,9 @@ class Player2 (MonoBehaviour):
 			renderer.enabled = true
 			collider.enabled = true
 		
-		rigidbody.velocity.x = Input.GetAxis("Horizontal") * speed
+		if Physics.Raycast(transform.position, Vector3.right * Input.GetAxis("Horizontal"), 0.5) == false:
+			rigidbody.velocity.x = Input.GetAxis("Horizontal") * speed
+			
 		if Input.GetAxis("Horizontal") < 0:
 			if Mathf.Round(transform.eulerAngles.y) != 180:
 				transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y-10)
