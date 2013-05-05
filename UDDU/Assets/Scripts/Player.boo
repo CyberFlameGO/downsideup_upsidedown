@@ -10,6 +10,7 @@ class Player (MonoBehaviour):
 	grounded = 0.0
 	public static holding as GameObject = null
 	private phasing = false
+	private timePhased = 0
 
 	#state variables
 	private TOP_PHASE as single = 0
@@ -17,15 +18,16 @@ class Player (MonoBehaviour):
 	private BOTH_PHASE as single = 2
 	private phaseState = BOTH_PHASE
 
-	def Start ():
-		pass
+	def isPhasing():
+		return phasing
 	
 	def Update ():
-		phasing = false
+		if phasing and Time.time-timePhased>Time.deltaTime:
+			phasing = false
 
 		phase = Input.GetAxis("Vertical")
 
-		# print(phase)
+		print(phase)
 		#Change mass based on phase.
 		rigidbody.mass = phase + 1.01
 		#Phase in and out of existence.
@@ -61,6 +63,7 @@ class Player (MonoBehaviour):
 			if phaseState == BOTTOM_PHASE or phaseState == TOP_PHASE:
 				phaseState = BOTH_PHASE
 				phasing = true
+				timePhased = Time.time
 			#Average character positions.
 			x = transform.position.x
 			y = transform.position.y
@@ -101,7 +104,4 @@ class Player (MonoBehaviour):
 			holding.transform.parent = null
 			holding = null
 
-	def OnCollisionEnter(other as Collision):
-		if phasing and other.gameObject.name=="Guard":
-			Destroy(other.gameObject)
 		

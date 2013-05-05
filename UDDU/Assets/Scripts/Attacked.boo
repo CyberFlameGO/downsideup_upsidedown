@@ -40,6 +40,7 @@ class Attacked (MonoBehaviour):
 				texture.Apply() 
 			else:
 				Application.LoadLevel(Application.loadedLevel) #reload level
+				# dead = false
 				Time.timeScale=1 #pause the game
 				texture.SetPixel(0, 0, blackness) 
 				texture.Apply() 

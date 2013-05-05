@@ -5,9 +5,9 @@ class Shoot (MonoBehaviour):
 	# public bulletSpeed as single  = 1000F
 	public shootDistance as single = 5
 	public lazer as GameObject
-	public target as GameObject
-
 	public speed as single = -2.0
+
+	private target as GameObject
 
 	#state variables
 	private SHOOTER as single = 0 #shooting lazers state
@@ -16,17 +16,10 @@ class Shoot (MonoBehaviour):
 
 	private shootTime as single =0
 	private shootDir as Vector3 = Vector3(-1,0,0)
-	
 
-		
+	def Awake():
+        target = GetComponent(CollisionDeath).target
 
-	# kill player if they collide with guard
-	def OnCollisionEnter(collision as Collision):
-		if collision.gameObject == target:
-			# DIE!
-			collision.gameObject.GetComponent(Attacked).setDead(true)
-			
-	
 	def Update ():
 		if (phaseState==SHOOTER and Time.time-shootTime > 0.1): 
 			lazer.SetActive(false)
