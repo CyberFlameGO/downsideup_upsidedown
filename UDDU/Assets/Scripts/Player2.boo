@@ -7,7 +7,9 @@ class Player2 (MonoBehaviour):
 	public phase_thresh as single = 0.8
 	
 	public other as GameObject
-	
+
+	public weightDisplay as GUIText
+
 	grounded = 0.0
 
 	def Start ():
@@ -44,8 +46,10 @@ class Player2 (MonoBehaviour):
 			grounded += Time.deltaTime
 		else:
 			grounded = 0
+
+		weightDisplay.text = "Weight: " + Mathf.Round(((phase-1)/2) * -100.0) +"%"
 			
-			
+
 	def OnMouseDown():
 		
 		if Player.holding != null:

@@ -6,6 +6,8 @@ class Player (MonoBehaviour):
 	public jump_speed as single = 8.0
 	public other as GameObject
 	public phase_thresh as single = 0.8
+
+	public weightDisplay as GUIText
 	
 	grounded = 0.0
 	public static holding as GameObject = null
@@ -27,7 +29,6 @@ class Player (MonoBehaviour):
 
 		phase = Input.GetAxis("Vertical")
 
-		print(phase)
 		#Change mass based on phase.
 		rigidbody.mass = phase + 1.01
 		#Phase in and out of existence.
@@ -97,6 +98,8 @@ class Player (MonoBehaviour):
 
 			if phaseState == BOTH_PHASE:
 				phaseState = TOP_PHASE
+
+		weightDisplay.text = "Weight: " + Mathf.Round(((phase+1)/2) * 100.0) +"%"
 		
 	def OnMouseDown():
 		
