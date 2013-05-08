@@ -10,7 +10,7 @@ class Player2 (MonoBehaviour):
 
 	public weightDisplay as GUIText
 
-	grounded = 0.0
+	grounded = false
 
 	def Start ():
 		pass
@@ -27,27 +27,26 @@ class Player2 (MonoBehaviour):
 			renderer.enabled = true
 			collider.enabled = true
 		
-		if Physics.Raycast(transform.position, Vector3.right * Input.GetAxis("Horizontal"), 0.5) == false:
+		if Physics.Raycast(transform.position + Vector3(0, 0.25, 0), 
+			Vector3.right * Input.GetAxis("Horizontal"), 0.5) == false and Physics.Raycast(
+				transform.position + Vector3(0, -0.25, 0), Vector3.right * Input.GetAxis(
+					"Horizontal"), 0.5) == false:
 			rigidbody.velocity.x = Input.GetAxis("Horizontal") * speed
 			
 		if Input.GetAxis("Horizontal") < 0:
-			if Mathf.Round(transform.eulerAngles.y) != 180:
+			if Mathf.Round(transform.eulerAngles.y) != 270:
 				transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y-10)
 		elif Input.GetAxis("Horizontal") > 0:
-			if Mathf.Round(transform.eulerAngles.y) != 0:
+			if Mathf.Round(transform.eulerAngles.y) != 90:
 				transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y+10)
 		
-		if grounded > 0.1:
-		
+		if grounded:
 			if Input.GetButtonDown("Jump"):
 				rigidbody.velocity.y = jump_speed
-			
-		if Mathf.Abs(rigidbody.velocity.y) < 0.1:
-			grounded += Time.deltaTime
-		else:
-			grounded = 0
 
 		weightDisplay.text = "Weight: " + Mathf.Round(((phase-1)/2) * -100.0) +"%"
+		
+		grounded = false
 			
 
 	def OnMouseDown():
@@ -55,3 +54,9 @@ class Player2 (MonoBehaviour):
 		if Player.holding != null:
 			Player.holding.transform.parent = null
 			Player.holding = null
+			
+	def OnTriggerStay(other as Collider):
+		
+		if other.CompareTag("Player") == false:
+			grounded = true
+			

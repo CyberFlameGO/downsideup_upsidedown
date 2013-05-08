@@ -29,7 +29,7 @@ class PickUp (MonoBehaviour):
 		if Vector3.Distance(transform.position, player.transform.position) < 3.0 and player.collider.enabled == true:
 			if transform.parent == null:
 				transform.parent = player.transform
-				transform.localPosition = Vector3(1.5, 1, 0)
+				transform.localPosition = Vector3(0, 1, 1.5)
 				rigidbody.isKinematic = true
 			else:
 				transform.parent = null
