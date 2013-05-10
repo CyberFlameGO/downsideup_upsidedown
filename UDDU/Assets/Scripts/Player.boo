@@ -8,6 +8,8 @@ class Player (MonoBehaviour):
 	public phase_thresh as single = 0.8
 
 	public weightDisplay as GUIText
+
+	public exit as GameObject
 	
 	grounded = false
 	public static holding as GameObject = null
@@ -24,6 +26,13 @@ class Player (MonoBehaviour):
 		return phasing
 	
 	def Update ():
+		if transform.position.x > exit.transform.position.x:
+			#Finished level, load one level past current 
+			#(accounting for index0=main menu and index1=loadLevelScreen)
+			levelName = "Level"+(Application.loadedLevel) 
+			PlayerPrefs.SetInt("unlockedLevel"+levelName,1)
+			GetComponent(FadeScreen).startLevel(levelName)
+
 		if phasing and Time.time-timePhased>Time.deltaTime:
 			phasing = false
 

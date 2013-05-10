@@ -9,4 +9,4 @@ class CollisionDeath (MonoBehaviour):
 		if phasing and collision.gameObject == target: #if phasing into guard, kills guard
 			Destroy(gameObject)
 		elif collision.gameObject == target: #otherwise kill player
-			collision.gameObject.GetComponent(Attacked).setDead(true)
+			collision.gameObject.GetComponent(FadeScreen).reset()
