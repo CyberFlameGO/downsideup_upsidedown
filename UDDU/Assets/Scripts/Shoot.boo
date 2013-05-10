@@ -17,7 +17,7 @@ class Shoot (MonoBehaviour):
 	private shootTime as single =0
 	private shootDir as Vector3 = Vector3(-1,0,0)
 
-	def Awake():
+	def Start ():
         target = GetComponent(CollisionDeath).target
 
 	def Update ():

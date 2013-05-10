@@ -9,6 +9,9 @@ class Attacked (MonoBehaviour):
 	private stunnedTime as single =0
 	private stunned = false
 
+	def isStunned():
+		return stunned
+
 				
 	def Update ():
 		if (stunned and Time.time-stunnedTime > recoveryTime): #recover

@@ -13,8 +13,6 @@ class Player (MonoBehaviour):
 	
 	grounded = false
 	public static holding as GameObject = null
-	private phasing = false
-	private timePhased = 0
 
 	#state variables
 	private TOP_PHASE as single = 0
@@ -22,19 +20,17 @@ class Player (MonoBehaviour):
 	private BOTH_PHASE as single = 2
 	private phaseState = BOTH_PHASE
 
-	def isPhasing():
-		return phasing
-	
+	private distanceToKill as single = 0.0F #distance from centre of guard which will explode them
+
+	def Start ():
+		guards = GameObject.FindGameObjectsWithTag('Guard')
+		if guards.Length > 0:
+			mesh as Mesh = guards[0].GetComponent(MeshFilter).mesh
+			distanceToKill = mesh.bounds.size.x/2
+
 	def Update ():
 		if transform.position.x > exit.transform.position.x:
-			#Finished level, load one level past current 
-			#(accounting for index0=main menu and index1=loadLevelScreen)
-			levelName = "Level"+(Application.loadedLevel) 
-			PlayerPrefs.SetInt("unlockedLevel"+levelName,1)
-			GetComponent(FadeScreen).startLevel(levelName)
-
-		if phasing and Time.time-timePhased>Time.deltaTime:
-			phasing = false
+			finishLevel()
 
 		phase = Input.GetAxis("Vertical")
 
@@ -71,8 +67,8 @@ class Player (MonoBehaviour):
 		if phase > -phase_thresh and phase < phase_thresh:
 			if phaseState == BOTTOM_PHASE or phaseState == TOP_PHASE:
 				phaseState = BOTH_PHASE
-				phasing = true
-				timePhased = Time.time
+				checkPhaseKill()
+
 			#Average character positions.
 			x = transform.position.x
 			y = transform.position.y
@@ -109,7 +105,7 @@ class Player (MonoBehaviour):
 
 		weightDisplay.text = "Weight: " + Mathf.Round(((phase+1)/2) * 100.0) +"%"
 		
-		print(grounded)
+		# print(grounded)
 		grounded = false
 		
 	def OnMouseDown():
@@ -122,6 +118,22 @@ class Player (MonoBehaviour):
 		
 		if other.CompareTag("Player") == false:
 			grounded = true
+
+	def finishLevel():
+		#Finished level, load one level past current 
+		#(accounting for index0=main menu and index1=loadLevelScreen)
+		levelName = "Level"+(Application.loadedLevel) 
+		PlayerPrefs.SetInt("unlockedLevel"+levelName,1)
+		GetComponent(FadeScreen).startLevel(levelName)
 			
+	#check if you are centred enough beneath a guard to 
+	def checkPhaseKill():
+		guards = GameObject.FindGameObjectsWithTag('Guard')
+		for g in guards:
+			if (Mathf.Abs(g.transform.position.x - transform.position.x) < distanceToKill):
+				Destroy(g) #close enough to centre of guard, so kill em
+				break 
+
+
 
 		
