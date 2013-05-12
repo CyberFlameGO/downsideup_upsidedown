@@ -27,9 +27,9 @@ class Player2 (MonoBehaviour):
 			renderer.enabled = true
 			collider.enabled = true
 		
-		if Physics.Raycast(transform.position + Vector3(0, 0.25, 0), 
+		if Physics.Raycast(transform.position + Vector3(0, 0.4, 0), 
 			Vector3.right * Input.GetAxis("Horizontal"), 0.5) == false and Physics.Raycast(
-				transform.position + Vector3(0, -0.25, 0), Vector3.right * Input.GetAxis(
+				transform.position + Vector3(0, -0.4, 0), Vector3.right * Input.GetAxis(
 					"Horizontal"), 0.5) == false:
 			rigidbody.velocity.x = Input.GetAxis("Horizontal") * speed
 			
@@ -45,8 +45,6 @@ class Player2 (MonoBehaviour):
 				rigidbody.velocity.y = jump_speed
 
 		weightDisplay.text = "Weight: " + Mathf.Round(((phase-1)/2) * -100.0) +"%"
-		
-		grounded = false
 			
 
 	def OnMouseDown():
@@ -59,4 +57,8 @@ class Player2 (MonoBehaviour):
 		
 		if other.CompareTag("Player") == false:
 			grounded = true
+			
+	def OnTriggerExit(other as Collider):
+		
+		grounded = false
 			

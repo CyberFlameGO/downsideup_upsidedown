@@ -44,9 +44,9 @@ class Player (MonoBehaviour):
 			renderer.enabled = true
 			collider.enabled = true
 		
-		if Physics.Raycast(transform.position + Vector3(0, 0.25, 0), 
+		if Physics.Raycast(transform.position + Vector3(0, 0.4, 0), 
 			Vector3.right * Input.GetAxis("Horizontal"), 0.5) == false and Physics.Raycast(
-				transform.position + Vector3(0, -0.25, 0), Vector3.right * Input.GetAxis(
+				transform.position + Vector3(0, -0.4, 0), Vector3.right * Input.GetAxis(
 					"Horizontal"), 0.5) == false:
 			rigidbody.velocity.x = Input.GetAxis("Horizontal") * speed
 		
@@ -105,19 +105,11 @@ class Player (MonoBehaviour):
 
 		weightDisplay.text = "Weight: " + Mathf.Round(((phase+1)/2) * 100.0) +"%"
 		
-		# print(grounded)
-		grounded = false
-		
 	def OnMouseDown():
 		
 		if holding != null:
 			holding.transform.parent = null
 			holding = null
-			
-	def OnTriggerStay(other as Collider):
-		
-		if other.CompareTag("Player") == false:
-			grounded = true
 
 	def finishLevel():
 		#Finished level, load one level past current 
@@ -133,6 +125,16 @@ class Player (MonoBehaviour):
 			if (Mathf.Abs(g.transform.position.x - transform.position.x) < distanceToKill):
 				Destroy(g) #close enough to centre of guard, so kill em
 				break 
+				
+	def OnTriggerStay(other as Collider):
+		
+		if other.CompareTag("Player") == false:
+			grounded = true
+			
+	def OnTriggerExit(other as Collider):
+		
+		grounded = false
+	
 
 
 
