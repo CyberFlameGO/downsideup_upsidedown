@@ -44,16 +44,17 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\CollisionDeath.boo" />
-     <Compile Include="Assets\Patrol.boo" />
      <Compile Include="Assets\Scripts\Attacked.boo" />
      <Compile Include="Assets\Scripts\Camera1.boo" />
      <Compile Include="Assets\Scripts\Camera2.boo" />
      <Compile Include="Assets\Scripts\CameraPoint.boo" />
+     <Compile Include="Assets\Scripts\CollisionDeath.boo" />
      <Compile Include="Assets\Scripts\Crushed.boo" />
+     <Compile Include="Assets\Scripts\FadeScreen.boo" />
      <Compile Include="Assets\Scripts\Falls.boo" />
      <Compile Include="Assets\Scripts\LoadLevelsScript.boo" />
      <Compile Include="Assets\Scripts\MainMenuScript.boo" />
+     <Compile Include="Assets\Scripts\Patrol.boo" />
      <Compile Include="Assets\Scripts\PickUp.boo" />
      <Compile Include="Assets\Scripts\Player.boo" />
      <Compile Include="Assets\Scripts\Player2.boo" />
