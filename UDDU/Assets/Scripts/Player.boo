@@ -26,7 +26,7 @@ class Player (MonoBehaviour):
 		guards = GameObject.FindGameObjectsWithTag('Guard')
 		if guards.Length > 0:
 			mesh as Mesh = guards[0].GetComponent(MeshFilter).mesh
-			distanceToKill = mesh.bounds.size.x/2
+			distanceToKill = mesh.bounds.size.x/1.5
 
 	def Update ():
 		if transform.position.x > exit.transform.position.x:
@@ -113,12 +113,16 @@ class Player (MonoBehaviour):
 
 	def finishLevel():
 		#Finished level, load one level past current 
-		#(accounting for index0=main menu and index1=loadLevelScreen)
-		levelName = "Level"+(Application.loadedLevel) 
-		PlayerPrefs.SetInt("unlockedLevel"+levelName,1)
-		GetComponent(FadeScreen).startLevel(levelName)
+		#(accounting for index0=main menu, index1=loadLevelScreen, index(n)=winningscreen)
+		nextLevelNum = Application.loadedLevel
+		PlayerPrefs.SetInt("unlockedLevel"+(nextLevelNum-1),1)
+
+		if nextLevelNum < (Application.levelCount-2):
+			GetComponent(FadeScreen).startLevel("Level"+nextLevelNum)
+		else: #No more levels
+			GetComponent(FadeScreen).startLevel("WinningScreen")
 			
-	#check if you are centred enough beneath a guard to 
+	#check if you are centred enough beneath a guard to explode them
 	def checkPhaseKill():
 		guards = GameObject.FindGameObjectsWithTag('Guard')
 		for g in guards:
@@ -127,12 +131,10 @@ class Player (MonoBehaviour):
 				break 
 				
 	def OnTriggerStay(other as Collider):
-		
 		if other.CompareTag("Player") == false:
 			grounded = true
 			
 	def OnTriggerExit(other as Collider):
-		
 		grounded = false
 	
 
