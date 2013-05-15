@@ -17,10 +17,12 @@ class Player2 (MonoBehaviour):
 	
 	def Update ():
 		
-		phase = Input.GetAxis("Vertical")
-		rigidbody.mass = 1.01 - phase
-		
-		if phase > phase_thresh:
+		# phase = Input.GetAxzis("Vertical")
+
+		current_phase = other.GetComponent(Player).GetPhase()
+		rigidbody.mass = 1.01 - current_phase
+
+		if current_phase == 1:
 			renderer.enabled = false
 			collider.enabled = false
 		else:
@@ -44,7 +46,7 @@ class Player2 (MonoBehaviour):
 			if Input.GetButtonDown("Jump"):
 				rigidbody.velocity.y = jump_speed
 
-		weightDisplay.text = "Weight: " + Mathf.Round(((phase-1)/2) * -100.0) +"%"
+		weightDisplay.text = "Weight: " + Mathf.Round(((current_phase-1)/2) * -100.0) +"%"
 			
 
 	def OnMouseDown():
