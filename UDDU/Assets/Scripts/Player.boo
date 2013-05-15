@@ -53,9 +53,12 @@ class Player (MonoBehaviour):
 		if current_phase == -1:
 			renderer.enabled = false
 			collider.enabled = false
+			renderer.material.color.a = 0
 		else:
 			renderer.enabled = true
 			collider.enabled = true
+			if current_phase == -0.5: renderer.material.color.a = 0.5
+			else: renderer.material.color.a = 1
 		
 		if Physics.Raycast(transform.position + Vector3(0, 0.4, 0), 
 			Vector3.right * Input.GetAxis("Horizontal"), 0.5, ~(1 << 9)) == false and Physics.Raycast(
