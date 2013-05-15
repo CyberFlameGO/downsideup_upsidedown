@@ -44,10 +44,11 @@ class Player (MonoBehaviour):
 			renderer.enabled = true
 			collider.enabled = true
 		
+		mask as LayerMask = 8
 		if Physics.Raycast(transform.position + Vector3(0, 0.4, 0), 
-			Vector3.right * Input.GetAxis("Horizontal"), 0.5) == false and Physics.Raycast(
+			Vector3.right * Input.GetAxis("Horizontal"), 0.5, ~(1 << 9)) == false and Physics.Raycast(
 				transform.position + Vector3(0, -0.4, 0), Vector3.right * Input.GetAxis(
-					"Horizontal"), 0.5) == false:
+					"Horizontal"), 0.5, ~(1 << 9)) == false:
 			rigidbody.velocity.x = Input.GetAxis("Horizontal") * speed
 		
 		#Rotation.

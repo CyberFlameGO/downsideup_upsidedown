@@ -28,9 +28,9 @@ class Player2 (MonoBehaviour):
 			collider.enabled = true
 		
 		if Physics.Raycast(transform.position + Vector3(0, 0.4, 0), 
-			Vector3.right * Input.GetAxis("Horizontal"), 0.5) == false and Physics.Raycast(
+			Vector3.right * Input.GetAxis("Horizontal"), 0.5, ~(1 << 8)) == false and Physics.Raycast(
 				transform.position + Vector3(0, -0.4, 0), Vector3.right * Input.GetAxis(
-					"Horizontal"), 0.5) == false:
+					"Horizontal"), 0.5, ~(1 << 8)) == false:
 			rigidbody.velocity.x = Input.GetAxis("Horizontal") * speed
 			
 		if Input.GetAxis("Horizontal") < 0:
