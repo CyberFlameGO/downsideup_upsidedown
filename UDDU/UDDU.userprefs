@@ -1,8 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PickUp.boo">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PickupMouse2.boo">
     <Files>
-      <File FileName="Assets\Scripts\PickUp.boo" Line="10" Column="18" />
+      <File FileName="Assets\Scripts\Player.boo" Line="28" Column="58" />
+      <File FileName="Assets\Scripts\PickupKey1.boo" Line="9" Column="28" />
+      <File FileName="Assets\Scripts\PickupMouse1.boo" Line="4" Column="2" />
+      <File FileName="Assets\Scripts\PickupKey2.boo" Line="16" Column="3" />
+      <File FileName="Assets\Scripts\PickupMouse2.boo" Line="4" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

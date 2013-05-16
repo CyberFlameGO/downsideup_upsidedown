@@ -56,11 +56,16 @@
      <Compile Include="Assets\Scripts\MainMenuScript.boo" />
      <Compile Include="Assets\Scripts\Patrol.boo" />
      <Compile Include="Assets\Scripts\PickUp.boo" />
+     <Compile Include="Assets\Scripts\PickupKey1.boo" />
+     <Compile Include="Assets\Scripts\PickupKey2.boo" />
+     <Compile Include="Assets\Scripts\PickupMouse1.boo" />
+     <Compile Include="Assets\Scripts\PickupMouse2.boo" />
      <Compile Include="Assets\Scripts\Player.boo" />
      <Compile Include="Assets\Scripts\Player2.boo" />
      <Compile Include="Assets\Scripts\SelfDestruct.boo" />
      <Compile Include="Assets\Scripts\Shoot.boo" />
      <Compile Include="Assets\Scripts\Spring.boo" />
+     <Compile Include="Assets\Scripts\StartUp.boo" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
