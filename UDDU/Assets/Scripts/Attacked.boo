@@ -8,6 +8,7 @@ class Attacked (MonoBehaviour):
 
 	private stunnedTime as single =0
 	private stunned = false
+	private attacker as GameObject
 
 	def isStunned():
 		return stunned
@@ -17,15 +18,15 @@ class Attacked (MonoBehaviour):
 		if (stunned and Time.time-stunnedTime > recoveryTime): #recover
 			stunned = false
 			transform.Rotate(-90, 0, 0)
-			GetComponent(Player).other.rigidbody.drag = GetComponent(Player).other.rigidbody.drag-dragIncrease
+			attacker.GetComponent(Shoot).setHit(false)
 
 	#NOTE: This currenty rotates and leaves the player hanging in midair
 	# this will be animated differently later
-	def stun(direction as Vector3):
+	def stun(direction as Vector3, guard as GameObject):
 		transform.Rotate(90, 0, 0)
-		GetComponent(Player).other.rigidbody.drag = GetComponent(Player).other.rigidbody.drag+dragIncrease
-
+		# GetComponent(Player).other.rigidbody.drag = GetComponent(Player).other.rigidbody.drag+dragIncrease
 		stunned = true
 		stunnedTime = Time.time
+		attacker = guard
 
 

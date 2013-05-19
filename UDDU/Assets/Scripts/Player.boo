@@ -31,6 +31,17 @@ class Player (MonoBehaviour):
 	def GetPhase():
 		return current_phase
 
+	#enable/disable the collider and render of an object AND all its children
+	# (in particular, the foot trigger child)
+	def switch_states(gameObject as GameObject, isActive as bool):
+		if (gameObject.renderer):
+			gameObject.renderer.enabled = isActive
+		if (gameObject.collider):
+			gameObject.collider.enabled = isActive
+
+		for  child  as Transform in gameObject.transform:
+				switch_states(child.gameObject, isActive)
+
 	def Update ():
 		if transform.position.x > exit.transform.position.x:
 			finishLevel()
@@ -46,17 +57,14 @@ class Player (MonoBehaviour):
 				elif vert_input<0 and current_phase>-1: 
 					current_phase-=0.5
 					keyHoldCount=keyWait
-
 		#Change mass based on phase.
 		rigidbody.mass = current_phase + 1.01
 		#Phase in and out of existence.
 		if current_phase == -1:
-			renderer.enabled = false
-			collider.enabled = false
+			switch_states(gameObject, false)
 			renderer.material.color.a = 0
 		else:
-			renderer.enabled = true
-			collider.enabled = true
+			switch_states(gameObject, true)
 			if current_phase == -0.5: renderer.material.color.a = 0.5
 			else: renderer.material.color.a = 1
 		
@@ -64,22 +72,25 @@ class Player (MonoBehaviour):
 			Vector3.right * Input.GetAxis("Horizontal"), 0.5, ~(1 << 9)) == false and Physics.Raycast(
 				transform.position + Vector3(0, -0.4, 0), Vector3.right * Input.GetAxis(
 					"Horizontal"), 0.5, ~(1 << 9)) == false:
-			rigidbody.velocity.x = Input.GetAxis("Horizontal") * speed
+			if GetComponent(Attacked).isStunned():
+				rigidbody.velocity = Vector3.zero
+			else: rigidbody.velocity.x = Input.GetAxis("Horizontal") * speed
 		
 		#Rotation.
-		if Input.GetAxis("Horizontal") < 0:
-			if Mathf.Round(transform.eulerAngles.y) != 270:
-				transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y+10)
-		elif Input.GetAxis("Horizontal") > 0:
-			if Mathf.Round(transform.eulerAngles.y) != 90:
-				transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y-10)
-		
-		#Only jump if we're grounded.
-		if grounded:
-			if Input.GetButtonDown("Jump"):
-				rigidbody.velocity.y = jump_speed
-				
-		if current_phase > -1 and current_phase < 1: #
+		if not GetComponent(Attacked).isStunned():
+			if Input.GetAxis("Horizontal") < 0:
+				if Mathf.Round(transform.eulerAngles.y) != 270:
+					transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y+10)
+			elif Input.GetAxis("Horizontal") > 0:
+				if Mathf.Round(transform.eulerAngles.y) != 90:
+					transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y-10)
+			
+			#Only jump if we're grounded.
+			if grounded:
+				if Input.GetButtonDown("Jump"):
+					rigidbody.velocity.y = jump_speed
+					
+		if current_phase > -1 and current_phase < 1:
 			if (old_phase != 0.5 and current_phase==0.5) or (old_phase != -0.5 and current_phase==-0.5) : 
 				#just phased into other world, check for kills
 				checkPhaseKill()
@@ -94,10 +105,12 @@ class Player (MonoBehaviour):
 			#Average character velocities.
 			x = rigidbody.velocity.x
 			y = rigidbody.velocity.y
-			rigidbody.velocity.x = (rigidbody.velocity.x + other.rigidbody.velocity.x)/2
-			rigidbody.velocity.y = (rigidbody.velocity.y + other.rigidbody.velocity.y)/2
+
+			rigidbody.velocity.x = (x + other.rigidbody.velocity.x)/2
+			rigidbody.velocity.y = (y + other.rigidbody.velocity.y)/2
 			other.rigidbody.velocity.x = (x + other.rigidbody.velocity.x)/2
 			other.rigidbody.velocity.y = (y + other.rigidbody.velocity.y)/2
+
 		elif current_phase == -1:
 			#Player1 is inactive, set to player2.
 			transform.position.x = other.transform.position.x
@@ -113,6 +126,7 @@ class Player (MonoBehaviour):
 			other.rigidbody.velocity.y = rigidbody.velocity.y
 
 		weightDisplay.text = "Weight: " + Mathf.Round(((current_phase+1)/2) * 100.0) +"%"
+
 		
 	def OnMouseDown():
 		
@@ -132,12 +146,14 @@ class Player (MonoBehaviour):
 			GetComponent(FadeScreen).startLevel("WinningScreen")
 			
 	#check if you are centred enough beneath a guard to explode them
-	def checkPhaseKill():
+	def checkPhaseKill(): #TODO only if in same world as guard
 		guards = GameObject.FindGameObjectsWithTag('Guard')
 		for g in guards:
-			if (Mathf.Abs(g.transform.position.x - transform.position.x) < distanceToKill):
-				Destroy(g) #close enough to centre of guard, so kill em
-				break 
+			#first check they are in relvant world for killing
+			if (LayerMask.NameToLayer("Top World") == g.layer and current_phase > 0) or (LayerMask.NameToLayer("Bottom World") == g.layer and current_phase < 0): 
+				if (Mathf.Abs(g.transform.position.x - transform.position.x) < distanceToKill):
+					Destroy(g) #close enough to centre of guard, so kill em
+					break 
 				
 	def OnTriggerStay(other as Collider):
 		if other.CompareTag("Player") == false:
@@ -149,4 +165,3 @@ class Player (MonoBehaviour):
 
 
 
-		
