@@ -16,10 +16,6 @@ class Player2 (MonoBehaviour):
 		pass
 	
 	def Update ():
-		# print("2layer:" +gameObject.layer)
-
-		# phase = Input.GetAxzis("Vertical")
-
 		current_phase = other.GetComponent(Player).GetPhase()
 		rigidbody.mass = 1.01 - current_phase
 
