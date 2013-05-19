@@ -16,6 +16,8 @@ class Player (MonoBehaviour):
 	grounded = false
 	public static holding as GameObject = null
 
+	private attacked as bool = false
+
 	# Variables so if user holds down phase key, will phase again after some time period
 	private keyHoldCount = 0.2
 	private keyWait = 0.2
@@ -23,6 +25,8 @@ class Player (MonoBehaviour):
 	private distanceToKill as single = 0.0F #distance from centre of guard which will explode them
 
 	def Start ():
+		if GetComponent(Attacked)!=null:
+			attacked = true
 		guards = GameObject.FindGameObjectsWithTag('Guard')
 		if guards.Length > 0:
 			mesh as Mesh = guards[0].GetComponent(MeshFilter).mesh
@@ -72,12 +76,12 @@ class Player (MonoBehaviour):
 			Vector3.right * Input.GetAxis("Horizontal"), 0.5, ~(1 << 9)) == false and Physics.Raycast(
 				transform.position + Vector3(0, -0.4, 0), Vector3.right * Input.GetAxis(
 					"Horizontal"), 0.5, ~(1 << 9)) == false:
-			if GetComponent(Attacked).isStunned():
+			if attacked and GetComponent(Attacked).isStunned():
 				rigidbody.velocity = Vector3.zero
 			else: rigidbody.velocity.x = Input.GetAxis("Horizontal") * speed
 		
 		#Rotation.
-		if not GetComponent(Attacked).isStunned():
+		if not attacked or not GetComponent(Attacked).isStunned():
 			if Input.GetAxis("Horizontal") < 0:
 				if Mathf.Round(transform.eulerAngles.y) != 270:
 					transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y+10)
