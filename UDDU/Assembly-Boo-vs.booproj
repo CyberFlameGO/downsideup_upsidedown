@@ -55,7 +55,6 @@
      <Compile Include="Assets\Scripts\LoadLevelsScript.boo" />
      <Compile Include="Assets\Scripts\MainMenuScript.boo" />
      <Compile Include="Assets\Scripts\Patrol.boo" />
-     <Compile Include="Assets\Scripts\PickUp.boo" />
      <Compile Include="Assets\Scripts\PickupKey1.boo" />
      <Compile Include="Assets\Scripts\PickupKey2.boo" />
      <Compile Include="Assets\Scripts\PickupMouse1.boo" />
