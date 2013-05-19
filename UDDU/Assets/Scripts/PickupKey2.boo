@@ -21,28 +21,30 @@ class PickupKey2 (MonoBehaviour):
 		KeyHolding = false
 		PlayerPos = transform.position
 		nearestObj = GetNearestTagged()
-		otherscript = nearestObj.GetComponent[of PickupMouse2]()
-		MouseHolding = otherscript.GetMouseHolding()
+		if nearestObj!= null:
+			otherscript = nearestObj.GetComponent[of PickupMouse2]()
+			MouseHolding = otherscript.GetMouseHolding()
 	
 	def Update():
 		PlayerPos = transform.position
 		nearestObj = GetNearestTagged()
-		otherscript = nearestObj.GetComponent[of PickupMouse2]()
-		MouseHolding = otherscript.GetMouseHolding()
-		
-		if Input.GetButtonDown('Pickup2'):			
-			if Vector3.Distance(nearestObj.transform.position, transform.position) < 3.0 and collider.enabled == true:
-				if not KeyHolding and not MouseHolding:
-					nearestObj.transform.parent = transform
-					nearestObj.transform.localPosition = Vector3(0, 1, 1.5)
-					nearestObj.rigidbody.isKinematic = true
-					KeyHolding = true
-					otherscript.SetMouseHolding(true)
-				else:
-					nearestObj.transform.parent = null
-					nearestObj.rigidbody.isKinematic = false
-					KeyHolding = false	
-					otherscript.SetMouseHolding(false)			
+		if nearestObj!= null:
+			otherscript = nearestObj.GetComponent[of PickupMouse2]()
+			MouseHolding = otherscript.GetMouseHolding()
+			
+			if Input.GetButtonDown('Pickup2'):			
+				if Vector3.Distance(nearestObj.transform.position, transform.position) < 3.0 and collider.enabled == true:
+					if not KeyHolding and not MouseHolding:
+						nearestObj.transform.parent = transform
+						nearestObj.transform.localPosition = Vector3(0, 1, 1.5)
+						nearestObj.rigidbody.isKinematic = true
+						KeyHolding = true
+						otherscript.SetMouseHolding(true)
+					else:
+						nearestObj.transform.parent = null
+						nearestObj.rigidbody.isKinematic = false
+						KeyHolding = false	
+						otherscript.SetMouseHolding(false)			
 				
 	def GetNearestTagged() as GameObject:
         Tagged as (GameObject)= GameObject.FindGameObjectsWithTag('Pickup2')
