@@ -22,17 +22,15 @@ class PickupKey2 (MonoBehaviour):
 		PlayerPos = transform.position
 		nearestObj = GetNearestTagged()
 		if nearestObj!= null:
-			if nearestObj.GetComponent[of PickupMouse2]()!= null:
-				otherscript = nearestObj.GetComponent[of PickupMouse2]()
-				MouseHolding = otherscript.GetMouseHolding()
+			otherscript = nearestObj.GetComponent[of PickupMouse2]()
+			MouseHolding = otherscript.GetMouseHolding()
 	
 	def Update():
 		PlayerPos = transform.position
 		nearestObj = GetNearestTagged()
 		if nearestObj!= null:
-			if nearestObj.GetComponent[of PickupMouse2]()!= null:
-				otherscript = nearestObj.GetComponent[of PickupMouse2]()
-				MouseHolding = otherscript.GetMouseHolding()
+			otherscript = nearestObj.GetComponent[of PickupMouse2]()
+			MouseHolding = otherscript.GetMouseHolding()
 			
 			if Input.GetButtonDown('Pickup2'):			
 				if Vector3.Distance(nearestObj.transform.position, transform.position) < 3.0 and collider.enabled == true:
