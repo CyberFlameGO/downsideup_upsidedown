@@ -77,7 +77,6 @@ class Player (MonoBehaviour):
 				transform.position + Vector3(0, -0.4, 0), Vector3.right * Input.GetAxis(
 					"Horizontal"), 0.5, ~(1 << 9)) == false:
 			if attacked and GetComponent(Attacked).isStunned():
-				print("stunned")
 				rigidbody.velocity = Vector3.zero
 			else: rigidbody.velocity.x = Input.GetAxis("Horizontal") * speed
 		
