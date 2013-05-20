@@ -18,7 +18,8 @@ class Attacked (MonoBehaviour):
 		if (stunned and Time.time-stunnedTime > recoveryTime): #recover
 			stunned = false
 			transform.Rotate(-90, 0, 0)
-			attacker.GetComponent(Shoot).setHit(false)
+			if (attacker!=null): #if havn't killed them
+				attacker.GetComponent(Shoot).setHit(false)
 
 	#NOTE: This currenty rotates and leaves the player hanging in midair
 	# this will be animated differently later

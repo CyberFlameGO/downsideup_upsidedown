@@ -2,35 +2,36 @@ import UnityEngine
 
 class Player (MonoBehaviour): 
 	
+	#constants
 	public speed as single = 6.0
 	public jump_speed as single = 8.0
-	public other as GameObject
 	public phase_thresh as single = 0.8
 
+	#Gui variables
 	public weightDisplay as GUIText
-
 	public exit as GameObject
+	public other as GameObject
 
-	private current_phase as single = 1.0F #starts in top world
-	
-	grounded = false
+
+	#state variables
 	public static holding as GameObject = null
-
+	private current_phase as single = 1.0F #starts in top world
+	private grounded = false
 	private attacked as bool = false
 
 	# Variables so if user holds down phase key, will phase again after some time period
 	private keyHoldCount = 0.2
 	private keyWait = 0.2
 
-	private distanceToKill as single = 0.0F #distance from centre of guard which will explode them
+	private distanceToKill as single #distance from centre of guard which will explode them
 
 	def Start ():
 		if GetComponent(Attacked)!=null:
 			attacked = true
 		guards = GameObject.FindGameObjectsWithTag('Guard')
 		if guards.Length > 0:
-			mesh as Mesh = guards[0].GetComponent(MeshFilter).mesh
-			distanceToKill = mesh.bounds.size.x/1.5
+			mesh as Mesh = guards[0].GetComponent(MeshFilter).mesh #assumes all guards are same size
+			distanceToKill = mesh.bounds.size.x
 
 	def GetPhase():
 		return current_phase
@@ -51,7 +52,6 @@ class Player (MonoBehaviour):
 			finishLevel()
 		old_phase = current_phase
 		vert_input = Input.GetAxisRaw("Vertical")
-
 		if vert_input!=0:
 			keyHoldCount-=Time.deltaTime
 			if (Input.GetButtonDown("Vertical") or keyHoldCount<0):
@@ -61,6 +61,13 @@ class Player (MonoBehaviour):
 				elif vert_input<0 and current_phase>-1: 
 					current_phase-=0.5
 					keyHoldCount=keyWait
+
+		if (old_phase != 0.5 and current_phase==0.5) or (old_phase != -0.5 and current_phase==-0.5) : 
+				#phased into other world, so check valid and if hit guard
+				if not checkPhaseSafe(old_phase):
+					current_phase= old_phase
+				else:
+					checkPhaseKill(old_phase)
 		#Change mass based on phase.
 		rigidbody.mass = current_phase + 1.01
 		#Phase in and out of existence.
@@ -95,9 +102,6 @@ class Player (MonoBehaviour):
 					rigidbody.velocity.y = jump_speed
 					
 		if current_phase > -1 and current_phase < 1:
-			if (old_phase != 0.5 and current_phase==0.5) or (old_phase != -0.5 and current_phase==-0.5) : 
-				#just phased into other world, check for kills
-				checkPhaseKill()
 
 			#Average character positions.
 			x = transform.position.x
@@ -148,16 +152,44 @@ class Player (MonoBehaviour):
 			GetComponent(FadeScreen).startLevel("Level"+nextLevelNum)
 		else: #No more levels
 			GetComponent(FadeScreen).startLevel("WinningScreen")
-			
+	
+	#check if world phasing is blocked by some object
+	def checkPhaseSafe(phaseLevel as single): 
+		 #checks sphere on top and sphere on bottom just to be safe
+		collider_rad = collider.bounds.extents.x + 0.2 # bound + buffer
+		disToTop = collider.bounds.extents.y
+		top_height = (collider.bounds.center.y + disToTop) - collider_rad
+		bot_height = (collider.bounds.center.y - disToTop) + collider_rad
+		top_pos = Vector3(collider.bounds.center.x, top_height, collider.bounds.center.z)
+		bot_pos = Vector3(collider.bounds.center.x, bot_height, collider.bounds.center.z)
+
+		hitTop = Physics.OverlapSphere(top_pos, collider_rad)
+		canHit = ["Player","Guard","Ground"]
+		for h in hitTop:
+			if isSameWorld(h.gameObject, phaseLevel) and (h.tag not in canHit):
+				return false #hit something, so cant phase!
+		hitBot = Physics.OverlapSphere(bot_pos, collider_rad)
+		for h in hitBot:
+			if isSameWorld(h.gameObject, phaseLevel) and (h.tag not in canHit):
+				return false #hit something, so cant phase!
+		return true
+
 	#check if you are centred enough beneath a guard to explode them
-	def checkPhaseKill(): #TODO only if in same world as guard
+	def checkPhaseKill(phaseLevel as single):
 		guards = GameObject.FindGameObjectsWithTag('Guard')
 		for g in guards:
+			if g.name == "Lazer": continue
 			#first check they are in relvant world for killing
-			if (LayerMask.NameToLayer("Top World") == g.layer and current_phase > 0) or (LayerMask.NameToLayer("Bottom World") == g.layer and current_phase < 0): 
+			if (isSameWorld(g, phaseLevel)): 
 				if (Mathf.Abs(g.transform.position.x - transform.position.x) < distanceToKill):
 					Destroy(g) #close enough to centre of guard, so kill em
 					break 
+		
+	def isSameWorld(obj as GameObject, phase as single):
+		if (LayerMask.NameToLayer("Top World") == obj.layer and phase < 0): 
+			return true
+		if (LayerMask.NameToLayer("Bottom World") == obj.layer and phase > 0): 
+			return true
 				
 	def OnTriggerStay(other as Collider):
 		if other.CompareTag("Player") == false:
