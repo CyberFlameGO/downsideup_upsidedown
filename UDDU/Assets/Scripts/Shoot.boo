@@ -27,7 +27,12 @@ class Shoot (MonoBehaviour):
         target = GetComponent(CollisionDeath).target
 
 	def Update ():
-		inSameWorld = (target.GetComponent(Player).GetPhase() > -1 )
+		if (LayerMask.NameToLayer("Top World") == gameObject.layer) and (LayerMask.NameToLayer("Top World") == target.layer) and (target.GetComponent(Player).GetPhase() > -1 ):
+			inSameWorld = true
+		elif (LayerMask.NameToLayer("Bottom World") == gameObject.layer) and (LayerMask.NameToLayer("Bottom World") == target.layer) and (target.GetComponent(Player2).GetPhase() < 1 ):
+			inSameWorld = true
+		else:
+			inSameWorld = false
 
 		if HIT:
 			if (inSameWorld):
@@ -42,7 +47,6 @@ class Shoot (MonoBehaviour):
 			SHOOTER=true #close enough to shoot
 			SEEKING=true 
 			HIT = false
-
 		elif inSameWorld and (Vector3.Distance(target.transform.position, transform.position) <=followDistance):
 			SEEKING=true #close enough to seek him
 			HIT = false
@@ -59,8 +63,7 @@ class Shoot (MonoBehaviour):
 				direction = direction*-1
 				transform.Rotate(0, 180*direction, 0)
 
-
-		if (SHOOTER and Time.time-shootTime > 0.1): 
+		if (Time.time-shootTime > 0.1): 
 			lazer.SetActive(false)
 		if (SHOOTER and Time.time-shootTime > 3): #shoot every 3 secs
 			# --stun gun --
@@ -111,17 +114,5 @@ class Shoot (MonoBehaviour):
 			elif hitSomethingLow: 
 				rigidbody.velocity.y = 6.0
 
-
 			#move
 			rigidbody.velocity.x = speed * direction
-
-
-			#-- bullets --
-			# pos as Vector3 = Vector3(transform.position.x,transform.position.y+0.5,transform.position.z)
-			# bullet as GameObject = Instantiate(bullet, pos, transform.rotation)
-			# bullet.layer = gameObject.layer
-			# Physics.IgnoreCollision(bullet.collider, collider)
-
-	  #   	# Add force to the cloned object in the object's forward direction
-			# bullet.rigidbody.AddForce(shootDir * bulletSpeed)
-			# shootTime = Time.time

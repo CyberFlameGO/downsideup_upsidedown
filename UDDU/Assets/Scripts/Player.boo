@@ -164,7 +164,7 @@ class Player (MonoBehaviour):
 		bot_pos = Vector3(collider.bounds.center.x, bot_height, collider.bounds.center.z)
 
 		hitTop = Physics.OverlapSphere(top_pos, collider_rad)
-		canHit = ["Player","Guard","Ground"]
+		canHit = ["Player","Guard","Ground","Lazer"]
 		for h in hitTop:
 			if isSameWorld(h.gameObject, phaseLevel) and (h.tag not in canHit):
 				return false #hit something, so cant phase!

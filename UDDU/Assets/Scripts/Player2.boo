@@ -12,8 +12,20 @@ class Player2 (MonoBehaviour):
 
 	grounded = false
 
-	def Start ():
-		pass
+	#enable/disable the collider and render of an object AND all its children
+	# (in particular, the foot trigger child)
+	def switch_states(gameObject as GameObject, isActive as bool):
+		if (gameObject.renderer):
+			gameObject.renderer.enabled = isActive
+		if (gameObject.collider):
+			gameObject.collider.enabled = isActive
+
+		for  child  as Transform in gameObject.transform:
+				switch_states(child.gameObject, isActive)
+
+				
+	def GetPhase():
+		return other.GetComponent(Player).GetPhase()
 	
 	def Update ():
 		current_phase = other.GetComponent(Player).GetPhase()
@@ -21,15 +33,12 @@ class Player2 (MonoBehaviour):
 
 		#Phase in and out of existence.
 		if current_phase == 1:
-			renderer.enabled = false
-			collider.enabled = false
+			switch_states(gameObject, false)
 			renderer.material.color.a = 0
 		else:
-			renderer.enabled = true
-			collider.enabled = true
+			switch_states(gameObject, true)
 			if current_phase == 0.5: renderer.material.color.a = 0.5
 			else: renderer.material.color.a = 1
-
 		
 		if Physics.Raycast(transform.position + Vector3(0, 0.4, 0), 
 			Vector3.right * Input.GetAxis("Horizontal"), 0.5, ~(1 << 8)) == false and Physics.Raycast(
