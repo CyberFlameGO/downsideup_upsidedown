@@ -33,6 +33,8 @@ class Shoot (MonoBehaviour):
 			inSameWorld = true
 		else:
 			inSameWorld = false
+		yDis = Mathf.Abs(target.transform.position.y-transform.position.y)
+		xDis = Mathf.Abs(target.transform.position.x-transform.position.x)
 
 		if HIT:
 			if (inSameWorld):
@@ -43,11 +45,11 @@ class Shoot (MonoBehaviour):
 				SHOOTER=false
 				SEEKING=false
 				PATROL=true
-		elif inSameWorld and (Vector3.Distance(target.transform.position, transform.position) <=shootDistance):
+		elif inSameWorld and (xDis <=shootDistance) and (yDis < 1):
 			SHOOTER=true #close enough to shoot
 			SEEKING=true 
 			HIT = false
-		elif inSameWorld and (Vector3.Distance(target.transform.position, transform.position) <=followDistance):
+		elif inSameWorld and (xDis <=followDistance) and (yDis < 1):
 			SEEKING=true #close enough to seek him
 			HIT = false
 		else:

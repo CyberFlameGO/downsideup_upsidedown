@@ -11,6 +11,12 @@ class Player2 (MonoBehaviour):
 	public weightDisplay as GUIText
 
 	grounded = false
+	private attacked as bool = false
+
+
+	def Start ():
+		if GetComponent(Attacked)!=null:
+			attacked = true
 
 	#enable/disable the collider and render of an object AND all its children
 	# (in particular, the foot trigger child)
@@ -23,7 +29,7 @@ class Player2 (MonoBehaviour):
 		for  child  as Transform in gameObject.transform:
 				switch_states(child.gameObject, isActive)
 
-				
+
 	def GetPhase():
 		return other.GetComponent(Player).GetPhase()
 	
@@ -44,18 +50,21 @@ class Player2 (MonoBehaviour):
 			Vector3.right * Input.GetAxis("Horizontal"), 0.5, ~(1 << 8)) == false and Physics.Raycast(
 				transform.position + Vector3(0, -0.4, 0), Vector3.right * Input.GetAxis(
 					"Horizontal"), 0.5, ~(1 << 8)) == false:
-			rigidbody.velocity.x = Input.GetAxis("Horizontal") * speed
-			
-		if Input.GetAxis("Horizontal") < 0:
-			if Mathf.Round(transform.eulerAngles.y) != 270:
-				transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y-10)
-		elif Input.GetAxis("Horizontal") > 0:
-			if Mathf.Round(transform.eulerAngles.y) != 90:
-				transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y+10)
+			if attacked and GetComponent(Attacked).isStunned():
+				rigidbody.velocity = Vector3.zero
+			else: rigidbody.velocity.x = Input.GetAxis("Horizontal") * speed
 		
-		if grounded:
-			if Input.GetButtonDown("Jump"):
-				rigidbody.velocity.y = jump_speed
+		if not attacked or not GetComponent(Attacked).isStunned():
+			if Input.GetAxis("Horizontal") < 0:
+				if Mathf.Round(transform.eulerAngles.y) != 270:
+					transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y-10)
+			elif Input.GetAxis("Horizontal") > 0:
+				if Mathf.Round(transform.eulerAngles.y) != 90:
+					transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y+10)
+			
+			if grounded:
+				if Input.GetButtonDown("Jump"):
+					rigidbody.velocity.y = jump_speed
 
 		weightDisplay.text = "Weight: " + Mathf.Round(((current_phase-1)/2) * -100.0) +"%"
 			
