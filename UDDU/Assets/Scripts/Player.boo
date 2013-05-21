@@ -48,6 +48,7 @@ class Player (MonoBehaviour):
 				switch_states(child.gameObject, isActive)
 
 	def Update ():
+		
 		if transform.position.x > exit.transform.position.x:
 			finishLevel()
 		old_phase = current_phase
@@ -72,6 +73,8 @@ class Player (MonoBehaviour):
 		rigidbody.mass = current_phase + 1.01
 		#Phase in and out of existence.
 		if current_phase == -1:
+			if holding != null:
+				holding.GetComponent[of Pickup1]().Drop()
 			switch_states(gameObject, false)
 			renderer.material.color.a = 0
 		else:
@@ -134,13 +137,22 @@ class Player (MonoBehaviour):
 			other.rigidbody.velocity.y = rigidbody.velocity.y
 
 		weightDisplay.text = "Weight: " + Mathf.Round(((current_phase+1)/2) * 100.0) +"%"
-
+		
+		
+		if Input.GetButtonDown('Pickup1'):
+			if holding == null:
+				nearest = GetNearestTagged()
+				if nearest != null:
+					nearest.GetComponent[of Pickup1]().PickUp()
+			else:
+				holding.GetComponent[of Pickup1]().Drop()
+				
 		
 	def OnMouseDown():
 		
 		if holding != null:
-			holding.transform.parent = null
-			holding = null
+			holding.GetComponent[of Pickup1]().Drop()
+			
 
 	def finishLevel():
 		#Finished level, load one level past current 
@@ -197,6 +209,21 @@ class Player (MonoBehaviour):
 			
 	def OnTriggerExit(other as Collider):
 		grounded = false
+		
+		
+	def GetNearestTagged() as GameObject:
+        Tagged as (GameObject)= GameObject.FindGameObjectsWithTag('Pickup1')
+        closest as GameObject
+        distance as single = Mathf.Infinity
+        position as Vector3 = transform.position
+        
+        for obj as GameObject in Tagged:
+            difference as Vector3 = (obj.transform.position - position)
+            curDistance as single = difference.sqrMagnitude
+            if curDistance < distance:
+                closest = obj
+                distance = curDistance
+        return closest
 	
 
 

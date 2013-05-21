@@ -17,6 +17,8 @@ class Player2 (MonoBehaviour):
 	def Start ():
 		if GetComponent(Attacked)!=null:
 			attacked = true
+	
+	public static holding as GameObject = null
 
 	#enable/disable the collider and render of an object AND all its children
 	# (in particular, the foot trigger child)
@@ -39,6 +41,8 @@ class Player2 (MonoBehaviour):
 
 		#Phase in and out of existence.
 		if current_phase == 1:
+			if holding != null:
+				holding.GetComponent[of Pickup2]().Drop()
 			switch_states(gameObject, false)
 			renderer.material.color.a = 0
 		else:
@@ -68,12 +72,19 @@ class Player2 (MonoBehaviour):
 
 		weightDisplay.text = "Weight: " + Mathf.Round(((current_phase-1)/2) * -100.0) +"%"
 			
+			
+		if Input.GetButtonDown('Pickup2'):
+			if holding == null:
+				nearest = GetNearestTagged()
+				if nearest != null:
+					nearest.GetComponent[of Pickup2]().PickUp()
+			else:
+				holding.GetComponent[of Pickup2]().Drop()
 
 	def OnMouseDown():
 		
-		if Player.holding != null:
-			Player.holding.transform.parent = null
-			Player.holding = null
+		if holding != null:
+			holding.GetComponent[of Pickup2]().Drop()
 			
 	def OnTriggerStay(other as Collider):
 		
@@ -84,3 +95,16 @@ class Player2 (MonoBehaviour):
 		
 		grounded = false
 			
+	def GetNearestTagged() as GameObject:
+        Tagged as (GameObject)= GameObject.FindGameObjectsWithTag('Pickup2')
+        closest as GameObject
+        distance as single = Mathf.Infinity
+        position as Vector3 = transform.position
+        
+        for obj as GameObject in Tagged:
+            difference as Vector3 = (obj.transform.position - position)
+            curDistance as single = difference.sqrMagnitude
+            if curDistance < distance:
+                closest = obj
+                distance = curDistance
+        return closest
