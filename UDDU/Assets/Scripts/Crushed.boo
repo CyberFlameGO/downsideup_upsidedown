@@ -14,6 +14,7 @@ class Crushed (MonoBehaviour):
 				renderer.material = matInstance # BLOOD!
 				# Destroy(gameObject)
 			else:
-				GetComponent(Shoot).enabled = false
+				if GetComponent(Shoot):
+					GetComponent(Shoot).enabled = false
 				rigidbody.velocity = Vector3.zero
 				transform.localScale += Vector3(transform.localScale.y*1.5, -transform.localScale.y/1.5, transform.localScale.y*1.5)
