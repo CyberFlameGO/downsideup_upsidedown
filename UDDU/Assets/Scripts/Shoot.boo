@@ -96,8 +96,6 @@ class Shoot (MonoBehaviour):
 			if(Vector3.Distance( transform.position, target.transform.position)<followDistance): 
 				#close enough to "see", so try to collect
 				rigidbody.velocity.x = speed * direction
-			else:
-				phaseState=SHOOTER
 		else: #must be patrolling
 			rayDir as Vector3 = direction*Vector3.right
 			hitObjectHigh as RaycastHit
@@ -111,12 +109,10 @@ class Shoot (MonoBehaviour):
 			if hitSomething and hitObjectHigh.rigidbody!=target.rigidbody: 
 				direction = direction*-1
 				transform.Rotate(0, 180*direction, 0)
-				print ("patrolling. high ")
 
 			# if hit low object, jump
 			elif hitSomethingLow: 
 				rigidbody.velocity.y = 6.0
-				print ("patrolling. low ")
 
 			#move
 			rigidbody.velocity.x = speed * direction
