@@ -105,16 +105,18 @@ class Shoot (MonoBehaviour):
 			layerMask = 1 << gameObject.layer #filter ray to objects level only
 			highPos = Vector3(transform.position.x,transform.position.y+0.8,transform.position.z)
 			lowPos = Vector3(transform.position.x,transform.position.y-0.5,transform.position.z)
-
 			hitSomething = Physics.Raycast (highPos, rayDir, hitObjectHigh, shootDistance/3,layerMask)
 			hitSomethingLow = Physics.Raycast (lowPos, rayDir, hitObjectLow, shootDistance/3, layerMask)
 			# if hit something high other than player, change directions
 			if hitSomething and hitObjectHigh.rigidbody!=target.rigidbody: 
 				direction = direction*-1
 				transform.Rotate(0, 180*direction, 0)
+				print ("patrolling. high ")
+
 			# if hit low object, jump
 			elif hitSomethingLow: 
 				rigidbody.velocity.y = 6.0
+				print ("patrolling. low ")
 
 			#move
 			rigidbody.velocity.x = speed * direction

@@ -3,14 +3,17 @@ import UnityEngine
 
 class Crushed (MonoBehaviour): 
 	public mat as Material
+	public crushingObject as GameObject
 	private matInstance as Material
 	private fall_threshold = -0.3
 
 	def OnCollisionEnter(collision as Collision):
-		if collision.gameObject.name=="RustyPipe":
+		if collision.gameObject.name==crushingObject.name:
 			if transform.localScale.y < 0.1: #when flat enough
 				matInstance = Instantiate(mat)
 				renderer.material = matInstance # BLOOD!
 				# Destroy(gameObject)
 			else:
+				GetComponent(Shoot).enabled = false
+				rigidbody.velocity = Vector3.zero
 				transform.localScale += Vector3(transform.localScale.y*1.5, -transform.localScale.y/1.5, transform.localScale.y*1.5)
