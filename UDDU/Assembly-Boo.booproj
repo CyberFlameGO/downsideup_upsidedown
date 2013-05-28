@@ -54,6 +54,7 @@
      <Compile Include="Assets\Scripts\Falls.boo" />
      <Compile Include="Assets\Scripts\LoadLevelsScript.boo" />
      <Compile Include="Assets\Scripts\MainMenuScript.boo" />
+     <Compile Include="Assets\Scripts\MovingPlatforms.boo" />
      <Compile Include="Assets\Scripts\Patrol.boo" />
      <Compile Include="Assets\Scripts\Pickup1.boo" />
      <Compile Include="Assets\Scripts\Pickup2.boo" />

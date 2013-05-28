@@ -6,16 +6,19 @@ class MovingPlatforms (MonoBehaviour):
 	private pointA as Vector3 
 	private pointB as Vector3 
 	private Direction as Vector3 
-	public PlatformForce as single = 100
+	public HForce as single = 10
+	public Elasticity as single = 50
+	public VForce as single = 50
 	private PointRange as single = 4.0f
+	private height as single
 
-	def Start(): 
-	    pointA = transform.position
-	    //Debug.Log("Starting pointA = " + pointA)
-	    pointB.x = pointA.x + TravelDistance.x
-	    pointB.y = pointA.y + TravelDistance.y
-	    pointB.z = pointA.z + TravelDistance.z
-	    //Debug.Log("Starting pointB = " + pointB)
+	def Start():
+		height = transform.position.y
+		
+		pointA = transform.position
+		pointB.x = pointA.x + TravelDistance.x
+		pointB.y = pointA.y + TravelDistance.y
+		pointB.z = pointA.z + TravelDistance.z
 
 	def Update():
 		//Debug.Log("Position: " + transform.position)
@@ -28,14 +31,12 @@ class MovingPlatforms (MonoBehaviour):
 			//Debug.Log("pointA = " + pointA)
 			//Debug.Log("pointB = " + pointB)
 		
-		//Debug.Log("Position: " + transform.position)
-		MoveObject(pointB)
-		
-	def MoveObject(endPos as Vector3):
-		Direction.x = FindDirection(transform.position.x , endPos.x)
-		Direction.y = 0
+	def FixedUpdate():
+		Direction.x = FindDirection(transform.position.x , pointB.x) * HForce
+		Direction.y = ((height-transform.position.y)*Elasticity)+VForce
 		Direction.z = 0
-		rigidbody.AddForce(Direction * PlatformForce)
+		rigidbody.AddForce(Direction)
+		
 
 	def FindDirection(pos1 as single, pos2 as single) as single:
 		finalPos = pos2 - pos1
@@ -45,3 +46,14 @@ class MovingPlatforms (MonoBehaviour):
 			return 1
 		if finalPos == 0:
 			return 0
+
+#	def OnTriggerEnter(other as Collider):
+#		if other.gameObject.tag == "Player":
+#			//Debug.Log("Player Entered")
+#			other.gameObject.transform.parent = transform
+#			
+# 			
+#	def OnTriggerExit(other as Collider):
+#		if other.gameObject.tag == "Player":
+#			//Debug.Log("Player Exited")
+#			other.gameObject.transform.parent = null

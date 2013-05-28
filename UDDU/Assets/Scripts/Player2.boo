@@ -59,17 +59,20 @@ class Player2 (MonoBehaviour):
 						
 			if grounded:
 				
-				if Mathf.Abs(rigidbody.velocity.x) < Mathf.Abs(Input.GetAxis("Horizontal") * Player.speed):
-					rigidbody.velocity.x = Input.GetAxis("Horizontal") * Player.speed
+				if Physics.Raycast(transform.position + Vector3(0, -0.4, 0), Vector3.right * Input.GetAxis("Horizontal"), 0.5, ~(1 << 8)) == false:
+					if Mathf.Abs(rigidbody.velocity.x) < Mathf.Abs(Input.GetAxis("Horizontal") * Player.speed):
+						transform.position.x += Input.GetAxis("Horizontal") * Player.speed * Time.deltaTime
 				
 				if Input.GetButtonDown("Jump"):
 					rigidbody.velocity.y = Player.jump_speed
 					
-					if Mathf.Abs(rigidbody.velocity.x) < Player.min_jump:
+					if Mathf.Abs(Input.GetAxis("Horizontal")) < 0.2:
 						if transform.eulerAngles.y > 0 and transform.eulerAngles.y < 180:
 							rigidbody.velocity.x = Player.min_jump
 						else:
 							rigidbody.velocity.x = -Player.min_jump
+					else:
+						rigidbody.velocity.x = Input.GetAxis("Horizontal") * Player.speed
 
 		weightDisplay.text = "Weight: " + Mathf.Round(((current_phase-1)/2) * -100.0) +"%"
 			
