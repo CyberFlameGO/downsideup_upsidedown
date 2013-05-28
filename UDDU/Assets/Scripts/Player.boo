@@ -3,8 +3,10 @@ import UnityEngine
 class Player (MonoBehaviour): 
 	
 	#constants
-	public speed as single = 6.0
-	public jump_speed as single = 8.0
+	public static speed as single = 6.0
+	public static jump_speed as single = 9.0
+	public static min_jump as single = 2.0
+	
 	public phase_thresh as single = 0.8
 
 	#Gui variables
@@ -82,27 +84,29 @@ class Player (MonoBehaviour):
 			if current_phase == -0.5: renderer.material.color.a = 0.5
 			else: renderer.material.color.a = 1
 		
-		if Physics.Raycast(transform.position + Vector3(0, 0.4, 0), 
-			Vector3.right * Input.GetAxis("Horizontal"), 0.5, ~(1 << 9)) == false and Physics.Raycast(
-				transform.position + Vector3(0, -0.4, 0), Vector3.right * Input.GetAxis(
-					"Horizontal"), 0.5, ~(1 << 9)) == false:
-			if attacked and GetComponent(Attacked).isStunned():
-				rigidbody.velocity = Vector3.zero
-			else: rigidbody.velocity.x = Input.GetAxis("Horizontal") * speed
-		
-		#Rotation.
 		if not attacked or not GetComponent(Attacked).isStunned():
+			#Rotation
 			if Input.GetAxis("Horizontal") < 0:
 				if Mathf.Round(transform.eulerAngles.y) != 270:
 					transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y+10)
 			elif Input.GetAxis("Horizontal") > 0:
 				if Mathf.Round(transform.eulerAngles.y) != 90:
 					transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y-10)
-			
-			#Only jump if we're grounded.
+						
+			#Only jump or move if we're grounded.
 			if grounded:
+
+				if Mathf.Abs(rigidbody.velocity.x) < Mathf.Abs(Input.GetAxis("Horizontal") * speed):
+					rigidbody.velocity.x = Input.GetAxis("Horizontal") * speed
+				
 				if Input.GetButtonDown("Jump"):
 					rigidbody.velocity.y = jump_speed
+					
+					if Mathf.Abs(rigidbody.velocity.x) < min_jump:
+						if transform.eulerAngles.y > 0 and transform.eulerAngles.y < 180:
+							rigidbody.velocity.x = min_jump
+						else:
+							rigidbody.velocity.x = -min_jump
 					
 		if current_phase > -1 and current_phase < 1:
 
