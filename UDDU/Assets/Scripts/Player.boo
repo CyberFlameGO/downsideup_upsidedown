@@ -26,8 +26,16 @@ class Player (MonoBehaviour):
 	private keyWait = 0.2
 
 	private distanceToKill as single #distance from centre of guard which will explode them
+	
+	//Audio Variables
+	private phaseWarning as AudioSource
+	private evasiveManeuvers as AudioSource
+
 
 	def Start ():
+		aSource as (Component) = GetComponents(AudioSource) //currently as a list, as we may want to add more audio later
+		phaseWarning = aSource[0]
+		evasiveManeuvers = aSource[1]
 		if GetComponent(Attacked)!=null:
 			attacked = true
 		guards = GameObject.FindGameObjectsWithTag('Guard')
@@ -50,7 +58,11 @@ class Player (MonoBehaviour):
 				switch_states(child.gameObject, isActive)
 
 	def Update ():
-		
+		/*//if GetComponent[of Attacked]().isStunned():
+		if GetComponent(Attacked).isStunned():
+			if not evasiveManeuvers.isPlaying:
+				evasiveManeuvers.Play()
+		*/
 		if transform.position.x > exit.transform.position.x:
 			finishLevel()
 		old_phase = current_phase
@@ -68,6 +80,8 @@ class Player (MonoBehaviour):
 		if (old_phase != 0.5 and current_phase==0.5) or (old_phase != -0.5 and current_phase==-0.5) : 
 				#phased into other world, so check valid and if hit guard
 				if not checkPhaseSafe(old_phase):
+					if not phaseWarning.isPlaying://play audio
+						phaseWarning.Play()
 					current_phase= old_phase
 				else:
 					checkPhaseKill(old_phase)

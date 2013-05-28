@@ -13,7 +13,6 @@ class Attacked (MonoBehaviour):
 	def isStunned():
 		return stunned
 
-				
 	def Update ():
 		if (stunned and Time.time-stunnedTime > recoveryTime): #recover
 			stunned = false
