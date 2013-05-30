@@ -2,6 +2,8 @@ import UnityEngine
 
 class Player (MonoBehaviour): 
 	
+	public BloodExplosion as GameObject
+	
 	#constants
 	public static speed as single = 6.0
 	public static jump_speed as single = 9.0
@@ -216,6 +218,9 @@ class Player (MonoBehaviour):
 			#first check they are in relvant world for killing
 			if (isSameWorld(g, phaseLevel)): 
 				if (Mathf.Abs(g.transform.position.x - transform.position.x) < distanceToKill):
+					blood = Instantiate(BloodExplosion, g.transform.position, g.transform.rotation)
+					blood.layer = g.layer
+					blood.transform.position.y += .3
 					Destroy(g) #close enough to centre of guard, so kill em
 					break 
 		
