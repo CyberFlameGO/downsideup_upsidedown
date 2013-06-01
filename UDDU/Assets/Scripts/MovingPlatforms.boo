@@ -11,6 +11,8 @@ class MovingPlatforms (MonoBehaviour):
 	public VForce as single = 50
 	private PointRange as single = 1.0f
 	private height as single
+	
+	private switch = 0
 
 	def Start():
 		height = transform.position.y
@@ -23,11 +25,13 @@ class MovingPlatforms (MonoBehaviour):
 	def Update():
 		//Debug.Log("Position: " + transform.position)
 		//Debug.Log("Distance: " + Vector3.Distance(transform.position, pointB))
-		if Vector3.Distance(transform.position, pointB) < PointRange:
+		if Mathf.Abs(transform.position.x - pointB.x) < PointRange or (Mathf.Abs(rigidbody.velocity.x) < 0.01 and Time.time > switch + 1.0):
+			switch = Time.time
 			//Debug.Log("point reached!")
 			tempVector as Vector3 = pointA
 			pointA = pointB
 			pointB = tempVector
+			
 			rigidbody.velocity = Vector3(0,0,0)
 			//Debug.Log("pointA = " + pointA)
 			//Debug.Log("pointB = " + pointB)
