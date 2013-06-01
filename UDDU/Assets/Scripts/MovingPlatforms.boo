@@ -9,7 +9,7 @@ class MovingPlatforms (MonoBehaviour):
 	public HForce as single = 10
 	public Elasticity as single = 50
 	public VForce as single = 50
-	private PointRange as single = 4.0f
+	private PointRange as single = 1.0f
 	private height as single
 
 	def Start():
@@ -28,6 +28,7 @@ class MovingPlatforms (MonoBehaviour):
 			tempVector as Vector3 = pointA
 			pointA = pointB
 			pointB = tempVector
+			rigidbody.velocity = Vector3(0,0,0)
 			//Debug.Log("pointA = " + pointA)
 			//Debug.Log("pointB = " + pointB)
 		
