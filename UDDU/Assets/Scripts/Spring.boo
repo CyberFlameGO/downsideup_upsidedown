@@ -1,7 +1,11 @@
 import UnityEngine
 
 class Spring (MonoBehaviour): 
+	public yForce = 500
+	public xForce = 500
+	public maxForce = 1000
 	private rotatedTime = 0 #time since rotated
+
 	def Start ():
 		pass
 	
@@ -18,9 +22,10 @@ class Spring (MonoBehaviour):
 
 
 	def OnCollisionEnter(collision as Collision):
-
-		if collision.gameObject.tag == "Player":
+		Debug.Log("mass: "+collision.gameObject.rigidbody.mass)
+		if collision.gameObject.tag == "Player" and not rotatedTime>0:
 			transform.Rotate(0,0,-5)
-			flipAngle = Vector3(500,1000,0)
+			
+			flipAngle = Vector3(xForce,yForce,0)
 			collision.gameObject.rigidbody.AddForce(flipAngle)
 			rotatedTime = Time.time
