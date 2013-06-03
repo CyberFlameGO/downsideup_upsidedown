@@ -7,8 +7,8 @@ class Crushed (MonoBehaviour):
 	private matInstance as Material
 	private fall_threshold = -0.3
 
-	def OnCollisionEnter(collision as Collision):
-		if collision.gameObject.name==crushingObject.name:
+	def OnTriggerStay(col as Collider):
+		if col.gameObject.name==crushingObject.name:
 			if transform.localScale.y < 0.1: #when flat enough
 				matInstance = Instantiate(mat)
 				renderer.material = matInstance # BLOOD!

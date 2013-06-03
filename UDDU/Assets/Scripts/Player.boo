@@ -27,15 +27,16 @@ class Player (MonoBehaviour):
 	private keyHoldCount = 0.2
 	private keyWait = 0.2
 
-	private distanceToKill as single #distance from centre of guard which will explode them
-	
-	//Audio Variables
+	private distanceToKillX as single #distance from centre of guard which will explode them
+	private distanceToKillY as single
+
+	#Audio Variables
 	private phaseWarning as AudioSource
 	private evasiveManeuvers as AudioSource
 
 
 	def Start ():
-		aSource as (Component) = GetComponents(AudioSource) //currently as a list, as we may want to add more audio later
+		aSource as (Component) = GetComponents(AudioSource) #currently as a list, as we may want to add more audio later
 		phaseWarning = aSource[0]
 		evasiveManeuvers = aSource[1]
 		if GetComponent(Attacked)!=null:
@@ -43,7 +44,9 @@ class Player (MonoBehaviour):
 		guards = GameObject.FindGameObjectsWithTag('Guard')
 		if guards.Length > 0:
 			mesh as Mesh = guards[0].GetComponent(MeshFilter).mesh #assumes all guards are same size
-			distanceToKill = mesh.bounds.size.x
+			distanceToKillX = mesh.bounds.size.x
+			distanceToKillY = mesh.bounds.size.y/2
+
 
 	def GetPhase():
 		return current_phase
@@ -217,7 +220,7 @@ class Player (MonoBehaviour):
 			if g.name == "Lazer": continue
 			#first check they are in relvant world for killing
 			if (isSameWorld(g, phaseLevel)): 
-				if (Mathf.Abs(g.transform.position.x - transform.position.x) < distanceToKill):
+				if (Mathf.Abs(g.transform.position.x - transform.position.x) < distanceToKillX) and (Mathf.Abs(g.transform.position.y - transform.position.y) < distanceToKillY):
 					blood = Instantiate(BloodExplosion, g.transform.position, g.transform.rotation)
 					blood.layer = g.layer
 					blood.transform.position.y += .3
