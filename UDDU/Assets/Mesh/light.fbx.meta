@@ -1,30 +1,13 @@
 fileFormatVersion: 2
-guid: 3a4113e66adbb4d4f87b24a6fee72aef
+guid: 5adf50dc5c7134d60b24da92b63d934c
 ModelImporter:
   serializedVersion: 15
   fileIDToRecycleName:
-    100000: Frame
-    100002: Frame1
-    100004: Glass
-    100006: //RootNode
-    100008: pPipe1
-    400000: Frame
-    400002: Frame1
-    400004: Glass
-    400006: //RootNode
-    400008: pPipe1
-    2300000: Frame
-    2300002: Frame1
-    2300004: Glass
-    2300006: pPipe1
-    3300000: Frame
-    3300002: Frame1
-    3300004: Glass
-    3300006: pPipe1
-    4300000: Frame
-    4300002: Glass
-    4300004: Frame1
-    4300006: pPipe1
+    100000: //RootNode
+    400000: //RootNode
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: pCube1
     9500000: //RootNode
   materials:
     importMaterials: 1
