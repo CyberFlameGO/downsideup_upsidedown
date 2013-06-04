@@ -234,6 +234,8 @@ class Player (MonoBehaviour):
 				if (Mathf.Abs(g.transform.position.x - transform.position.x) < distanceToKillX) and (Mathf.Abs(g.transform.position.y - transform.position.y) < distanceToKillY):
 					blood = Instantiate(BloodExplosion, g.transform.position, g.transform.rotation)
 					blood.layer = g.layer
+					for child as Transform in blood.transform:
+						child.gameObject.layer = g.layer
 					blood.transform.position.y += .3
 					Destroy(g) #close enough to centre of guard, so kill em
 					break 
