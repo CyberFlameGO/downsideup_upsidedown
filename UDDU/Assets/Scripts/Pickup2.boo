@@ -22,7 +22,7 @@ class Pickup2 (MonoBehaviour):
 				
 				
 	def Drop():
-		transform.localPosition = Vector3(0, 1, 1.5)
+		transform.localPosition = Vector3(0, 1.3, 1.5)
 		transform.parent = null
 		gameObject.AddComponent(Rigidbody)
 		Player2.holding = null
@@ -34,7 +34,7 @@ class Pickup2 (MonoBehaviour):
 	def PickUp():
 		if Vector3.Distance(transform.position, player.transform.position) < PickUpRange and player.collider.enabled == true:
 			transform.parent = player.transform
-			transform.localPosition = Vector3(0, 2, 0.5)
+			transform.localPosition = Vector3(0, 1.3, 1.5)
 			Destroy(rigidbody)
 			Player2.holding = gameObject
 		

@@ -56,23 +56,26 @@ class Player2 (MonoBehaviour):
 			elif Input.GetAxis("Horizontal") > 0:
 				if Mathf.Round(transform.eulerAngles.y) != 90:
 					transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y+10)
+					
+			if holding == null:
+				if Physics.Raycast(transform.position + Vector3(0, -0.9, 0), Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 8)) == false:
+					if Physics.Raycast(transform.position + Vector3(0, 0.9, 0), Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 8)) == false:
+						if Physics.Raycast(transform.position, Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 8)) == false:
+							transform.position.x += Input.GetAxis("Horizontal") * Player.speed * Time.deltaTime
+			else:
+				if Physics.Raycast(transform.position + Vector3(0, -0.9, 0), Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 8)) == false:
+					if Input.GetAxis("Horizontal") > 0:
+						x = 1.5
+					else:
+						x = -1.5
+					if Physics.Raycast(transform.position + Vector3(x, 1.3, 0), Vector3.right * Input.GetAxis("Horizontal"), 1.5, ~(1 << 8)) == false:
+						if Physics.Raycast(transform.position, Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 8)) == false:
+							transform.position.x += Input.GetAxis("Horizontal") * Player.speed * Time.deltaTime
 						
 			if grounded:
 				
-				if Physics.Raycast(transform.position + Vector3(0, -0.4, 0), Vector3.right * Input.GetAxis("Horizontal"), 0.5, ~(1 << 8)) == false:
-					if Mathf.Abs(rigidbody.velocity.x) < Mathf.Abs(Input.GetAxis("Horizontal") * Player.speed):
-						transform.position.x += Input.GetAxis("Horizontal") * Player.speed * Time.deltaTime
-				
 				if Input.GetButtonDown("Jump"):
 					rigidbody.velocity.y = Player.jump_speed
-					
-					if Mathf.Abs(Input.GetAxis("Horizontal")) < 0.2:
-						if transform.eulerAngles.y > 0 and transform.eulerAngles.y < 180:
-							rigidbody.velocity.x = Player.min_jump
-						else:
-							rigidbody.velocity.x = -Player.min_jump
-					else:
-						rigidbody.velocity.x = Input.GetAxis("Horizontal") * Player.speed
 
 		weightDisplay.text = "Weight: " + Mathf.Round(((current_phase-1)/2) * -100.0) +"%"
 			

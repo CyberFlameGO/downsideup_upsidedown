@@ -6,7 +6,7 @@ class Player (MonoBehaviour):
 	
 	#constants
 	public static speed as single = 6.0
-	public static jump_speed as single = 9.0
+	public static jump_speed as single = 8.0
 	public static min_jump as single = 2.0
 	
 	public phase_thresh as single = 0.8
@@ -111,24 +111,26 @@ class Player (MonoBehaviour):
 			elif Input.GetAxis("Horizontal") > 0:
 				if Mathf.Round(transform.eulerAngles.y) != 90:
 					transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y-10)
+					
+			if holding == null:
+				if Physics.Raycast(transform.position + Vector3(0, -0.9, 0), Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 9)) == false:
+					if Physics.Raycast(transform.position + Vector3(0, 0.9, 0), Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 9)) == false:
+						if Physics.Raycast(transform.position, Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 9)) == false:
+							transform.position.x += Input.GetAxis("Horizontal") * speed * Time.deltaTime
+			else:
+				if Physics.Raycast(transform.position + Vector3(0, -0.9, 0), Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 9)) == false:
+					if Input.GetAxis("Horizontal") > 0:
+						x = 1.5
+					else:
+						x = -1.5
+					if Physics.Raycast(transform.position + Vector3(x, 1.3, 0), Vector3.right * Input.GetAxis("Horizontal"), 1.5, ~(1 << 9)) == false:
+						if Physics.Raycast(transform.position, Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 9)) == false:
+							transform.position.x += Input.GetAxis("Horizontal") * speed * Time.deltaTime
 						
 			#Only jump or move if we're grounded.
 			if grounded:
-				
-				if Physics.Raycast(transform.position + Vector3(0, -0.4, 0), Vector3.right * Input.GetAxis("Horizontal"), 0.5, ~(1 << 9)) == false:
-					if Mathf.Abs(rigidbody.velocity.x) < Mathf.Abs(Input.GetAxis("Horizontal") * speed):
-						transform.position.x += Input.GetAxis("Horizontal") * speed * Time.deltaTime
-				
 				if Input.GetButtonDown("Jump"):
 					rigidbody.velocity.y = jump_speed
-					
-					if Mathf.Abs(Input.GetAxis("Horizontal")) < 0.2:
-						if transform.eulerAngles.y > 0 and transform.eulerAngles.y < 180:
-							rigidbody.velocity.x = min_jump
-						else:
-							rigidbody.velocity.x = -min_jump
-					else:
-						rigidbody.velocity.x = Input.GetAxis("Horizontal") * speed
 					
 		if current_phase > -1 and current_phase < 1:
 
