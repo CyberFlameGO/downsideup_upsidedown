@@ -33,6 +33,8 @@ class Player (MonoBehaviour):
 	#Audio Variables
 	private phaseWarning as AudioSource
 	private evasiveManeuvers as AudioSource
+	
+	private idle = 0.0
 
 
 	def Start ():
@@ -63,6 +65,13 @@ class Player (MonoBehaviour):
 				switch_states(child.gameObject, isActive)
 
 	def Update ():
+		
+		#Idle chatter. Needs better conditions.
+		if Time.time > idle + 10.0:
+			GameObject.Find("SoundEffects").GetComponent(SoundEffects).PlayChatter(transform.position)
+			idle = Time.time
+		
+		
 		/*//if GetComponent[of Attacked]().isStunned():
 		if GetComponent(Attacked).isStunned():
 			if not evasiveManeuvers.isPlaying:

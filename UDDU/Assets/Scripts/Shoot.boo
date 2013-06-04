@@ -74,6 +74,9 @@ class Shoot (MonoBehaviour):
 			layerMask = 1 << gameObject.layer #filter ray to objects level only
 			hitinfo as RaycastHit
 			hitPlayer = Physics.Raycast (pos, shootDir, hitinfo, shootDistance, layerMask)
+			
+			#Audio.
+			GameObject.Find("SoundEffects").GetComponent(SoundEffects).PlayZap(transform.position)
 
 			#display gun's beam on screen (TODO: Designers can make this prettier...)
 			lazer.SetActive(true)
