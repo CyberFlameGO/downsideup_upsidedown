@@ -12,7 +12,8 @@ class Crushed (MonoBehaviour):
 			if transform.localScale.y < 0.1: #when flat enough
 				matInstance = Instantiate(mat)
 				renderer.material = matInstance # BLOOD!
-				# Destroy(gameObject)
+				for  child  as Transform in gameObject.transform:
+					Destroy(child.gameObject)
 			else:
 				if GetComponent(Shoot):
 					GetComponent(Shoot).enabled = false
