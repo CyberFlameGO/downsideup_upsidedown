@@ -1,0 +1,181 @@
+fileFormatVersion: 2
+guid: f149ac68a38212b4d99fc2a5d234638b
+ModelImporter:
+  serializedVersion: 15
+  fileIDToRecycleName:
+    100000: Head
+    100002: Head 1
+    100004: Hip
+    100006: Hip1
+    100008: ikHandle1
+    100010: joint1
+    100012: joint41
+    100014: joint42
+    100016: joint43
+    100018: joint44
+    100020: joint45
+    100022: joint46
+    100024: joint47
+    100026: joint48
+    100028: joint49
+    100030: joint50
+    100032: joint51
+    100034: joint52
+    100036: joint53
+    100038: joint54
+    100040: joint55
+    100042: joint58
+    100044: joint59
+    100046: joint60
+    100048: joint61
+    100050: joint62
+    100052: joint63
+    100054: joint64
+    100056: joint65
+    100058: joint66
+    100060: joint67
+    100062: joint69
+    100064: joint70
+    100066: joint71
+    100068: joint72
+    100070: joint73
+    100072: joint75
+    100074: joint76
+    100076: joint77
+    100078: joint78
+    100080: joint79
+    100082: //RootNode
+    100084: LArm
+    100086: Left_Arm
+    100088: Left_Arm 1
+    100090: Left_LEg
+    100092: Left_Leg
+    100094: Legs
+    100096: LLeg
+    100098: nurbsSquare1
+    100100: pCube1
+    100102: RArm
+    100104: Right_Arm
+    100106: Right_Arm 1
+    100108: Right_Leg
+    100110: Right_Leg 1
+    100112: rightnurbsSquare1
+    100114: RLeg
+    100116: tail
+    100118: waist
+    400000: Head
+    400002: Head 1
+    400004: Hip
+    400006: Hip1
+    400008: ikHandle1
+    400010: joint1
+    400012: joint41
+    400014: joint42
+    400016: joint43
+    400018: joint44
+    400020: joint45
+    400022: joint46
+    400024: joint47
+    400026: joint48
+    400028: joint49
+    400030: joint50
+    400032: joint51
+    400034: joint52
+    400036: joint53
+    400038: joint54
+    400040: joint55
+    400042: joint58
+    400044: joint59
+    400046: joint60
+    400048: joint61
+    400050: joint62
+    400052: joint63
+    400054: joint64
+    400056: joint65
+    400058: joint66
+    400060: joint67
+    400062: joint69
+    400064: joint70
+    400066: joint71
+    400068: joint72
+    400070: joint73
+    400072: joint75
+    400074: joint76
+    400076: joint77
+    400078: joint78
+    400080: joint79
+    400082: //RootNode
+    400084: LArm
+    400086: Left_Arm
+    400088: Left_Arm 1
+    400090: Left_LEg
+    400092: Left_Leg
+    400094: Legs
+    400096: LLeg
+    400098: nurbsSquare1
+    400100: pCube1
+    400102: RArm
+    400104: Right_Arm
+    400106: Right_Arm 1
+    400108: Right_Leg
+    400110: Right_Leg 1
+    400112: rightnurbsSquare1
+    400114: RLeg
+    400116: tail
+    400118: waist
+    4300000: pCube1
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: pCube1
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    handles: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  additionalBone: 1
+  animationType: 2
+  userData: 

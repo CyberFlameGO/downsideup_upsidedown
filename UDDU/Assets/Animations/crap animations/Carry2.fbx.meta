@@ -1,0 +1,151 @@
+fileFormatVersion: 2
+guid: f2bdb28dd7c1e124f9adab8b96151ae4
+ModelImporter:
+  serializedVersion: 15
+  fileIDToRecycleName:
+    100000: Body
+    100002: //RootNode
+    100004: Chest_H
+    100006: Head
+    100008: joint16
+    100010: joint20
+    100012: joint23
+    100014: joint24
+    100016: joint26
+    100018: joint27
+    100020: joint29
+    100022: joint30
+    100024: joint31
+    100026: joint5
+    100028: joint9
+    100030: Left
+    100032: Left_Ankel
+    100034: Left_Arm
+    100036: Left_Arm 1
+    100038: Left_Arm_H
+    100040: Left_Ear
+    100042: Left_Leg
+    100044: Left_Leg 1
+    100046: Left_Leg_H
+    100048: Left_Wrist
+    100050: Lower
+    100052: Neck_H
+    100054: nurbsCircle1
+    100056: nurbsCircle2
+    100058: nurbsCircle3
+    100060: pCube1
+    100062: Right1
+    100064: Right_Ankel
+    100066: Right_Arm
+    100068: Right_Arm 1
+    100070: Right_Arm_H
+    100072: Right_Ear
+    100074: Right_Leg
+    100076: Right_Leg 1
+    100078: Right_Leg_H
+    100080: Right_Wrist
+    100082: Tail
+    100084: Tail 1
+    100086: Tail_H
+    100088: Upper
+    400000: Body
+    400002: //RootNode
+    400004: Chest_H
+    400006: Head
+    400008: joint16
+    400010: joint20
+    400012: joint23
+    400014: joint24
+    400016: joint26
+    400018: joint27
+    400020: joint29
+    400022: joint30
+    400024: joint31
+    400026: joint5
+    400028: joint9
+    400030: Left
+    400032: Left_Ankel
+    400034: Left_Arm
+    400036: Left_Arm 1
+    400038: Left_Arm_H
+    400040: Left_Ear
+    400042: Left_Leg
+    400044: Left_Leg 1
+    400046: Left_Leg_H
+    400048: Left_Wrist
+    400050: Lower
+    400052: Neck_H
+    400054: nurbsCircle1
+    400056: nurbsCircle2
+    400058: nurbsCircle3
+    400060: pCube1
+    400062: Right1
+    400064: Right_Ankel
+    400066: Right_Arm
+    400068: Right_Arm 1
+    400070: Right_Arm_H
+    400072: Right_Ear
+    400074: Right_Leg
+    400076: Right_Leg 1
+    400078: Right_Leg_H
+    400080: Right_Wrist
+    400082: Tail
+    400084: Tail 1
+    400086: Tail_H
+    400088: Upper
+    4300000: pCube1
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: pCube1
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    handles: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  additionalBone: 1
+  animationType: 2
+  userData: 

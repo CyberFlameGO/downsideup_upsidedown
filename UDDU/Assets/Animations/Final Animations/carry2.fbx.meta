@@ -1,0 +1,166 @@
+fileFormatVersion: 2
+guid: 372ab9814935357468530ac76d533197
+ModelImporter:
+  serializedVersion: 15
+  fileIDToRecycleName:
+    100000: Body
+    100002: //RootNode
+    100004: ikHandle1
+    100006: ikHandle2
+    100008: ikHandle3
+    100010: ikHandle4
+    100012: ikHandle5
+    100014: joint10
+    100016: joint16
+    100018: joint17
+    100020: joint22
+    100022: joint24
+    100024: joint25
+    100026: joint27
+    100028: joint28
+    100030: joint29
+    100032: joint30
+    100034: joint31
+    100036: joint4
+    100038: joint5
+    100040: joint6
+    100042: joint7
+    100044: joint9
+    100046: Left_Ankel
+    100048: Left_Arm
+    100050: Left_Arm_H
+    100052: Left_ear
+    100054: Left_Leg
+    100056: Left_Leg_H
+    100058: Lower
+    100060: Lower_Body
+    100062: pCube1
+    100064: Right_Ankel
+    100066: Right_Arm
+    100068: Right_Arm_H
+    100070: Right_Ear
+    100072: Right_Leg
+    100074: Right_Leg_H
+    100076: Tail
+    100078: Tail_H
+    100080: Upper
+    100082: Upper_Body
+    400000: Body
+    400002: //RootNode
+    400004: ikHandle1
+    400006: ikHandle2
+    400008: ikHandle3
+    400010: ikHandle4
+    400012: ikHandle5
+    400014: joint10
+    400016: joint16
+    400018: joint17
+    400020: joint22
+    400022: joint24
+    400024: joint25
+    400026: joint27
+    400028: joint28
+    400030: joint29
+    400032: joint30
+    400034: joint31
+    400036: joint4
+    400038: joint5
+    400040: joint6
+    400042: joint7
+    400044: joint9
+    400046: Left_Ankel
+    400048: Left_Arm
+    400050: Left_Arm_H
+    400052: Left_ear
+    400054: Left_Leg
+    400056: Left_Leg_H
+    400058: Lower
+    400060: Lower_Body
+    400062: pCube1
+    400064: Right_Ankel
+    400066: Right_Arm
+    400068: Right_Arm_H
+    400070: Right_Ear
+    400072: Right_Leg
+    400074: Right_Leg_H
+    400076: Tail
+    400078: Tail_H
+    400080: Upper
+    400082: Upper_Body
+    4300000: pCube1
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: pCube1
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    clipAnimations:
+    - name: Take 001
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 24
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      transformMask: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    handles: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: Body
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  additionalBone: 1
+  animationType: 2
+  userData: 

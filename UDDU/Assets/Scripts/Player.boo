@@ -35,9 +35,19 @@ class Player (MonoBehaviour):
 	private evasiveManeuvers as AudioSource
 	
 	private idle = 0.0
+	
+	//The animator
+	private anim as Animator
+	
+	//HashID
+	private walkingState as int
+	private jumpState as int
 
 
 	def Start ():
+		walkingState = Animator.StringToHash('Walk')
+		jumpState = Animator.StringToHash('Jump')
+		anim = GetComponent[of Animator]()
 		aSource as (Component) = GetComponents(AudioSource) #currently as a list, as we may want to add more audio later
 		phaseWarning = aSource[0]
 		evasiveManeuvers = aSource[1]
@@ -126,6 +136,13 @@ class Player (MonoBehaviour):
 					if Physics.Raycast(transform.position + Vector3(0, 0.9, 0), Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 9)) == false:
 						if Physics.Raycast(transform.position, Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 9)) == false:
 							transform.position.x += Input.GetAxis("Horizontal") * speed * Time.deltaTime
+							anim.SetBool(walkingState, true)
+						else:
+							anim.SetBool(walkingState, false)
+					else:
+						anim.SetBool(walkingState, false)
+				else:
+					anim.SetBool(walkingState, false)
 			else:
 				if Physics.Raycast(transform.position + Vector3(0, -0.9, 0), Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 9)) == false:
 					if Input.GetAxis("Horizontal") > 0:
@@ -135,12 +152,22 @@ class Player (MonoBehaviour):
 					if Physics.Raycast(transform.position + Vector3(x, 1.3, 0), Vector3.right * Input.GetAxis("Horizontal"), 1.5, ~(1 << 9)) == false:
 						if Physics.Raycast(transform.position, Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 9)) == false:
 							transform.position.x += Input.GetAxis("Horizontal") * speed * Time.deltaTime
+							anim.SetBool(walkingState, true)
+						else:
+							anim.SetBool(walkingState, false)
+					else:
+						anim.SetBool(walkingState, false)
+				else:
+					anim.SetBool(walkingState, false)
 						
 			#Only jump or move if we're grounded.
 			if grounded:
 				if Input.GetButtonDown("Jump"):
+					anim.SetBool(jumpState, true)
 					rigidbody.velocity.y = jump_speed
-					
+				else:
+					anim.SetBool(jumpState, false)
+		
 		if current_phase > -1 and current_phase < 1:
 
 			#Average character positions.

@@ -1,0 +1,185 @@
+fileFormatVersion: 2
+guid: 6487ece931e815a45b0e4e52e7b45d10
+ModelImporter:
+  serializedVersion: 15
+  fileIDToRecycleName:
+    100000: bottomnurbsSquare1
+    100002: Head
+    100004: Head 1
+    100006: Hip
+    100008: //RootNode
+    100010: ikHandle1
+    100012: joint1
+    100014: joint41
+    100016: joint42
+    100018: joint43
+    100020: joint44
+    100022: joint45
+    100024: joint46
+    100026: joint47
+    100028: joint48
+    100030: joint49
+    100032: joint50
+    100034: joint51
+    100036: joint52
+    100038: joint53
+    100040: joint54
+    100042: joint55
+    100044: joint58
+    100046: joint59
+    100048: joint60
+    100050: joint61
+    100052: joint62
+    100054: joint63
+    100056: joint64
+    100058: joint65
+    100060: joint66
+    100062: joint67
+    100064: joint69
+    100066: joint70
+    100068: joint71
+    100070: joint72
+    100072: joint73
+    100074: joint75
+    100076: joint76
+    100078: joint77
+    100080: joint78
+    100082: joint79
+    100084: LArm
+    100086: Left_Arm
+    100088: Left_Arm 1
+    100090: Left_LEg
+    100092: Left_Leg
+    100094: leftnurbsSquare1
+    100096: Legs
+    100098: LLeg
+    100100: nurbsSquare1
+    100102: pCube1
+    100104: RArm
+    100106: Right_Arm
+    100108: Right_Arm 1
+    100110: Right_Leg
+    100112: Right_Leg 1
+    100114: rightnurbsSquare1
+    100116: RLeg
+    100118: tail
+    100120: topnurbsSquare1
+    100122: waist
+    400000: bottomnurbsSquare1
+    400002: Head
+    400004: Head 1
+    400006: Hip
+    400008: //RootNode
+    400010: ikHandle1
+    400012: joint1
+    400014: joint41
+    400016: joint42
+    400018: joint43
+    400020: joint44
+    400022: joint45
+    400024: joint46
+    400026: joint47
+    400028: joint48
+    400030: joint49
+    400032: joint50
+    400034: joint51
+    400036: joint52
+    400038: joint53
+    400040: joint54
+    400042: joint55
+    400044: joint58
+    400046: joint59
+    400048: joint60
+    400050: joint61
+    400052: joint62
+    400054: joint63
+    400056: joint64
+    400058: joint65
+    400060: joint66
+    400062: joint67
+    400064: joint69
+    400066: joint70
+    400068: joint71
+    400070: joint72
+    400072: joint73
+    400074: joint75
+    400076: joint76
+    400078: joint77
+    400080: joint78
+    400082: joint79
+    400084: LArm
+    400086: Left_Arm
+    400088: Left_Arm 1
+    400090: Left_LEg
+    400092: Left_Leg
+    400094: leftnurbsSquare1
+    400096: Legs
+    400098: LLeg
+    400100: nurbsSquare1
+    400102: pCube1
+    400104: RArm
+    400106: Right_Arm
+    400108: Right_Arm 1
+    400110: Right_Leg
+    400112: Right_Leg 1
+    400114: rightnurbsSquare1
+    400116: RLeg
+    400118: tail
+    400120: topnurbsSquare1
+    400122: waist
+    4300000: pCube1
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: pCube1
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    handles: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  additionalBone: 1
+  animationType: 2
+  userData: 

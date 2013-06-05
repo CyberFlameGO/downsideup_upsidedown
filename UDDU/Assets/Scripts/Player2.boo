@@ -10,9 +10,19 @@ class Player2 (MonoBehaviour):
 
 	grounded = false
 	private attacked as bool = false
-
+	
+	//The animator
+	private anim as Animator
+	
+	//HashID
+	public walkingState as int
+	public jumpState as int
 
 	def Start ():
+		walkingState = Animator.StringToHash('Walk')
+		jumpState = Animator.StringToHash('Jump')
+		anim = GetComponent[of Animator]()
+		
 		if GetComponent(Attacked)!=null:
 			attacked = true
 	
@@ -62,6 +72,13 @@ class Player2 (MonoBehaviour):
 					if Physics.Raycast(transform.position + Vector3(0, 0.9, 0), Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 8)) == false:
 						if Physics.Raycast(transform.position, Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 8)) == false:
 							transform.position.x += Input.GetAxis("Horizontal") * Player.speed * Time.deltaTime
+							anim.SetBool(walkingState, true)
+						else:
+							anim.SetBool(walkingState, false)
+					else:
+						anim.SetBool(walkingState, false)
+				else:
+					anim.SetBool(walkingState, false)
 			else:
 				if Physics.Raycast(transform.position + Vector3(0, -0.9, 0), Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 8)) == false:
 					if Input.GetAxis("Horizontal") > 0:
@@ -71,11 +88,21 @@ class Player2 (MonoBehaviour):
 					if Physics.Raycast(transform.position + Vector3(x, 1.3, 0), Vector3.right * Input.GetAxis("Horizontal"), 1.5, ~(1 << 8)) == false:
 						if Physics.Raycast(transform.position, Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 8)) == false:
 							transform.position.x += Input.GetAxis("Horizontal") * Player.speed * Time.deltaTime
+							anim.SetBool(walkingState, true)
+						else:
+							anim.SetBool(walkingState, false)
+					else:
+						anim.SetBool(walkingState, false)
+				else:
+					anim.SetBool(walkingState, false)
 						
 			if grounded:
 				
 				if Input.GetButtonDown("Jump"):
+					anim.SetBool(jumpState, true)
 					rigidbody.velocity.y = Player.jump_speed
+				else:
+					anim.SetBool(jumpState, false)
 
 		weightDisplay.text = "Weight: " + Mathf.Round(((current_phase-1)/2) * -100.0) +"%"
 			
