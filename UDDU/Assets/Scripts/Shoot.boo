@@ -102,14 +102,18 @@ class Shoot (MonoBehaviour):
 		else: #must be patrolling
 			rayDir as Vector3 = direction*Vector3.right
 			hitObjectHigh as RaycastHit
+			hitObjectMid as RaycastHit
 			hitObjectLow as RaycastHit
 			layerMask = 1 << gameObject.layer #filter ray to objects level only
-			highPos = Vector3(transform.position.x,transform.position.y+0.8,transform.position.z)
-			lowPos = Vector3(transform.position.x,transform.position.y-0.5,transform.position.z)
+			highPos = Vector3(transform.position.x,transform.position.y+2.8,transform.position.z)
+			midPos = Vector3(transform.position.x,transform.position.y+1.5,transform.position.z)
+			lowPos = Vector3(transform.position.x,transform.position.y+0.3,transform.position.z)
 			hitSomething = Physics.Raycast (highPos, rayDir, hitObjectHigh, shootDistance/3,layerMask)
+			hitSomethingMid = Physics.Raycast (midPos, rayDir, hitObjectHigh, shootDistance/3,layerMask)
 			hitSomethingLow = Physics.Raycast (lowPos, rayDir, hitObjectLow, shootDistance/3, layerMask)
+
 			# if hit something high other than player, change directions
-			if hitSomething and hitObjectHigh.rigidbody!=target.rigidbody: 
+			if (hitSomething and hitObjectHigh.rigidbody!=target.rigidbody) or (hitSomethingMid and hitObjectMid.rigidbody!=target.rigidbody) : 
 				direction = direction*-1
 				transform.Rotate(0, 180*direction, 0)
 

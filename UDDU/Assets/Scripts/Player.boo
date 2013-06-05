@@ -17,6 +17,9 @@ class Player (MonoBehaviour):
 	public other as GameObject
 
 
+	private distanceToKillX as single =1#distance from centre of guard which will explode them
+	private distanceToKillY as single =1.2
+
 	#state variables
 	public static holding as GameObject = null
 	private current_phase as single = 1.0F #starts in top world
@@ -26,9 +29,6 @@ class Player (MonoBehaviour):
 	# Variables so if user holds down phase key, will phase again after some time period
 	private keyHoldCount = 0.2
 	private keyWait = 0.2
-
-	private distanceToKillX as single #distance from centre of guard which will explode them
-	private distanceToKillY as single
 
 	#Audio Variables
 	private phaseWarning as AudioSource
@@ -43,12 +43,6 @@ class Player (MonoBehaviour):
 		evasiveManeuvers = aSource[1]
 		if GetComponent(Attacked)!=null:
 			attacked = true
-		guards = GameObject.FindGameObjectsWithTag('Guard')
-		if guards.Length > 0:
-			mesh as Mesh = guards[0].GetComponent(MeshFilter).mesh #assumes all guards are same size
-			distanceToKillX = mesh.bounds.size.x
-			distanceToKillY = mesh.bounds.size.y/2
-
 
 	def GetPhase():
 		return current_phase
