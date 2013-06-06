@@ -15,8 +15,8 @@ class Player2 (MonoBehaviour):
 	private anim as Animator
 	
 	//HashID
-	public walkingState as int
-	public jumpState as int
+	private walkingState as int
+	private jumpState as int
 
 	def Start ():
 		walkingState = Animator.StringToHash('Walk')
