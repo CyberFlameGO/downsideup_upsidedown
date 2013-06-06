@@ -67,18 +67,14 @@ class Player2 (MonoBehaviour):
 				if Mathf.Round(transform.eulerAngles.y) != 90:
 					transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y+10)
 					
+			anim.SetBool(walkingState, false)
 			if holding == null:
 				if Physics.Raycast(transform.position + Vector3(0, -0.9, 0), Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 8)) == false:
 					if Physics.Raycast(transform.position + Vector3(0, 0.9, 0), Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 8)) == false:
 						if Physics.Raycast(transform.position, Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 8)) == false:
 							transform.position.x += Input.GetAxis("Horizontal") * Player.speed * Time.deltaTime
-							anim.SetBool(walkingState, true)
-						else:
-							anim.SetBool(walkingState, false)
-					else:
-						anim.SetBool(walkingState, false)
-				else:
-					anim.SetBool(walkingState, false)
+							if Mathf.Abs(Input.GetAxis("Horizontal")) > 0.1:
+								anim.SetBool(walkingState, true)
 			else:
 				if Physics.Raycast(transform.position + Vector3(0, -0.9, 0), Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 8)) == false:
 					if Input.GetAxis("Horizontal") > 0:
@@ -88,13 +84,8 @@ class Player2 (MonoBehaviour):
 					if Physics.Raycast(transform.position + Vector3(x, 1.3, 0), Vector3.right * Input.GetAxis("Horizontal"), 1.5, ~(1 << 8)) == false:
 						if Physics.Raycast(transform.position, Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 8)) == false:
 							transform.position.x += Input.GetAxis("Horizontal") * Player.speed * Time.deltaTime
-							anim.SetBool(walkingState, true)
-						else:
-							anim.SetBool(walkingState, false)
-					else:
-						anim.SetBool(walkingState, false)
-				else:
-					anim.SetBool(walkingState, false)
+							if Mathf.Abs(Input.GetAxis("Horizontal")) > 0.1:
+								anim.SetBool(walkingState, true)
 						
 			if grounded:
 				
