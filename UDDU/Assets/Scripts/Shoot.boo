@@ -25,6 +25,7 @@ class Shoot (MonoBehaviour):
 
 	def Start ():
         target = GetComponent(CollisionDeath).target
+        
 
 	def Update ():
 		if (LayerMask.NameToLayer("Top World") == gameObject.layer) and (LayerMask.NameToLayer("Top World") == target.layer) and (target.GetComponent(Player).GetPhase() > -1 ):
@@ -45,11 +46,11 @@ class Shoot (MonoBehaviour):
 				SHOOTER=false
 				SEEKING=false
 				PATROL=true
-		elif inSameWorld and (Mathf.Abs(xDis) <=shootDistance) and (yDis < 1) and ((xDis<0 and direction<0) or (xDis>0 and direction>0)):
+		elif inSameWorld and (Mathf.Abs(xDis) <=shootDistance) and (yDis < 2) and ((xDis<0 and direction<0) or (xDis>0 and direction>0)):
 			SHOOTER=true #close enough/facing right direction to shoot
 			SEEKING=true 
 			HIT = false
-		elif inSameWorld and (Mathf.Abs(xDis) <=followDistance) and (yDis < 1) and ((xDis<0 and direction<0) or (xDis>0 and direction>0)):
+		elif inSameWorld and (Mathf.Abs(xDis) <=followDistance) and (yDis < 2) and ((xDis<0 and direction<0) or (xDis>0 and direction>0)):
 			SEEKING=true #close enough/facing right direction to seek him
 			HIT = false
 		else:
