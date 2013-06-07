@@ -31,8 +31,14 @@ class Player (MonoBehaviour):
 	private keyWait = 0.2
 
 	#Audio Variables
-	private phaseWarning as AudioSource
-	private evasiveManeuvers as AudioSource
+	private soundCamera as GameObject
+	
+	public phaseWarning as AudioClip
+	public evasiveManeuvers as AudioClip
+	
+	private sound as AudioSource
+	private phaseWarningSource as AudioSource
+	private evasiveManeuversSource as AudioSource
 	
 	private idle = 0.0
 	
@@ -48,12 +54,18 @@ class Player (MonoBehaviour):
 		walkingState = Animator.StringToHash('Walk')
 		jumpState = Animator.StringToHash('Jump')
 		anim = GetComponent[of Animator]()
-		aSource as (Component) = GetComponents(AudioSource) #currently as a list, as we may want to add more audio later
-		phaseWarning = aSource[0]
-		evasiveManeuvers = aSource[1]
+		soundCamera = GameObject.Find('Camera1')
+		aSource as (Component) = soundCamera.GetComponents(AudioSource)
+		for i in aSource:
+			sound = i
+			if sound.clip == phaseWarning:
+				phaseWarningSource = sound
+			elif sound.clip == evasiveManeuvers:
+				evasiveManeuversSource = sound
+		
 		if GetComponent(Attacked)!=null:
 			attacked = true
-
+		
 	def GetPhase():
 		return current_phase
 
@@ -78,8 +90,8 @@ class Player (MonoBehaviour):
 		
 		/*//if GetComponent[of Attacked]().isStunned():
 		if GetComponent(Attacked).isStunned():
-			if not evasiveManeuvers.isPlaying:
-				evasiveManeuvers.Play()
+			if not evasiveManeuversSource.isPlaying:
+				evasiveManeuversSource.Play()
 		*/
 		if transform.position.x > exit.transform.position.x:
 			finishLevel()
@@ -98,8 +110,8 @@ class Player (MonoBehaviour):
 		if (old_phase != 0.5 and current_phase==0.5) or (old_phase != -0.5 and current_phase==-0.5) : 
 				#phased into other world, so check valid and if hit guard
 				if not checkPhaseSafe(old_phase):
-					if not phaseWarning.isPlaying://play audio
-						phaseWarning.Play()
+					if not phaseWarningSource.isPlaying://play audio
+						phaseWarningSource.Play()
 					current_phase= old_phase
 				else:
 					checkPhaseKill(old_phase)
