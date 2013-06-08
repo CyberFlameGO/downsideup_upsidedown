@@ -46,6 +46,7 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Attacked.boo" />
      <Compile Include="Assets\Scripts\Audio Scripts\ASimpleWall.boo" />
+     <Compile Include="Assets\Scripts\Audio Scripts\CameraPlay.boo" />
      <Compile Include="Assets\Scripts\Audio Scripts\PlayAtCamera.boo" />
      <Compile Include="Assets\Scripts\Audio Scripts\ProximityPlay.boo" />
      <Compile Include="Assets\Scripts\Camera1.boo" />
