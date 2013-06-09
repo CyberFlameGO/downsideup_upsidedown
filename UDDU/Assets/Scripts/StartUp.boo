@@ -3,6 +3,7 @@ import UnityEngine
 class StartUp (MonoBehaviour): 
 	public arrowTexture as GUITexture
 	public wasdTexture as GUITexture
+
 	private arrowImages = ["arrows", "arrows_leftright", "arrows_updown"]
 	private wasdImages = ["wasd", "wasd_leftright", "wasd_updown"]
 
@@ -42,7 +43,7 @@ class StartUp (MonoBehaviour):
 			verTimer = Time.time
 		elif (Time.time > (verTimer+6.0)) and verTimer > 0:
 			Destroy(gameObject)
-		elif (Time.time > (verTimer+2.0)) and verTimer > 0 and guiText.text!=text[2]:
+		elif (Time.time > (verTimer+3.0)) and verTimer > 0 and guiText.text!=text[2]:
 			currentText=2
 			Destroy(arrowTexture)
 			Destroy(wasdTexture)			
