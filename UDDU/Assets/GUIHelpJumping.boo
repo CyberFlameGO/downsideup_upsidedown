@@ -18,7 +18,7 @@ class GUIHelpJumping (MonoBehaviour):
 				elif spacebarTexture:
 					spacebarTexture.texture  = Resources.Load("Controls/spacebar") as Texture2D
 
-				if Input.GetButtonDown("Jump"):
+				if Input.GetButtonDown("Jump") and jumpTimer==0:
 					jumpTimer = Time.time
 				elif (jumpTimer > 0) and (Time.time > jumpTimer+2.0):
 					Destroy(spacebarTexture)	
