@@ -17,14 +17,14 @@ class Player (MonoBehaviour):
 	public other as GameObject
 
 
-	private distanceToKillX as single =1#distance from centre of guard which will explode them
+	private distanceToKillX as single =1 #distance from centre of guard which will explode them
 	private distanceToKillY as single =1.2
 
 	#state variables
 	public static holding as GameObject = null
 	private current_phase as single = 1.0F #starts in top world
 	private grounded = false
-	private attacked as bool = false
+	private stunnedTime as single = 0
 
 	# Variables so if user holds down phase key, will phase again after some time period
 	private keyHoldCount = 0.2
@@ -42,10 +42,9 @@ class Player (MonoBehaviour):
 	
 	private idle = 0.0
 	
-	//The animator
 	private anim as Animator
 	
-	//HashID
+	# HashID
 	private walkingState as int
 	private jumpState as int
 
@@ -63,41 +62,35 @@ class Player (MonoBehaviour):
 			elif sound.clip == evasiveManeuvers:
 				evasiveManeuversSource = sound
 		
-		if GetComponent(Attacked)!=null:
-			attacked = true
-		
 	def GetPhase():
 		return current_phase
 
-	#enable/disable the collider and render of an object AND all its children
-	# (in particular, the foot trigger child)
-	def switch_states(gameObject as GameObject, isActive as bool):
-		if (gameObject.renderer):
-			gameObject.renderer.enabled = isActive
-		if (gameObject.collider):
-			gameObject.collider.enabled = isActive
-
-		for  child  as Transform in gameObject.transform:
-				switch_states(child.gameObject, isActive)
+	def stunPlayer(target as GameObject):
+		if target.name == gameObject.name: #player 1 has been stunned, so force into bottom world
+			current_phase = -1
+		else: #player 2 has been stunned, so force into top world
+			current_phase = 1
+		stunnedTime = Time.time
 
 	def Update ():
-		
+		if transform.position.x > exit.transform.position.x:
+			finishLevel()
 		#Idle chatter. Needs better conditions.
 		if Time.time > idle + 10.0:
 			GameObject.Find("SoundEffects").GetComponent(SoundEffects).PlayChatter(transform.position)
 			idle = Time.time
+
+		if Time.time > stunnedTime + 5.0:
+			stunnedTime = 0 #unstun after 2 seconds
 		
-		
-		/*//if GetComponent[of Attacked]().isStunned():
-		if GetComponent(Attacked).isStunned():
-			if not evasiveManeuversSource.isPlaying:
-				evasiveManeuversSource.Play()
-		*/
-		if transform.position.x > exit.transform.position.x:
-			finishLevel()
+		# if GetComponent[of Attacked]().isStunned():
+		# if GetComponent(Attacked).isStunned():
+		# 	if not evasiveManeuversSource.isPlaying:
+		# 		evasiveManeuversSource.Play()
+	
 		old_phase = current_phase
 		vert_input = Input.GetAxisRaw("Vertical")
-		if vert_input!=0:
+		if vert_input!=0 and stunnedTime==0:
 			keyHoldCount-=Time.deltaTime
 			if (Input.GetButtonDown("Vertical") or keyHoldCount<0):
 				if vert_input>0 and current_phase<1: 
@@ -110,7 +103,7 @@ class Player (MonoBehaviour):
 		if (old_phase != 0.5 and current_phase==0.5) or (old_phase != -0.5 and current_phase==-0.5) : 
 				#phased into other world, so check valid and if hit guard
 				if not checkPhaseSafe(old_phase):
-					if not phaseWarningSource.isPlaying://play audio
+					if not phaseWarningSource.isPlaying: #play audio
 						phaseWarningSource.Play()
 					current_phase= old_phase
 				else:
@@ -128,42 +121,41 @@ class Player (MonoBehaviour):
 			if current_phase == -0.5: renderer.material.color.a = 0.5
 			else: renderer.material.color.a = 1
 		
-		if not attacked or not GetComponent(Attacked).isStunned():
-			#Rotation
-			if Input.GetAxis("Horizontal") < 0:
-				if Mathf.Round(transform.eulerAngles.y) != 270:
-					transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y+10)
-			elif Input.GetAxis("Horizontal") > 0:
-				if Mathf.Round(transform.eulerAngles.y) != 90:
-					transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y-10)
-					
-			anim.SetBool(walkingState, false)
-			if holding == null:
-				if Physics.Raycast(transform.position + Vector3(0, -0.9, 0), Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 9)) == false:
-					if Physics.Raycast(transform.position + Vector3(0, 0.9, 0), Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 9)) == false:
-						if Physics.Raycast(transform.position, Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 9)) == false:
-							transform.position.x += Input.GetAxis("Horizontal") * speed * Time.deltaTime
-							if Mathf.Abs(Input.GetAxis("Horizontal")) > 0.1:
-								anim.SetBool(walkingState, true)
-			else:
-				if Physics.Raycast(transform.position + Vector3(0, -0.9, 0), Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 9)) == false:
-					if Input.GetAxis("Horizontal") > 0:
-						x = 1.5
-					else:
-						x = -1.5
-					if Physics.Raycast(transform.position + Vector3(x, 1.3, 0), Vector3.right * Input.GetAxis("Horizontal"), 1.5, ~(1 << 9)) == false:
-						if Physics.Raycast(transform.position, Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 9)) == false:
-							transform.position.x += Input.GetAxis("Horizontal") * speed * Time.deltaTime
-							if Mathf.Abs(Input.GetAxis("Horizontal")) > 0.1:
-								anim.SetBool(walkingState, true)
-						
-			#Only jump or move if we're grounded.
-			if grounded:
-				if Input.GetButtonDown("Jump"):
-					anim.SetBool(jumpState, true)
-					rigidbody.velocity.y = jump_speed
+		#Rotation
+		if Input.GetAxis("Horizontal") < 0:
+			if Mathf.Round(transform.eulerAngles.y) != 270:
+				transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y+10)
+		elif Input.GetAxis("Horizontal") > 0:
+			if Mathf.Round(transform.eulerAngles.y) != 90:
+				transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y-10)
+				
+		anim.SetBool(walkingState, false)
+		if holding == null:
+			if Physics.Raycast(transform.position + Vector3(0, -0.9, 0), Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 9)) == false:
+				if Physics.Raycast(transform.position + Vector3(0, 0.9, 0), Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 9)) == false:
+					if Physics.Raycast(transform.position, Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 9)) == false:
+						transform.position.x += Input.GetAxis("Horizontal") * speed * Time.deltaTime
+						if Mathf.Abs(Input.GetAxis("Horizontal")) > 0.1:
+							anim.SetBool(walkingState, true)
+		else:
+			if Physics.Raycast(transform.position + Vector3(0, -0.9, 0), Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 9)) == false:
+				if Input.GetAxis("Horizontal") > 0:
+					x = 1.5
 				else:
-					anim.SetBool(jumpState, false)
+					x = -1.5
+				if Physics.Raycast(transform.position + Vector3(x, 1.3, 0), Vector3.right * Input.GetAxis("Horizontal"), 1.5, ~(1 << 9)) == false:
+					if Physics.Raycast(transform.position, Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 9)) == false:
+						transform.position.x += Input.GetAxis("Horizontal") * speed * Time.deltaTime
+						if Mathf.Abs(Input.GetAxis("Horizontal")) > 0.1:
+							anim.SetBool(walkingState, true)
+					
+		#Only jump or move if we're grounded.
+		if grounded:
+			if Input.GetButtonDown("Jump"):
+				anim.SetBool(jumpState, true)
+				rigidbody.velocity.y = jump_speed
+			else:
+				anim.SetBool(jumpState, false)
 		
 		if current_phase > -1 and current_phase < 1:
 
@@ -213,7 +205,18 @@ class Player (MonoBehaviour):
 		
 		if holding != null:
 			holding.GetComponent[of Pickup1]().Drop()
-			
+
+
+	#enable/disable the collider and render of an object AND all its children
+	# (in particular, the foot trigger child)
+	def switch_states(gameObject as GameObject, isActive as bool):
+		if (gameObject.renderer):
+			gameObject.renderer.enabled = isActive
+		if (gameObject.collider):
+			gameObject.collider.enabled = isActive
+
+		for  child  as Transform in gameObject.transform:
+				switch_states(child.gameObject, isActive)
 
 	def finishLevel():
 		#Finished level, load one level past current 
@@ -230,7 +233,7 @@ class Player (MonoBehaviour):
 	def checkPhaseSafe(phaseLevel as single): 
 		 #checks sphere on top and sphere on bottom just to be safe
 		buffer = 0.2
-		collider_rad = collider.bounds.extents.x + 0.2 # bound + buffer
+		collider_rad = collider.bounds.extents.x + buffer # bound + buffer
 		disToTop = collider.bounds.extents.y
 		top_height = (collider.bounds.center.y + disToTop) - collider_rad - buffer
 		bot_height = (collider.bounds.center.y - disToTop) + collider_rad + buffer

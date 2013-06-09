@@ -9,12 +9,12 @@ class Player2 (MonoBehaviour):
 	public weightDisplay as GUIText
 
 	grounded = false
-	private attacked as bool = false
-	
-	//The animator
+
 	private anim as Animator
-	
-	//HashID
+
+	public static holding as GameObject = null
+
+	# HashID
 	private walkingState as int
 	private jumpState as int
 
@@ -22,26 +22,6 @@ class Player2 (MonoBehaviour):
 		walkingState = Animator.StringToHash('Walk')
 		jumpState = Animator.StringToHash('Jump')
 		anim = GetComponent[of Animator]()
-		
-		if GetComponent(Attacked)!=null:
-			attacked = true
-	
-	public static holding as GameObject = null
-
-	#enable/disable the collider and render of an object AND all its children
-	# (in particular, the foot trigger child)
-	def switch_states(gameObject as GameObject, isActive as bool):
-		if (gameObject.renderer):
-			gameObject.renderer.enabled = isActive
-		if (gameObject.collider):
-			gameObject.collider.enabled = isActive
-
-		for  child  as Transform in gameObject.transform:
-				switch_states(child.gameObject, isActive)
-
-
-	def GetPhase():
-		return other.GetComponent(Player).GetPhase()
 	
 	def Update ():
 		current_phase = other.GetComponent(Player).GetPhase()
@@ -58,42 +38,41 @@ class Player2 (MonoBehaviour):
 			if current_phase == 0.5: renderer.material.color.a = 0.5
 			else: renderer.material.color.a = 1
 		
-		if not attacked or not GetComponent(Attacked).isStunned():
 			
-			if Input.GetAxis("Horizontal") < 0:
-				if Mathf.Round(transform.eulerAngles.y) != 270:
-					transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y-10)
-			elif Input.GetAxis("Horizontal") > 0:
-				if Mathf.Round(transform.eulerAngles.y) != 90:
-					transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y+10)
-					
-			anim.SetBool(walkingState, false)
-			if holding == null:
-				if Physics.Raycast(transform.position + Vector3(0, -0.9, 0), Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 8)) == false:
-					if Physics.Raycast(transform.position + Vector3(0, 0.9, 0), Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 8)) == false:
-						if Physics.Raycast(transform.position, Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 8)) == false:
-							transform.position.x += Input.GetAxis("Horizontal") * Player.speed * Time.deltaTime
-							if Mathf.Abs(Input.GetAxis("Horizontal")) > 0.1:
-								anim.SetBool(walkingState, true)
-			else:
-				if Physics.Raycast(transform.position + Vector3(0, -0.9, 0), Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 8)) == false:
-					if Input.GetAxis("Horizontal") > 0:
-						x = 1.5
-					else:
-						x = -1.5
-					if Physics.Raycast(transform.position + Vector3(x, 1.3, 0), Vector3.right * Input.GetAxis("Horizontal"), 1.5, ~(1 << 8)) == false:
-						if Physics.Raycast(transform.position, Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 8)) == false:
-							transform.position.x += Input.GetAxis("Horizontal") * Player.speed * Time.deltaTime
-							if Mathf.Abs(Input.GetAxis("Horizontal")) > 0.1:
-								anim.SetBool(walkingState, true)
-						
-			if grounded:
+		if Input.GetAxis("Horizontal") < 0:
+			if Mathf.Round(transform.eulerAngles.y) != 270:
+				transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y-10)
+		elif Input.GetAxis("Horizontal") > 0:
+			if Mathf.Round(transform.eulerAngles.y) != 90:
+				transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y+10)
 				
-				if Input.GetButtonDown("Jump"):
-					anim.SetBool(jumpState, true)
-					rigidbody.velocity.y = Player.jump_speed
+		anim.SetBool(walkingState, false)
+		if holding == null:
+			if Physics.Raycast(transform.position + Vector3(0, -0.9, 0), Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 8)) == false:
+				if Physics.Raycast(transform.position + Vector3(0, 0.9, 0), Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 8)) == false:
+					if Physics.Raycast(transform.position, Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 8)) == false:
+						transform.position.x += Input.GetAxis("Horizontal") * Player.speed * Time.deltaTime
+						if Mathf.Abs(Input.GetAxis("Horizontal")) > 0.1:
+							anim.SetBool(walkingState, true)
+		else:
+			if Physics.Raycast(transform.position + Vector3(0, -0.9, 0), Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 8)) == false:
+				if Input.GetAxis("Horizontal") > 0:
+					x = 1.5
 				else:
-					anim.SetBool(jumpState, false)
+					x = -1.5
+				if Physics.Raycast(transform.position + Vector3(x, 1.3, 0), Vector3.right * Input.GetAxis("Horizontal"), 1.5, ~(1 << 8)) == false:
+					if Physics.Raycast(transform.position, Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 8)) == false:
+						transform.position.x += Input.GetAxis("Horizontal") * Player.speed * Time.deltaTime
+						if Mathf.Abs(Input.GetAxis("Horizontal")) > 0.1:
+							anim.SetBool(walkingState, true)
+					
+		if grounded:
+			
+			if Input.GetButtonDown("Jump"):
+				anim.SetBool(jumpState, true)
+				rigidbody.velocity.y = Player.jump_speed
+			else:
+				anim.SetBool(jumpState, false)
 
 		weightDisplay.text = "Weight: " + Mathf.Round(((current_phase-1)/2) * -100.0) +"%"
 			
@@ -105,6 +84,19 @@ class Player2 (MonoBehaviour):
 					nearest.GetComponent[of Pickup2]().PickUp()
 			else:
 				holding.GetComponent[of Pickup2]().Drop()
+
+
+	#enable/disable the collider and render of an object AND all its children
+	# (in particular, the foot trigger child)
+	def switch_states(gameObject as GameObject, isActive as bool):
+		if (gameObject.renderer):
+			gameObject.renderer.enabled = isActive
+		if (gameObject.collider):
+			gameObject.collider.enabled = isActive
+
+		for  child  as Transform in gameObject.transform:
+				switch_states(child.gameObject, isActive)
+
 
 	def OnMouseDown():
 		

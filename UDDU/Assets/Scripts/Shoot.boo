@@ -16,9 +16,10 @@ class Shoot (MonoBehaviour):
 	private PATROL as bool =true 
 	private HIT as bool =false 
 
-	private shootTime as single =0
+	private shootTime as single = 0
 	private shootDir as Vector3 = Vector3(-1,0,0)
 	private direction as single = -1
+	private hitTime as single = 0
 
 	def setHit(isHit as bool):
 		HIT = isHit
@@ -28,14 +29,17 @@ class Shoot (MonoBehaviour):
         
 
 	def Update ():
-		if (LayerMask.NameToLayer("Top World") == gameObject.layer) and (LayerMask.NameToLayer("Top World") == target.layer) and (target.GetComponent(Player).GetPhase() > -1 ):
+		if (LayerMask.NameToLayer("Top World") == gameObject.layer) and (LayerMask.NameToLayer("Top World") == target.layer) and (target.renderer.enabled):
 			inSameWorld = true
-		elif (LayerMask.NameToLayer("Bottom World") == gameObject.layer) and (LayerMask.NameToLayer("Bottom World") == target.layer) and (target.GetComponent(Player2).GetPhase() < 1 ):
+		elif (LayerMask.NameToLayer("Bottom World") == gameObject.layer) and (LayerMask.NameToLayer("Bottom World") == target.layer) and (target.renderer.enabled):
 			inSameWorld = true
 		else:
 			inSameWorld = false
 		yDis = Mathf.Abs(target.transform.position.y-transform.position.y)
 		xDis = target.transform.position.x-transform.position.x
+
+		if Time.time > hitTime + 5.0:
+			HIT = false
 
 		if HIT:
 			if (inSameWorld):
@@ -70,57 +74,72 @@ class Shoot (MonoBehaviour):
 			lazer.SetActive(false)
 		if (SHOOTER and Time.time-shootTime > 3): #shoot every 3 secs
 			# --stun gun --
-			pos as Vector3 = Vector3(transform.position.x,transform.position.y+0.5,transform.position.z)
+			pos as Vector3 = Vector3(transform.position.x,transform.position.y+1,transform.position.z)
 			shootDir = Vector3(direction,0,0)
 			layerMask = 1 << gameObject.layer #filter ray to objects level only
 			hitinfo as RaycastHit
+
 			hitPlayer = Physics.Raycast (pos, shootDir, hitinfo, shootDistance, layerMask)
-			
+
 			#Audio.
 			GameObject.Find("SoundEffects").GetComponent(SoundEffects).PlayZap(transform.position)
 
 			#display gun's beam on screen (TODO: Designers can make this prettier...)
-			lazer.SetActive(true)
-			lazer.transform.position = transform.position
+			lazer.transform.position = pos
 			lazer.GetComponent(LineRenderer).SetPosition(0, lazer.transform.position)
-			if direction < 0: lazerEndXPos = lazer.transform.position.x - shootDistance
-			else: lazerEndXPos = lazer.transform.position.x + shootDistance
+			if direction < 0: 
+				lazerEndXPos = lazer.transform.position.x - shootDistance
 
-			if hitPlayer and hitinfo.transform.position.x > lazerEndXPos:
-				lazerEndXPos = hitinfo.transform.position.x
+				if hitPlayer and hitinfo.transform.position.x > lazerEndXPos:
+					lazerEndXPos = hitinfo.transform.position.x
+			else: 
+				lazerEndXPos = lazer.transform.position.x + shootDistance
+				if hitPlayer and hitinfo.transform.position.x < lazerEndXPos:
+					lazerEndXPos = hitinfo.transform.position.x
+
 			lazerEndPos = Vector3(lazerEndXPos, lazer.transform.position.y,lazer.transform.position.z)
-			lazer.GetComponent(LineRenderer).SetPosition(1, lazerEndPos);
+			lazer.GetComponent(LineRenderer).SetPosition(1, lazerEndPos)
+			lazer.SetActive(true)
+			PATROL=false
 
 			shootTime = Time.time
 			if hitPlayer and hitinfo.transform.name == target.name: #hit player, so stun them
-				target.GetComponent(Attacked).stun(shootDir, gameObject)
+				player1 as GameObject = GameObject.Find("Player1")
+				player1.GetComponent[of Player]().stunPlayer(target)
 				HIT = true
+				hitTime = Time.time
 		elif (SEEKING and Time.time-shootTime > 0.1): #move towards player
 			lazer.SetActive(false)
 			if(Vector3.Distance( transform.position, target.transform.position)<followDistance): 
 				#close enough to "see", so try to collect
 				rigidbody.velocity.x = speed * direction
-		else: #must be patrolling
-			rayDir as Vector3 = direction*Vector3.right
-			hitObjectHigh as RaycastHit
-			hitObjectMid as RaycastHit
-			hitObjectLow as RaycastHit
-			layerMask = 1 << gameObject.layer #filter ray to objects level only
-			highPos = Vector3(transform.position.x,transform.position.y+2.8,transform.position.z)
-			midPos = Vector3(transform.position.x,transform.position.y+1.5,transform.position.z)
-			lowPos = Vector3(transform.position.x,transform.position.y+0.3,transform.position.z)
-			hitSomething = Physics.Raycast (highPos, rayDir, hitObjectHigh, shootDistance/3,layerMask)
-			hitSomethingMid = Physics.Raycast (midPos, rayDir, hitObjectHigh, shootDistance/3,layerMask)
-			hitSomethingLow = Physics.Raycast (lowPos, rayDir, hitObjectLow, shootDistance/3, layerMask)
 
-			# if hit something high other than player, change directions
-			if (hitSomething and hitObjectHigh.rigidbody!=target.rigidbody) or (hitSomethingMid and hitObjectMid.rigidbody!=target.rigidbody) : 
-				direction = direction*-1
-				transform.Rotate(0, 180*direction, 0)
+		rayDir as Vector3 = direction*Vector3.right
+		hitObjectHigh as RaycastHit
+		hitObjectMid as RaycastHit
+		hitObjectLow as RaycastHit
+		layerMask = 1 << gameObject.layer #filter ray to objects level only
+		highPos = Vector3(transform.position.x,transform.position.y+2.8,transform.position.z)
+		midPos = Vector3(transform.position.x,transform.position.y+1.5,transform.position.z)
+		lowPos = Vector3(transform.position.x,transform.position.y+0.3,transform.position.z)
+		hitSomething = Physics.Raycast (highPos, rayDir, hitObjectHigh, shootDistance/3,layerMask)
+		hitSomethingMid = Physics.Raycast (midPos, rayDir, hitObjectMid, shootDistance/3,layerMask)
+		hitSomethingLow = Physics.Raycast (lowPos, rayDir, hitObjectLow, shootDistance/3, layerMask)
 
-			# if hit low object, jump
-			elif hitSomethingLow: 
-				rigidbody.velocity.y = 6.0
+		# if hit something high other than player, change directions
+		highHitName =  (hitObjectHigh.rigidbody and hitObjectHigh.rigidbody.name) or ""
+		midHitName =  (hitObjectMid.rigidbody and hitObjectMid.rigidbody.name) or ""
+		lowHitName =  (hitObjectMid.rigidbody and hitObjectMid.rigidbody.name) or ""
 
-			#move
+		if target.name in [highHitName,midHitName,lowHitName]:
+			rigidbody.velocity.x = 0
+		elif (hitSomething or hitSomethingMid ) : 
+			direction = direction*-1
+			transform.Rotate(0, 180*direction, 0)
+
+		# if hit low object, jump
+		elif hitSomethingLow and lowHitName!=target.name: 
+			rigidbody.velocity.y = 6.0
+
+		if PATROL:
 			rigidbody.velocity.x = speed * direction

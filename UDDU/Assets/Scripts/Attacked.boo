@@ -24,7 +24,6 @@ class Attacked (MonoBehaviour):
 	# this will be animated differently later
 	def stun(direction as Vector3, guard as GameObject):
 		transform.Rotate(90, 0, 0)
-		# GetComponent(Player).other.rigidbody.drag = GetComponent(Player).other.rigidbody.drag+dragIncrease
 		stunned = true
 		stunnedTime = Time.time
 		attacker = guard
