@@ -231,7 +231,7 @@ class Player (MonoBehaviour):
 	
 	#check if world phasing is blocked by some object
 	def checkPhaseSafe(phaseLevel as single): 
-		 #checks sphere on top and sphere on bottom just to be safe
+		#checks sphere on top and sphere on bottom just to be safe
 		buffer = 0.2
 		collider_rad = collider.bounds.extents.x + buffer # bound + buffer
 		disToTop = collider.bounds.extents.y
