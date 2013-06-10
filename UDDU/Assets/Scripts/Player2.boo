@@ -95,6 +95,7 @@ class Player2 (MonoBehaviour):
 			gameObject.collider.enabled = isActive
 
 		for  child  as Transform in gameObject.transform:
+			if child.CompareTag("Particle") == false:
 				switch_states(child.gameObject, isActive)
 
 

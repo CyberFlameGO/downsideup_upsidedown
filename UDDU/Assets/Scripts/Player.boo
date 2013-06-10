@@ -3,6 +3,8 @@ import UnityEngine
 class Player (MonoBehaviour): 
 	
 	public BloodExplosion as GameObject
+	public PhaseOut as GameObject
+	public PhaseIn as GameObject
 	
 	#constants
 	public static speed as single = 6.0
@@ -47,6 +49,8 @@ class Player (MonoBehaviour):
 	# HashID
 	private walkingState as int
 	private jumpState as int
+	
+	private phase_freeze as single
 
 
 	def Start ():
@@ -73,6 +77,10 @@ class Player (MonoBehaviour):
 		stunnedTime = Time.time
 
 	def Update ():
+		if Time.realtimeSinceStartup > phase_freeze + 0.35:
+			Time.timeScale = 1.0
+		
+		
 		if transform.position.x > exit.transform.position.x:
 			finishLevel()
 		#Idle chatter. Needs better conditions.
@@ -96,9 +104,16 @@ class Player (MonoBehaviour):
 				if vert_input>0 and current_phase<1: 
 					current_phase+=0.5
 					keyHoldCount=keyWait
+					
+					
+					
 				elif vert_input<0 and current_phase>-1: 
 					current_phase-=0.5
 					keyHoldCount=keyWait
+					
+					
+					
+					
 
 		if (old_phase != 0.5 and current_phase==0.5) or (old_phase != -0.5 and current_phase==-0.5) : 
 				#phased into other world, so check valid and if hit guard
@@ -108,6 +123,7 @@ class Player (MonoBehaviour):
 					current_phase= old_phase
 				else:
 					checkPhaseKill(old_phase)
+					
 		#Change mass based on phase.
 		rigidbody.mass = current_phase + 1.01
 		#Phase in and out of existence.
@@ -120,6 +136,28 @@ class Player (MonoBehaviour):
 			switch_states(gameObject, true)
 			if current_phase == -0.5: renderer.material.color.a = 0.5
 			else: renderer.material.color.a = 1
+			
+		#Chasing effects.
+		if current_phase > old_phase:
+			Time.timeScale = 0.4
+			phase_freeze = Time.realtimeSinceStartup
+			p = Instantiate(PhaseIn, transform.position, transform.rotation)
+			p.transform.parent = transform
+			p.layer = gameObject.layer
+			
+			p = Instantiate(PhaseOut, other.transform.position, other.transform.rotation)
+			p.layer = other.layer
+			p.transform.parent = other.transform
+		elif current_phase < old_phase:
+			Time.timeScale = 0.4
+			phase_freeze = Time.realtimeSinceStartup
+			p = Instantiate(PhaseOut, transform.position, transform.rotation)
+			p.layer = gameObject.layer
+			p.transform.parent = transform
+			
+			p = Instantiate(PhaseIn, other.transform.position, other.transform.rotation)
+			p.transform.parent = other.transform
+			p.layer = other.layer
 		
 		#Rotation
 		if Input.GetAxis("Horizontal") < 0:
@@ -216,6 +254,7 @@ class Player (MonoBehaviour):
 			gameObject.collider.enabled = isActive
 
 		for  child  as Transform in gameObject.transform:
+			if child.CompareTag("Particle") == false:
 				switch_states(child.gameObject, isActive)
 
 	def finishLevel():
