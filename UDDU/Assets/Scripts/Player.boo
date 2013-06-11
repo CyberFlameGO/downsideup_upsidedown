@@ -51,6 +51,8 @@ class Player (MonoBehaviour):
 	private jumpState as int
 	
 	private phase_freeze as single
+	
+	private isPaused as bool
 
 
 	def Start ():
@@ -77,7 +79,9 @@ class Player (MonoBehaviour):
 		stunnedTime = Time.time
 
 	def Update ():
-		if Time.realtimeSinceStartup > phase_freeze + 0.35:
+		isPaused = GameObject.Find('Pause').GetComponent[of Pause]().GetIsPaused()
+		
+		if (Time.realtimeSinceStartup > phase_freeze + 0.35) and isPaused == false:
 			Time.timeScale = 1.0
 		
 		
@@ -100,7 +104,7 @@ class Player (MonoBehaviour):
 		vert_input = Input.GetAxisRaw("Vertical")
 		if vert_input!=0 and stunnedTime==0:
 			keyHoldCount-=Time.deltaTime
-			if (Input.GetButtonDown("Vertical") or keyHoldCount<0):
+			if (Input.GetButtonDown("Vertical") or keyHoldCount<0) and isPaused == false:
 				if vert_input>0 and current_phase<1: 
 					current_phase+=0.5
 					keyHoldCount=keyWait
@@ -138,7 +142,7 @@ class Player (MonoBehaviour):
 			else: renderer.material.color.a = 1
 			
 		#Chasing effects.
-		if current_phase > old_phase:
+		if (current_phase > old_phase) and isPaused == false:
 			Time.timeScale = 0.4
 			phase_freeze = Time.realtimeSinceStartup
 			p = Instantiate(PhaseIn, transform.position, transform.rotation)
@@ -148,7 +152,7 @@ class Player (MonoBehaviour):
 			p = Instantiate(PhaseOut, other.transform.position, other.transform.rotation)
 			p.layer = other.layer
 			p.transform.parent = other.transform
-		elif current_phase < old_phase:
+		elif (current_phase < old_phase) and isPaused == false:
 			Time.timeScale = 0.4
 			phase_freeze = Time.realtimeSinceStartup
 			p = Instantiate(PhaseOut, transform.position, transform.rotation)

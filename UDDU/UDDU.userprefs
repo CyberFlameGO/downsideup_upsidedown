@@ -1,11 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Player.boo">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Standard Assets\Character Controllers\Sources\Scripts\CharacterMotor.js">
     <Files>
+      <File FileName="Assets\Scripts\Pause.boo" Line="12" Column="37" />
+      <File FileName="Assets\Scripts\Player.boo" Line="1" Column="1" />
       <File FileName="Assets\Standard Assets\Character Controllers\Sources\Scripts\CharacterMotor.js" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Audio Scripts\ProximityPlay.boo" Line="18" Column="1" />
-      <File FileName="Assets\Scripts\Audio Scripts\CameraPlay.boo" Line="3" Column="35" />
-      <File FileName="Assets\Scripts\Player.boo" Line="87" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
