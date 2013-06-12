@@ -108,17 +108,13 @@ class Player (MonoBehaviour):
 				if vert_input>0 and current_phase<1: 
 					current_phase+=0.5
 					keyHoldCount=keyWait
-					
-					
-					
 				elif vert_input<0 and current_phase>-1: 
 					current_phase-=0.5
 					keyHoldCount=keyWait
-					
-					
-					
-					
+		elif vert_input!=0 and stunnedTime>0: #trying to phase while stunned, punish with camera shake!
+			Camera.main.GetComponent(CameraPlay).Shake(0.1)
 
+					
 		if (old_phase != 0.5 and current_phase==0.5) or (old_phase != -0.5 and current_phase==-0.5) : 
 				#phased into other world, so check valid and if hit guard
 				if not checkPhaseSafe(old_phase):

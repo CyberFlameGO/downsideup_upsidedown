@@ -106,6 +106,7 @@ class Shoot (MonoBehaviour):
 			if hitPlayer and hitinfo.transform.name == target.name: #hit player, so stun them
 				player1 as GameObject = GameObject.Find("Player1")
 				player1.GetComponent[of Player]().stunPlayer(target)
+				Camera.main.GetComponent(CameraPlay).Shake(0.5)
 				HIT = true
 				hitTime = Time.time
 		elif (SEEKING and Time.time-shootTime > 0.1): #move towards player
