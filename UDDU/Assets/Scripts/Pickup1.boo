@@ -35,7 +35,8 @@ class Pickup1 (MonoBehaviour):
 		gameObject.AddComponent(Rigidbody)
 		playerScript.holding = null
 		
-		rigidbody.mass = 100
+		rigidbody.mass = 1
+		rigidbody.drag = 0.05
 		rigidbody.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ
 		
 		

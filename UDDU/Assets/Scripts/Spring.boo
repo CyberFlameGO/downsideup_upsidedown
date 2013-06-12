@@ -5,6 +5,8 @@ class Spring (MonoBehaviour):
 	public xForce = 500
 	
 	private rotatedTime = 0 #time since rotated
+	
+	private delay as single = 0.0
 
 	def Start ():
 		pass
@@ -20,8 +22,24 @@ class Spring (MonoBehaviour):
 
 
 	def OnCollisionEnter(collision as Collision):
-		if collision.gameObject.tag == "Player" and not rotatedTime>0:
-			transform.Rotate(0,0,-5)
-			flipAngle = Vector3(xForce,yForce,0)
-			collision.gameObject.rigidbody.AddForce(flipAngle)
-			rotatedTime = Time.time
+		if (collision.gameObject.tag == "Player" or collision.gameObject.tag == "Pickup1" or collision.gameObject.tag == "Pickup2") and not rotatedTime>0:
+			delay = Time.time
+			
+#			transform.Rotate(0,0,-5)
+#			flipAngle = Vector3(xForce,yForce,0)
+#			collision.gameObject.rigidbody.AddForce(flipAngle)
+#			rotatedTime = Time.time
+
+	def OnCollisionStay(collision as Collision):
+		if (collision.gameObject.tag == "Player" or collision.gameObject.tag == "Pickup1" or collision.gameObject.tag == "Pickup2") and not rotatedTime>0:
+			if Time.time - delay > 0.25:
+				
+				transform.Rotate(0,0,-5)
+				collision.gameObject.rigidbody.velocity = Vector3(0, 0, 0)
+				
+				flipAngle = Vector3(xForce,yForce,0)
+				collision.gameObject.rigidbody.AddForce(flipAngle)
+				collision.gameObject.transform.position = transform.position
+				collision.gameObject.transform.position.y += 2.0
+				rotatedTime = Time.time
+		
