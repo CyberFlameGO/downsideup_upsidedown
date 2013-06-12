@@ -317,7 +317,7 @@ class Player (MonoBehaviour):
 			return true
 				
 	def OnTriggerStay(other as Collider):
-		if other.CompareTag("Player") == false:
+		if not (other.CompareTag("Player") or other.CompareTag("Spring")):
 			grounded = true
 			
 	def OnTriggerExit(other as Collider):

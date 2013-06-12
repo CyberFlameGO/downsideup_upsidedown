@@ -13,10 +13,10 @@ class Spring (MonoBehaviour):
 	
 	def Update ():
 
-		if transform.eulerAngles.z < 360 and transform.eulerAngles.z > 270 :
+		if transform.eulerAngles.z < 360 and transform.eulerAngles.z > 305 :
 			transform.Rotate(0,0,-5)
 	
-		if (transform.eulerAngles.z <=270 and not transform.eulerAngles.z==0) and (Time.time-rotatedTime>2):
+		if (transform.eulerAngles.z <=305 and not transform.eulerAngles.z==0) and (Time.time-rotatedTime>2):
 			rotatedTime = 0
 			transform.eulerAngles.z = 0
 
