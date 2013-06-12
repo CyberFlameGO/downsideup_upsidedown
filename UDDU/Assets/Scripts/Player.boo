@@ -131,11 +131,11 @@ class Player (MonoBehaviour):
 			if holding != null:
 				holding.GetComponent[of Pickup1]().Drop()
 			switch_states(gameObject, false)
-			renderer.material.color.a = 0
+			changeTransparency(0)
 		else:
 			switch_states(gameObject, true)
-			if current_phase == -0.5: renderer.material.color.a = 0.5
-			else: renderer.material.color.a = 1
+			if current_phase == -0.5: changeTransparency(0.5)
+			else: changeTransparency(1)
 			
 		#Chasing effects.
 		if (current_phase > old_phase) and isPaused == false:
@@ -244,6 +244,10 @@ class Player (MonoBehaviour):
 		if holding != null:
 			holding.GetComponent[of Pickup1]().Drop()
 
+	def changeTransparency(alpha as single):
+		for child as Transform in gameObject.transform:
+			if child.GetComponent(SkinnedMeshRenderer):
+				child.GetComponent(SkinnedMeshRenderer).material.color.a = alpha
 
 	#enable/disable the collider and render of an object AND all its children
 	# (in particular, the foot trigger child)
