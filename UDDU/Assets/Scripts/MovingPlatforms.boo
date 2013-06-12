@@ -16,6 +16,7 @@ class MovingPlatforms (MonoBehaviour):
 	private height as single
 	private directon = 1
 	private switch = 0
+	public return_trip as bool = true
 
 	def Start():
 		pointA = transform.position
@@ -27,15 +28,19 @@ class MovingPlatforms (MonoBehaviour):
 	def Update():
 		//Debug.Log("Position: " + transform.position)
 		if Time.time >= (travelTime+startTime):
-			tmp = pointA
-			pointA = pointB
-			pointB = tmp
-			
-			startTime = Time.time
-			#directon = directon * -1
-			#switch = Time.time
-			rigidbody.velocity = Vector3(0,0,0)
-
+			if return_trip:
+				tmp = pointA
+				pointA = pointB
+				pointB = tmp
+				
+				startTime = Time.time
+				#directon = directon * -1
+				#switch = Time.time
+				rigidbody.velocity = Vector3(0,0,0)
+			else:
+				transform.position = pointA
+				startTime = Time.time
+				#rigidbody.velocity = Vector3(0,0,0)
 
 	def FixedUpdate():
 
@@ -48,8 +53,8 @@ class MovingPlatforms (MonoBehaviour):
 				Direction.x = HForce
 		else:
 			Direction.x = 0
-		
-		Direction.y = ((height-transform.position.y)*Elasticity)+VForce
+			
+		Direction.y = ((height-transform.position.y)*Elasticity)+VForce	
 		Direction.z = 0
 		rigidbody.AddForce(Direction)
 		
