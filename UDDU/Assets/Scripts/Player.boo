@@ -53,6 +53,7 @@ class Player (MonoBehaviour):
 	private phase_freeze as single
 	
 	private isPaused as bool
+	private timeWon = 0
 
 
 	def Start ():
@@ -84,9 +85,18 @@ class Player (MonoBehaviour):
 		if (Time.realtimeSinceStartup > phase_freeze + 0.35) and isPaused == false:
 			Time.timeScale = 1.0
 		
-		
-		if transform.position.x > exit.transform.position.x:
-			finishLevel()
+		if transform.position.x > exit.transform.position.x or timeWon>0:
+			if timeWon==0:
+				timeWon = Time.time
+			if Time.time > (timeWon+4.0):
+				finishLevel()
+			else:
+				rigidbody.isKinematic = true
+				other.rigidbody.isKinematic = true
+				Debug.Log("p " + transform.position.y)
+				transform.Translate(Vector3.up * Time.deltaTime * 5)
+				other.transform.Translate(Vector3.up * Time.deltaTime * 5)
+				return
 		#Idle chatter. Needs better conditions.
 		if Time.time > idle + 10.0:
 			GameObject.Find("SoundEffects").GetComponent(SoundEffects).PlayChatter(transform.position)
@@ -262,8 +272,10 @@ class Player (MonoBehaviour):
 				switch_states(child.gameObject, isActive)
 
 	def finishLevel():
-		#Finished level, load one level past current 
-		#(accounting for index0=main menu, index1=loadLevelScreen, index(n)=winningscreen)
+		# #Finished level, load one level past current 
+		# #(accounting for index0=main menu, index1=loadLevelScreen, index(n)=winningscreen)
+		rigidbody.isKinematic = false
+		other.rigidbody.isKinematic = false
 		nextLevelNum = Application.loadedLevel
 		PlayerPrefs.SetInt("unlockedLevel"+(nextLevelNum-1),1)
 

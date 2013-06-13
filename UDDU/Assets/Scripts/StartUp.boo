@@ -16,8 +16,8 @@ class StartUp (MonoBehaviour):
 
 	def Start ():
 		text.Add("Use left and right arrows to move")
-		text.Add("Use up and down arrows \nto change existence level \nin each world")
-		text.Add("Check weight figure\n above and below\n for existence levels")
+		text.Add("Use up and down arrows to change existence level \nin each world")
+		text.Add("Check weight figure above and below\n for existence levels")
 		guiText.text = text[currentText]
 		arrowTexture.texture = Resources.Load("Controls/"+arrowImages[currentImage]) as Texture2D
 		wasdTexture.texture = Resources.Load("Controls/"+wasdImages[currentImage]) as Texture2D
