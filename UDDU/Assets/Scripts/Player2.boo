@@ -102,6 +102,13 @@ class Player2 (MonoBehaviour):
 		for child as Transform in gameObject.transform:
 			if child.GetComponent(SkinnedMeshRenderer):
 				child.GetComponent(SkinnedMeshRenderer).material.color.a = alpha
+				
+	def changeGlow(glow as single):
+		for child as Transform in gameObject.transform:
+			if child.GetComponent(SkinnedMeshRenderer):
+				child.GetComponent(SkinnedMeshRenderer).material.color.r = 1 + glow
+				child.GetComponent(SkinnedMeshRenderer).material.color.g = 1 + glow
+				child.GetComponent(SkinnedMeshRenderer).material.color.b = 1 + glow
 
 	def OnMouseDown():
 		

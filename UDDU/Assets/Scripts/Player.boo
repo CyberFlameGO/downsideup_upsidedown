@@ -29,8 +29,8 @@ class Player (MonoBehaviour):
 	private stunnedTime as single = 0
 
 	# Variables so if user holds down phase key, will phase again after some time period
-	private keyHoldCount = 0.2
-	private keyWait = 0.2
+	private keyHoldCount = 2.0
+	private keyWait = 2.0
 
 	#Audio Variables
 	private soundCamera as GameObject
@@ -51,6 +51,9 @@ class Player (MonoBehaviour):
 	private jumpState as int
 	
 	private phase_freeze as single
+	private timeScale as single = 1.0
+	private vert_input as single = 0
+	private glow as single = 0
 	
 	private isPaused as bool
 	private timeWon = 0
@@ -82,8 +85,8 @@ class Player (MonoBehaviour):
 	def Update ():
 		isPaused = GameObject.Find('Pause').GetComponent[of Pause]().GetIsPaused()
 		
-		if (Time.realtimeSinceStartup > phase_freeze + 0.35) and isPaused == false:
-			Time.timeScale = 1.0
+#		if (Time.realtimeSinceStartup > phase_freeze + 0.35) and isPaused == false:
+#			Time.timeScale = 1.0
 		
 		if transform.position.x > exit.transform.position.x or timeWon>0:
 			if timeWon==0:
@@ -97,6 +100,8 @@ class Player (MonoBehaviour):
 				transform.Translate(Vector3.up * Time.deltaTime * 5)
 				other.transform.Translate(Vector3.up * Time.deltaTime * 5)
 				return
+				
+				
 		#Idle chatter. Needs better conditions.
 		if Time.time > idle + 10.0:
 			GameObject.Find("SoundEffects").GetComponent(SoundEffects).PlayChatter(transform.position)
@@ -109,20 +114,45 @@ class Player (MonoBehaviour):
 		# if GetComponent(Attacked).isStunned():
 		# 	if not evasiveManeuversSource.isPlaying:
 		# 		evasiveManeuversSource.Play()
-	
+		
 		old_phase = current_phase
-		vert_input = Input.GetAxisRaw("Vertical")
-		if vert_input!=0 and stunnedTime==0:
-			keyHoldCount-=Time.deltaTime
-			if (Input.GetButtonDown("Vertical") or keyHoldCount<0) and isPaused == false:
-				if vert_input>0 and current_phase<1: 
-					current_phase+=0.5
-					keyHoldCount=keyWait
-				elif vert_input<0 and current_phase>-1: 
-					current_phase-=0.5
-					keyHoldCount=keyWait
-		elif vert_input!=0 and stunnedTime>0: #trying to phase while stunned, punish with camera shake!
-			Camera.main.GetComponent(CameraPlay).Shake(0.1)
+		if Input.GetAxisRaw("Vertical") != 0:
+			vert_input += (Input.GetAxisRaw("Vertical") * Time.deltaTime)/0.35
+		else:
+			vert_input = 0
+		if current_phase == 1:
+			vert_input = Mathf.Clamp(vert_input, -1, 0)
+		elif current_phase == -1:
+			vert_input = Mathf.Clamp(vert_input, 0, 1)
+		if vert_input >= 1.0:
+			if current_phase < 1: 
+				current_phase+=0.5
+				vert_input = 0
+		elif vert_input <= -1.0:
+			if current_phase > -1: 
+				current_phase-=0.5
+				vert_input = 0
+			
+		if glow <= Mathf.Abs(vert_input):
+			glow = Mathf.Abs(vert_input)
+		else:
+			glow -= Time.deltaTime/0.5
+		changeGlow(glow*2)
+		other.GetComponent(Player2).changeGlow(glow*2)
+		
+#		old_phase = current_phase
+#		vert_input = Input.GetAxisRaw("Vertical")
+#		if vert_input!=0 and stunnedTime==0:
+#			keyHoldCount-=Time.deltaTime
+#			if (Input.GetButtonDown("Vertical") or keyHoldCount<0) and isPaused == false:
+#				if vert_input>0 and current_phase<1: 
+#					current_phase+=0.5
+#					keyHoldCount=keyWait
+#				elif vert_input<0 and current_phase>-1: 
+#					current_phase-=0.5
+#					keyHoldCount=keyWait
+#		elif vert_input!=0 and stunnedTime>0: #trying to phase while stunned, punish with camera shake!
+#			Camera.main.GetComponent(CameraPlay).Shake(0.1)
 
 					
 		if (old_phase != 0.5 and current_phase==0.5) or (old_phase != -0.5 and current_phase==-0.5) : 
@@ -149,8 +179,8 @@ class Player (MonoBehaviour):
 			
 		#Chasing effects.
 		if (current_phase > old_phase) and isPaused == false:
-			Time.timeScale = 0.4
-			phase_freeze = Time.realtimeSinceStartup
+			#timeScale -= 0.3
+			#phase_freeze = Time.realtimeSinceStartup
 			p = Instantiate(PhaseIn, transform.position, transform.rotation)
 			p.transform.parent = transform
 			p.layer = gameObject.layer
@@ -159,8 +189,8 @@ class Player (MonoBehaviour):
 			p.layer = other.layer
 			p.transform.parent = other.transform
 		elif (current_phase < old_phase) and isPaused == false:
-			Time.timeScale = 0.4
-			phase_freeze = Time.realtimeSinceStartup
+			#timeScale -= 0.3
+			#phase_freeze = Time.realtimeSinceStartup
 			p = Instantiate(PhaseOut, transform.position, transform.rotation)
 			p.layer = gameObject.layer
 			p.transform.parent = transform
@@ -258,6 +288,13 @@ class Player (MonoBehaviour):
 		for child as Transform in gameObject.transform:
 			if child.GetComponent(SkinnedMeshRenderer):
 				child.GetComponent(SkinnedMeshRenderer).material.color.a = alpha
+				
+	def changeGlow(glow as single):
+		for child as Transform in gameObject.transform:
+			if child.GetComponent(SkinnedMeshRenderer):
+				child.GetComponent(SkinnedMeshRenderer).material.color.r = 1 + glow
+				child.GetComponent(SkinnedMeshRenderer).material.color.g = 1 + glow
+				child.GetComponent(SkinnedMeshRenderer).material.color.b = 1 + glow
 
 	#enable/disable the collider and render of an object AND all its children
 	# (in particular, the foot trigger child)
