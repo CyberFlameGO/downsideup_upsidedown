@@ -1,14 +1,12 @@
 import UnityEngine
 
 class Shoot (MonoBehaviour): 
-	# public bullet as GameObject
-	# public bulletSpeed as single  = 1000F
 	public followDistance as single = 10
 	public shootDistance as single = 5
 	public lazer as GameObject
 	public speed as single = 2.0
 
-	private target as GameObject
+	public target as GameObject
 
 	#state variables
 	private SHOOTER as bool =false
@@ -22,11 +20,7 @@ class Shoot (MonoBehaviour):
 	private hitTime as single = 0
 
 	def setHit(isHit as bool):
-		HIT = isHit
-
-	def Start ():
-        target = GetComponent(CollisionDeath).target
-        
+		HIT = isHit        
 
 	def Update ():
 		if (LayerMask.NameToLayer("Top World") == gameObject.layer) and (LayerMask.NameToLayer("Top World") == target.layer) and (target.renderer.enabled):
@@ -73,7 +67,6 @@ class Shoot (MonoBehaviour):
 		if (Time.time-shootTime > 0.1): 
 			lazer.SetActive(false)
 		if (SHOOTER and Time.time-shootTime > 3): #shoot every 3 secs
-			# --stun gun --
 			pos as Vector3 = Vector3(transform.position.x,transform.position.y+1,transform.position.z)
 			shootDir = Vector3(direction,0,0)
 			layerMask = 1 << gameObject.layer #filter ray to objects level only
@@ -109,7 +102,7 @@ class Shoot (MonoBehaviour):
 				Camera.main.GetComponent(CameraPlay).Shake(0.5)
 				HIT = true
 				hitTime = Time.time
-		elif (SEEKING and Time.time-shootTime > 0.1): #move towards player
+		elif (SEEKING and Time.time-shootTime > 0.2): #move towards player
 			lazer.SetActive(false)
 			if(Vector3.Distance( transform.position, target.transform.position)<followDistance): 
 				#close enough to "see", so try to collect

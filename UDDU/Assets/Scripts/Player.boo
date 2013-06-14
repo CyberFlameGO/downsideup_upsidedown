@@ -15,7 +15,6 @@ class Player (MonoBehaviour):
 
 	#Gui variables
 	public weightDisplay as GUIText
-	public exit as GameObject
 	public other as GameObject
 
 
@@ -57,6 +56,7 @@ class Player (MonoBehaviour):
 	
 	private isPaused as bool
 	private timeWon = 0
+	private exit as GameObject
 
 
 	def Start ():
@@ -71,7 +71,7 @@ class Player (MonoBehaviour):
 				phaseWarningSource = sound
 			elif sound.clip == evasiveManeuvers:
 				evasiveManeuversSource = sound
-		
+		exit = GameObject.Find("ExitDoor")
 	def GetPhase():
 		return current_phase
 
@@ -96,7 +96,6 @@ class Player (MonoBehaviour):
 			else:
 				rigidbody.isKinematic = true
 				other.rigidbody.isKinematic = true
-				Debug.Log("p " + transform.position.y)
 				transform.Translate(Vector3.up * Time.deltaTime * 5)
 				other.transform.Translate(Vector3.up * Time.deltaTime * 5)
 				return
@@ -348,15 +347,17 @@ class Player (MonoBehaviour):
 		guards = GameObject.FindGameObjectsWithTag('Guard')
 		for g in guards:
 			if g.name == "Lazer": continue
-			#first check they are in relvant world for killing
+			#first check they are in relevant world for killing
 			if (isSameWorld(g, phaseLevel)): 
-				if (Mathf.Abs(g.transform.position.x - transform.position.x) < distanceToKillX) and (Mathf.Abs(g.transform.position.y - transform.position.y) < distanceToKillY):
+				xDiff = Mathf.Abs(g.transform.position.x - transform.position.x)
+				yDiff = Mathf.Abs(g.transform.position.y - transform.position.y) 
+				if ( xDiff< distanceToKillX) and (yDiff< distanceToKillY):
 					blood = Instantiate(BloodExplosion, g.transform.position, g.transform.rotation)
 					blood.layer = g.layer
 					for child as Transform in blood.transform:
 						child.gameObject.layer = g.layer
 					blood.transform.position.y += .3
-					Destroy(g) #close enough to centre of guard, so kill em
+					Destroy(g) #close enough to centre of guard, so kill them
 					break 
 		
 	def isSameWorld(obj as GameObject, phase as single):
