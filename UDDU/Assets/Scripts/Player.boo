@@ -116,7 +116,7 @@ class Player (MonoBehaviour):
 		
 		old_phase = current_phase
 		if Input.GetAxisRaw("Vertical") != 0:
-			vert_input += (Input.GetAxisRaw("Vertical") * Time.deltaTime)/0.35
+			vert_input += (Input.GetAxisRaw("Vertical") * Time.deltaTime)/0.25
 		else:
 			vert_input = 0
 		if current_phase == 1:
@@ -135,7 +135,7 @@ class Player (MonoBehaviour):
 		if glow <= Mathf.Abs(vert_input):
 			glow = Mathf.Abs(vert_input)
 		else:
-			glow -= Time.deltaTime/0.5
+			glow -= Time.deltaTime/0.25
 		changeGlow(glow*2)
 		other.GetComponent(Player2).changeGlow(glow*2)
 		
