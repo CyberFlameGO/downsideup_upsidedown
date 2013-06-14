@@ -72,6 +72,7 @@ class Player (MonoBehaviour):
 			elif sound.clip == evasiveManeuvers:
 				evasiveManeuversSource = sound
 		exit = GameObject.Find("ExitDoor")
+	
 	def GetPhase():
 		return current_phase
 
@@ -388,8 +389,3 @@ class Player (MonoBehaviour):
                 distance = curDistance
         return closest
 	
-
-
-
-	def PhaseLevel():
-		return current_phase
