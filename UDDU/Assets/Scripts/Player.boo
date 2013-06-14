@@ -391,3 +391,5 @@ class Player (MonoBehaviour):
 
 
 
+	def PhaseLevel():
+		return current_phase
