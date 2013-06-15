@@ -30,16 +30,6 @@ class Player (MonoBehaviour):
 	# Variables so if user holds down phase key, will phase again after some time period
 	private keyHoldCount = 2.0
 	private keyWait = 2.0
-
-	#Audio Variables
-	private soundCamera as GameObject
-	
-	public phaseWarning as AudioClip
-	public evasiveManeuvers as AudioClip
-	
-	private sound as AudioSource
-	private phaseWarningSource as AudioSource
-	private evasiveManeuversSource as AudioSource
 	
 	private idle = 0.0
 	
@@ -63,14 +53,6 @@ class Player (MonoBehaviour):
 		walkingState = Animator.StringToHash('Walk')
 		jumpState = Animator.StringToHash('Jump')
 		anim = GetComponent[of Animator]()
-		soundCamera = GameObject.Find('Camera1')
-		aSource as (Component) = soundCamera.GetComponents(AudioSource)
-		for i in aSource:
-			sound = i
-			if sound.clip == phaseWarning:
-				phaseWarningSource = sound
-			elif sound.clip == evasiveManeuvers:
-				evasiveManeuversSource = sound
 		exit = GameObject.Find("ExitDoor")
 	
 	def GetPhase():
@@ -109,11 +91,6 @@ class Player (MonoBehaviour):
 
 		if Time.time > stunnedTime + 5.0:
 			stunnedTime = 0 #unstun after 2 seconds
-		
-		# if GetComponent[of Attacked]().isStunned():
-		# if GetComponent(Attacked).isStunned():
-		# 	if not evasiveManeuversSource.isPlaying:
-		# 		evasiveManeuversSource.Play()
 		
 		old_phase = current_phase
 		if Input.GetAxisRaw("Vertical") != 0:
@@ -158,8 +135,6 @@ class Player (MonoBehaviour):
 		if (old_phase != 0.5 and current_phase==0.5) or (old_phase != -0.5 and current_phase==-0.5) : 
 				#phased into other world, so check valid and if hit guard
 				if not checkPhaseSafe(old_phase):
-					if not phaseWarningSource.isPlaying: #play audio
-						phaseWarningSource.Play()
 					current_phase= old_phase
 				else:
 					checkPhaseKill(old_phase)
