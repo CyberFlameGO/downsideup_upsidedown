@@ -14,7 +14,17 @@ class StaticShoot (MonoBehaviour):
 	private shootDir as Vector3 = Vector3(-1,0,0)
 	private hitTime as single = 0
 
-
+	# HashID
+	private walkingState as int
+	private tazerState as int
+	
+	private anim as Animator
+	
+	def Start():
+		anim = GetComponent[of Animator]()
+		walkingState = Animator.StringToHash('Walk')
+		tazerState = Animator.StringToHash('Tazer')
+		anim.SetBool(walkingState, false)
 
 	def setHit(isHit as bool):
 		HIT = isHit        
@@ -47,7 +57,9 @@ class StaticShoot (MonoBehaviour):
 
 		if (Time.time-shootTime > 0.1): 
 			lazer.SetActive(false)
+			anim.SetBool(tazerState, false)
 		if (SHOOTER and Time.time-shootTime > 3): #shoot every 3 secs
+			anim.SetBool(tazerState, true)
 			pos as Vector3 = Vector3(transform.position.x,transform.position.y+1,transform.position.z)
 			shootDir = Vector3(direction,0,0)
 			layerMask = 1 << gameObject.layer #filter ray to objects level only
@@ -81,4 +93,6 @@ class StaticShoot (MonoBehaviour):
 				Camera.main.GetComponent(CameraPlay).Shake(0.5)
 				HIT = true
 				hitTime = Time.time
+		else:
+			anim.SetBool(tazerState, false)
 

@@ -18,9 +18,23 @@ class PatrolShoot (MonoBehaviour):
 	private shootDir as Vector3 = Vector3(-1,0,0)
 	private direction as single = -1
 	private hitTime as single = 0
+	
+	private anim as Animator
+	
+	# HashID
+	private walkingState as int
+	private jumpState as int
+	private tazerState as int
 
 	def setHit(isHit as bool):
-		HIT = isHit        
+		HIT = isHit    
+		
+	def Start():
+		anim = GetComponent[of Animator]()
+		walkingState = Animator.StringToHash('Walk')
+		jumpState = Animator.StringToHash('Jump')
+		tazerState = Animator.StringToHash('Tazer')
+		    
 
 	def Update ():
 		if (LayerMask.NameToLayer("Top World") == gameObject.layer) and (LayerMask.NameToLayer("Top World") == target.layer) and (target.renderer.enabled):
@@ -66,7 +80,9 @@ class PatrolShoot (MonoBehaviour):
 
 		if (Time.time-shootTime > 0.1): 
 			lazer.SetActive(false)
+			anim.SetBool(tazerState, false)
 		if (SHOOTER and Time.time-shootTime > 3): #shoot every 3 secs
+			anim.SetBool(tazerState, true)
 			pos as Vector3 = Vector3(transform.position.x,transform.position.y+1,transform.position.z)
 			shootDir = Vector3(direction,0,0)
 			layerMask = 1 << gameObject.layer #filter ray to objects level only
@@ -104,6 +120,7 @@ class PatrolShoot (MonoBehaviour):
 				hitTime = Time.time
 		elif (SEEKING and Time.time-shootTime > 0.2): #move towards player
 			lazer.SetActive(false)
+			anim.SetBool(tazerState, false)
 			if(Vector3.Distance( transform.position, target.transform.position)<followDistance): 
 				#close enough to "see", so try to collect
 				rigidbody.velocity.x = speed * direction
@@ -127,13 +144,24 @@ class PatrolShoot (MonoBehaviour):
 
 		if target.name in [highHitName,midHitName,lowHitName]:
 			rigidbody.velocity.x = 0
+			anim.SetBool(walkingState, false)
+			anim.SetBool(jumpState, false)
+			
 		elif (hitSomething or hitSomethingMid ) : 
 			direction = direction*-1
 			transform.Rotate(0, 180*direction, 0)
+			anim.SetBool(jumpState, false)
 
 		# if hit low object, jump
 		elif hitSomethingLow and lowHitName!=target.name: 
 			rigidbody.velocity.y = 6.0
-
+			anim.SetBool(jumpState, true)
+			
+		else:
+			anim.SetBool(jumpState, false)
+			
 		if PATROL:
 			rigidbody.velocity.x = speed * direction
+			anim.SetBool(walkingState, true)
+		else:
+			anim.SetBool(walkingState, false)

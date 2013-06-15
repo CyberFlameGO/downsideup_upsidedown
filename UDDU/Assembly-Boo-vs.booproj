@@ -44,31 +44,39 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\Attacked.boo" />
+     <Compile Include="Assets\IntercomIdle.boo" />
      <Compile Include="Assets\Scripts\Audio Scripts\ASimpleWall.boo" />
      <Compile Include="Assets\Scripts\Audio Scripts\CameraPlay.boo" />
      <Compile Include="Assets\Scripts\Audio Scripts\PlayAtCamera.boo" />
      <Compile Include="Assets\Scripts\Audio Scripts\ProximityPlay.boo" />
+     <Compile Include="Assets\Scripts\BoxReturn.boo" />
      <Compile Include="Assets\Scripts\Camera1.boo" />
      <Compile Include="Assets\Scripts\Camera2.boo" />
      <Compile Include="Assets\Scripts\CameraPoint.boo" />
-     <Compile Include="Assets\Scripts\CollisionDeath.boo" />
      <Compile Include="Assets\Scripts\Crushed.boo" />
      <Compile Include="Assets\Scripts\FadeScreen.boo" />
      <Compile Include="Assets\Scripts\Falls.boo" />
+     <Compile Include="Assets\Scripts\FinalScene.boo" />
+     <Compile Include="Assets\Scripts\GUIHelpJumping.boo" />
+     <Compile Include="Assets\Scripts\GUIHelpPickup.boo" />
      <Compile Include="Assets\Scripts\LoadLevelsScript.boo" />
      <Compile Include="Assets\Scripts\MainMenuScript.boo" />
      <Compile Include="Assets\Scripts\MovingPlatforms.boo" />
-     <Compile Include="Assets\Scripts\Patrol.boo" />
+     <Compile Include="Assets\Scripts\PatrolShoot.boo" />
+     <Compile Include="Assets\Scripts\Pause.boo" />
+     <Compile Include="Assets\Scripts\PhaseBot.boo" />
+     <Compile Include="Assets\Scripts\PhaseTop.boo" />
      <Compile Include="Assets\Scripts\Pickup1.boo" />
      <Compile Include="Assets\Scripts\Pickup2.boo" />
      <Compile Include="Assets\Scripts\Player.boo" />
      <Compile Include="Assets\Scripts\Player2.boo" />
      <Compile Include="Assets\Scripts\SelfDestruct.boo" />
-     <Compile Include="Assets\Scripts\Shoot.boo" />
      <Compile Include="Assets\Scripts\SoundEffects.boo" />
      <Compile Include="Assets\Scripts\Spring.boo" />
      <Compile Include="Assets\Scripts\StartUp.boo" />
+     <Compile Include="Assets\Scripts\StaticShoot.boo" />
+     <Compile Include="Assets\Scripts\Sway.boo" />
+     <Compile Include="Assets\Splatter.boo" />
  <Reference Include="Assembly-UnityScript-firstpass">
  <HintPath>Library\ScriptAssemblies\Assembly-UnityScript-firstpass.dll</HintPath>
  </Reference>
