@@ -23,6 +23,8 @@ class SoundEffects (MonoBehaviour):
 	private interidle = []
 	private phasefail = []
 	
+	private intercom_queue = []
+	
 	
 	def Start ():
 		for n in range(10):
@@ -85,7 +87,14 @@ class SoundEffects (MonoBehaviour):
 		if audio.isPlaying:
 			sfxVol = 0.5
 		else:
-			sfxVol = 1.0
+			if intercom_queue != []:
+				audio.clip = intercom_queue.Pop(0)
+				audio.Play()
+			else:
+				sfxVol = 1.0
+			
+		
+			
 	
 	def PlayZap(position as Vector3):
 		audio.PlayClipAtPoint(zap[Random.Range(0, zap.Count)], position, sfxVol)
@@ -135,8 +144,12 @@ class SoundEffects (MonoBehaviour):
 	def PlayPhase(position as Vector3):
 		audio.PlayClipAtPoint(phase[Random.Range(0, phase.Count)], position, sfxVol)
 		
-	def PlayInteridle(position as Vector3):
-		audio.PlayClipAtPoint(interidle[Random.Range(0, interidle.Count)], position, sfxVol)
+	def PlayInteridle():
+		intercom_queue.Add(interidle[0])
+		interidle.Add(interidle.Pop(0))
 		
 	def PlayPhasefail(position as Vector3):
 		audio.PlayClipAtPoint(phasefail[Random.Range(0, phasefail.Count)], position, sfxVol)
+		
+	def PlayIntercom(clip as AudioClip):
+		intercom_queue.Add(clip)
