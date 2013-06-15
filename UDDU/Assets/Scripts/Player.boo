@@ -104,7 +104,7 @@ class Player (MonoBehaviour):
 				
 		#Idle chatter. Needs better conditions.
 		if Time.time > idle + 10.0:
-			GameObject.Find("SoundEffects").GetComponent(SoundEffects).PlayChatter(transform.position)
+			GameObject.Find("SoundEffects").GetComponent(SoundEffects).PlayUchatter(transform.position)
 			idle = Time.time
 
 		if Time.time > stunnedTime + 5.0:

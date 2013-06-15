@@ -47,4 +47,8 @@ class Pickup1 (MonoBehaviour):
 			transform.localPosition = Vector3(0, 1.3, 1.5)
 			Destroy(rigidbody)
 			playerScript.holding = gameObject
+			
+	def OnCollisionEnter(collision as Collision):
+		#if Mathf.Abs(rigidbody.velocity.x) + Mathf.Abs(rigidbody.velocity.y) > 0.1:
+			GameObject.Find("SoundEffects").GetComponent(SoundEffects).PlayBox(transform.position)
 		

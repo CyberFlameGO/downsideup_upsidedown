@@ -12,3 +12,4 @@ class Falls (MonoBehaviour):
 	def OnCollisionEnter(collision as Collision):
 		
 		rigidbody.isKinematic = false
+		GameObject.Find("SoundEffects").GetComponent(SoundEffects).PlayPipe(transform.position)
