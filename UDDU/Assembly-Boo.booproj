@@ -44,7 +44,8 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\IntercomIdle.boo" />
+     <Compile Include="Assets\Credits.boo" />
+     <Compile Include="Assets\Scripts\AlarmLight.boo" />
      <Compile Include="Assets\Scripts\Audio Scripts\ASimpleWall.boo" />
      <Compile Include="Assets\Scripts\Audio Scripts\CameraPlay.boo" />
      <Compile Include="Assets\Scripts\Audio Scripts\PlayAtCamera.boo" />
@@ -55,12 +56,17 @@
      <Compile Include="Assets\Scripts\CameraPoint.boo" />
      <Compile Include="Assets\Scripts\Crushed.boo" />
      <Compile Include="Assets\Scripts\DoorController.boo" />
+     <Compile Include="Assets\Scripts\ElevatorController.boo" />
+     <Compile Include="Assets\Scripts\End.boo" />
      <Compile Include="Assets\Scripts\FadeScreen.boo" />
      <Compile Include="Assets\Scripts\Falls.boo" />
      <Compile Include="Assets\Scripts\FinalScene.boo" />
      <Compile Include="Assets\Scripts\GUIHelpJumping.boo" />
      <Compile Include="Assets\Scripts\GUIHelpPickup.boo" />
+     <Compile Include="Assets\Scripts\Intercom.boo" />
+     <Compile Include="Assets\Scripts\LevelButton.boo" />
      <Compile Include="Assets\Scripts\LoadLevelsScript.boo" />
+     <Compile Include="Assets\Scripts\MainMenuButton.boo" />
      <Compile Include="Assets\Scripts\MainMenuScript.boo" />
      <Compile Include="Assets\Scripts\MovingPlatforms.boo" />
      <Compile Include="Assets\Scripts\PatrolShoot.boo" />
@@ -73,11 +79,11 @@
      <Compile Include="Assets\Scripts\Player2.boo" />
      <Compile Include="Assets\Scripts\SelfDestruct.boo" />
      <Compile Include="Assets\Scripts\SoundEffects.boo" />
+     <Compile Include="Assets\Scripts\Splatter.boo" />
      <Compile Include="Assets\Scripts\Spring.boo" />
      <Compile Include="Assets\Scripts\StartUp.boo" />
      <Compile Include="Assets\Scripts\StaticShoot.boo" />
      <Compile Include="Assets\Scripts\Sway.boo" />
-     <Compile Include="Assets\Splatter.boo" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
