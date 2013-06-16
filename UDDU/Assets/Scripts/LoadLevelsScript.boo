@@ -5,15 +5,9 @@ class LoadLevelsScript (MonoBehaviour):
 
 	def Start ():
 		PlayerPrefs.SetInt("unlockedLevel1", 1) # ensures level one is always unlocked
-
-	def OnGUI ():
-		GUILayout.BeginArea( Rect(Screen.width/2-100, Screen.height/2-100,200,200))
-		GUILayout.FlexibleSpace()
-
 		for i in range(maxLevels):
-			if PlayerPrefs.GetInt("unlockedLevel" +i) == 1: #has unlocked this level
-				if GUILayout.Button("Level " + i):
-					Application.LoadLevel("Level"+i)
-
-		GUILayout.FlexibleSpace()
-		GUILayout.EndArea()
+			level = GameObject.Find("Level"+(i+1))
+			if PlayerPrefs.GetInt("unlockedLevel" +(i+1)) == 1: #has unlocked this level
+				level.active = true
+			else:
+				level.active = false

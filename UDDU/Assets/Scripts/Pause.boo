@@ -32,9 +32,9 @@ class Pause (MonoBehaviour):
 					Application.Quit()
 			else:
 				for i in range(maxLevels):
-					if PlayerPrefs.GetInt("unlockedLevel" +i) == 1: #has unlocked this level
-						if GUILayout.Button("Level " + i):
-							Application.LoadLevel("Level"+i)
+					if PlayerPrefs.GetInt("unlockedLevel" +(i+1)) == 1: #has unlocked this level
+						if GUILayout.Button("Level " + (i+1)):
+							Application.LoadLevel("Level"+(i+1))
 				if GUILayout.Button("Back"):
 					loadLevel = false
 			
