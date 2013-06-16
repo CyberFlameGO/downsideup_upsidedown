@@ -8,6 +8,6 @@ class LoadLevelsScript (MonoBehaviour):
 		for i in range(maxLevels):
 			level = GameObject.Find("Level"+(i+1))
 			if PlayerPrefs.GetInt("unlockedLevel" +(i+1)) == 1: #has unlocked this level
-				level.active = true
+				level.SetActive(true)
 			else:
-				level.active = false
+				level.SetActive(false)
