@@ -22,4 +22,3 @@ class AlarmLight (MonoBehaviour):
 			if light.intensity <= min_intensity:
 				direction = true
 				
-		print(light.intensity)
