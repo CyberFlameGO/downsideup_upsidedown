@@ -25,4 +25,5 @@ class CameraPoint (MonoBehaviour):
 			
 	def OnDrawGizmos():
 		
+		Gizmos.color = Color.white
 		Gizmos.DrawWireCube (transform.position, Vector3 (10*transform.localScale.x,10*transform.localScale.y,10))
