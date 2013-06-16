@@ -47,6 +47,8 @@ class Player (MonoBehaviour):
 	private isPaused as bool
 	private timeWon = 0
 	private exit as GameObject
+	
+	private explodeGuard as GameObject
 
 
 	def Start ():
@@ -54,6 +56,7 @@ class Player (MonoBehaviour):
 		jumpState = Animator.StringToHash('Jump')
 		anim = GetComponent[of Animator]()
 		exit = GameObject.Find("ExitDoor")
+		explodeGuard = GameObject.Find("GuardExplode")
 	
 	def GetPhase():
 		return current_phase
@@ -334,6 +337,9 @@ class Player (MonoBehaviour):
 						child.gameObject.layer = g.layer
 					blood.transform.position.y += .3
 					Destroy(g) #close enough to centre of guard, so kill them
+					exG = Instantiate(explodeGuard, g.transform.position, g.transform.rotation)
+					exG.layer = g.layer
+					ChangeLayersRecursively(exG.transform, g.layer) //change all the children to the needed layer
 					break 
 		
 	def isSameWorld(obj as GameObject, phase as single):
@@ -364,3 +370,8 @@ class Player (MonoBehaviour):
                 distance = curDistance
         return closest
 	
+	def ChangeLayersRecursively(trans as Transform, layer as int):
+	    for child as Transform in trans:
+	        child.gameObject.layer = layer
+	        ChangeLayersRecursively(child, layer)
+		
