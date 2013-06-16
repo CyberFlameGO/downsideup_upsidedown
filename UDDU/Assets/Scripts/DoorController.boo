@@ -12,6 +12,7 @@ class DoorController (MonoBehaviour):
 	private DistanceFromTarget as single
 	private doorOpen as bool
 	private previousState as bool
+	private inSameWorld as bool
 	
 
 
@@ -25,7 +26,15 @@ class DoorController (MonoBehaviour):
 	def Update ():
 		previousState = doorOpen
 		doorOpen = false
-		if Vector3.Distance(transform.position, target.transform.position) <= openDistance:
+		
+		if (LayerMask.NameToLayer("Top World") == gameObject.layer) and (LayerMask.NameToLayer("Top World") == target.layer) and (target.renderer.enabled):
+			inSameWorld = true
+		elif (LayerMask.NameToLayer("Bottom World") == gameObject.layer) and (LayerMask.NameToLayer("Bottom World") == target.layer) and (target.renderer.enabled):
+			inSameWorld = true
+		else:
+			inSameWorld = false
+			
+		if Vector3.Distance(transform.position, target.transform.position) <= openDistance and inSameWorld:
 			DistanceFromTarget = target.transform.position.x - transform.position.x
 			if DistanceFromTarget <= 0 and OpenFromLeft:
 				doorOpen = true
