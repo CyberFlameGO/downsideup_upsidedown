@@ -3,13 +3,6 @@ import UnityEngine
 class MainMenuButton (MonoBehaviour): 
 	private maxLevels = 5
 
-	def OnMouseEnter ():
-		GetComponent(GUIText).material.color = Color.black
-
-	def OnMouseExit():
-		GetComponent(GUIText).material.color = Color.white
-
-
 	def OnMouseDown():
 
 		numUnlocked = 1
@@ -28,3 +21,9 @@ class MainMenuButton (MonoBehaviour):
 		if name=="Quit":
 			Application.Quit()
 
+
+	def OnMouseEnter():
+		GetComponent(GUIText).material.color = Color.black
+
+	def OnMouseExit():
+		GetComponent(GUIText).material.color = Color.white
