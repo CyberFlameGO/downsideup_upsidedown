@@ -24,7 +24,6 @@ class Pickup2 (MonoBehaviour):
 		else:
 			Drop()
 				
-				
 	def Drop():
 		anim.SetBool(pickupState, false)
 		transform.localPosition = Vector3(0, 1.3, 1.5)
@@ -35,6 +34,7 @@ class Pickup2 (MonoBehaviour):
 		rigidbody.mass = 1
 		rigidbody.drag = 0.05
 		rigidbody.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ
+		GameObject.Find("SoundEffects").GetComponent(SoundEffects).PlayBox(transform.position)
 		
 		
 	def PickUp():

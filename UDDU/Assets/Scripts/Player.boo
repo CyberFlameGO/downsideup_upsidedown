@@ -106,10 +106,14 @@ class Player (MonoBehaviour):
 			vert_input = Mathf.Clamp(vert_input, 0, 1)
 		if vert_input >= 1.0:
 			if current_phase < 1: 
+				if current_phase == -1: 			
+					GameObject.Find("SoundEffects").GetComponent(SoundEffects).PlayPhase(transform.position)
 				current_phase+=0.5
 				vert_input = 0
 		elif vert_input <= -1.0:
 			if current_phase > -1: 
+				if current_phase == 1: 			
+					GameObject.Find("SoundEffects").GetComponent(SoundEffects).PlayPhase(transform.position)
 				current_phase-=0.5
 				vert_input = 0
 			
@@ -336,6 +340,7 @@ class Player (MonoBehaviour):
 					for child as Transform in blood.transform:
 						child.gameObject.layer = g.layer
 					blood.transform.position.y += .3
+					GameObject.Find("SoundEffects").GetComponent(SoundEffects).PlayGdeath(transform.position)
 					Destroy(g) #close enough to centre of guard, so kill them
 					exG = Instantiate(explodeGuard, g.transform.position, g.transform.rotation)
 					exG.layer = g.layer

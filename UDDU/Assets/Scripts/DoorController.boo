@@ -51,10 +51,14 @@ class DoorController (MonoBehaviour):
 		anim.SetBool(doorState,true)
 		col.center.y = 1.15
 		col.size.y = 0.4
+		GameObject.Find("SoundEffects").GetComponent(SoundEffects).PlayDoor(transform.position)
+
 		
 		
 	def CloseDoor():
 		anim.SetBool(doorState,false)
 		col.center.y = 0
 		col.size.y = 2.7
+		GameObject.Find("SoundEffects").GetComponent(SoundEffects).PlayDoor(transform.position)
+
 		

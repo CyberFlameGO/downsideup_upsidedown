@@ -7,6 +7,8 @@ class SoundEffects (MonoBehaviour):
 	private zap = []
 	private growl = []
 	private uchatter = []
+	private chain = []
+	private door = []
 	private hup = []
 	private oof = []
 	private ufoot = []
@@ -37,6 +39,12 @@ class SoundEffects (MonoBehaviour):
 			z = Resources.Load("chatter" + n.ToString())
 			if z != null:
 				uchatter.Add(z)
+			z = Resources.Load("chain" + n.ToString())
+			if z != null:
+				chain.Add(z)
+			z = Resources.Load("door" + n.ToString())
+			if z != null:
+				door.Add(z)
 			z = Resources.Load("hup" + n.ToString())
 			if z != null:
 				hup.Add(z)
@@ -93,8 +101,6 @@ class SoundEffects (MonoBehaviour):
 			else:
 				sfxVol = 1.0
 			
-		
-			
 	
 	def PlayZap(position as Vector3):
 		audio.PlayClipAtPoint(zap[Random.Range(0, zap.Count)], position, sfxVol)
@@ -104,6 +110,12 @@ class SoundEffects (MonoBehaviour):
 		
 	def PlayUchatter(position as Vector3):
 		audio.PlayClipAtPoint(uchatter[Random.Range(0, uchatter.Count)], position, sfxVol)
+
+	def PlayChain(position as Vector3):
+		audio.PlayClipAtPoint(chain[Random.Range(0, chain.Count)], position, sfxVol)
+
+	def PlayDoor(position as Vector3):
+		audio.PlayClipAtPoint(door[Random.Range(0, door.Count)], position, sfxVol)
 		
 	def PlayHup(position as Vector3):
 		audio.PlayClipAtPoint(hup[Random.Range(0, hup.Count)], position, sfxVol)
