@@ -2,9 +2,7 @@ import UnityEngine
 
 
 class Crushed (MonoBehaviour): 
-	public mat as Material
 	public crushingObject as GameObject
-	private matInstance as Material
 	private fall_threshold = -0.3
 	private squishGuard as GameObject
 
