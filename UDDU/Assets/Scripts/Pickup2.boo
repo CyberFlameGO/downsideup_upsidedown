@@ -26,7 +26,7 @@ class Pickup2 (MonoBehaviour):
 				
 	def Drop():
 		anim.SetBool(pickupState, false)
-		transform.localPosition = Vector3(0, 1.3, 1.5)
+		transform.localPosition = Vector3(0, 1.5, 1.7)
 		transform.parent = null
 		gameObject.AddComponent(Rigidbody)
 		Player2.holding = null
@@ -41,7 +41,7 @@ class Pickup2 (MonoBehaviour):
 		if Vector3.Distance(transform.position, player.transform.position) < PickUpRange and player.collider.enabled == true:
 			anim.SetBool(pickupState, true)
 			transform.parent = player.transform
-			transform.localPosition = Vector3(0, 1.3, 1.5)
+			transform.localPosition = Vector3(0, 1.5, 1.7)
 			Destroy(rigidbody)
 			Player2.holding = gameObject
 			
