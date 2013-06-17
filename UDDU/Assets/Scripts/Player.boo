@@ -73,6 +73,8 @@ class Player (MonoBehaviour):
 		else: #player 2 has been stunned, so force into top world
 			current_phase = 1
 		stunnedTime = Time.time
+		GameObject.Find("SoundEffects").GetComponent(SoundEffects).PlayStun(transform.position)
+
 
 	def Update ():
 		isPaused = GameObject.Find('Pause').GetComponent[of Pause]().GetIsPaused()
@@ -112,10 +114,14 @@ class Player (MonoBehaviour):
 			vert_input = Mathf.Clamp(vert_input, 0, 1)
 		if vert_input >= 1.0:
 			if current_phase < 1: 
+				if current_phase == -1: 			
+					GameObject.Find("SoundEffects").GetComponent(SoundEffects).PlayPhase(transform.position)
 				current_phase+=0.5
 				vert_input = 0
 		elif vert_input <= -1.0:
 			if current_phase > -1: 
+				if current_phase == 1: 			
+					GameObject.Find("SoundEffects").GetComponent(SoundEffects).PlayPhase(transform.position)
 				current_phase-=0.5
 				vert_input = 0
 			
@@ -225,6 +231,8 @@ class Player (MonoBehaviour):
 		if grounded:
 			if Input.GetButtonDown("Jump"):
 				anim.SetBool(jumpState, true)
+				GameObject.Find("SoundEffects").GetComponent(SoundEffects).PlayHup(transform.position)
+
 				rigidbody.velocity.y = jump_speed
 			else:
 				anim.SetBool(jumpState, false)
@@ -353,6 +361,7 @@ class Player (MonoBehaviour):
 					for child as Transform in blood.transform:
 						child.gameObject.layer = g.layer
 					blood.transform.position.y += .3
+					GameObject.Find("SoundEffects").GetComponent(SoundEffects).PlayGdeath(transform.position)
 					Destroy(g) #close enough to centre of guard, so kill them
 					exG = Instantiate(explodeGuard, g.transform.position, g.transform.rotation)
 					exG.layer = g.layer

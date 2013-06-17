@@ -2,7 +2,40 @@ fileFormatVersion: 2
 guid: 2d4db2bb6791ebb44a81a499e5795b3c
 ModelImporter:
   serializedVersion: 15
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    100000: pCube1
+    100002: pCube2
+    100004: pCube3
+    100006: pCube4
+    100008: pCylinder1
+    100010: pCylinder2
+    100012: //RootNode
+    400000: pCube1
+    400002: pCube2
+    400004: pCube3
+    400006: pCube4
+    400008: pCylinder1
+    400010: pCylinder2
+    400012: //RootNode
+    2300000: pCube1
+    2300002: pCube2
+    2300004: pCube3
+    2300006: pCube4
+    2300008: pCylinder1
+    2300010: pCylinder2
+    3300000: pCube1
+    3300002: pCube2
+    3300004: pCube3
+    3300006: pCube4
+    3300008: pCylinder1
+    3300010: pCylinder2
+    4300000: pCube1
+    4300002: pCube2
+    4300004: pCylinder1
+    4300006: pCylinder2
+    4300008: pCube3
+    4300010: pCube4
+    9500000: //RootNode
   materials:
     importMaterials: 1
     materialName: 0
@@ -22,12 +55,10 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
-    importBlendShapes: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
-    weldVertices: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88

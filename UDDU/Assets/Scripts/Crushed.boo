@@ -22,6 +22,7 @@ class Crushed (MonoBehaviour):
 			for child as Transform in blood.transform:
 				child.gameObject.layer = g.layer
 			blood.transform.position.y += .3
+			GameObject.Find("SoundEffects").GetComponent(SoundEffects).PlayGdeath(transform.position)
 			Destroy(g) #close enough to centre of guard, so kill em
 			sqG = Instantiate(squishGuard, transform.position, transform.rotation)
 			sqG.layer = g.layer

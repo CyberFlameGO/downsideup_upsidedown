@@ -2,7 +2,42 @@ fileFormatVersion: 2
 guid: 42cea412fc46f904a88acf2067d6bb73
 ModelImporter:
   serializedVersion: 15
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: group
+    100004: pasted__pCube2
+    100006: pCube1
+    100008: pCylinder3
+    100010: polySurface1
+    100012: polySurface16
+    100014: polySurface17
+    100016: polySurface3
+    100018: transform2
+    100020: transform5
+    100022: transform6
+    400000: //RootNode
+    400002: group
+    400004: pasted__pCube2
+    400006: pCube1
+    400008: pCylinder3
+    400010: polySurface1
+    400012: polySurface16
+    400014: polySurface17
+    400016: polySurface3
+    400018: transform2
+    400020: transform5
+    400022: transform6
+    2300000: polySurface1
+    2300002: polySurface16
+    2300004: polySurface17
+    3300000: polySurface1
+    3300002: polySurface16
+    3300004: polySurface17
+    4300000: polySurface1
+    4300002: polySurface16
+    4300004: polySurface17
+    7400000: Take 001
+    9500000: //RootNode
   materials:
     importMaterials: 1
     materialName: 0
@@ -22,12 +57,10 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
-    importBlendShapes: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
-    weldVertices: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88

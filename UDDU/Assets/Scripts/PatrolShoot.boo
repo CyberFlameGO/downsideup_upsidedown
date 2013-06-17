@@ -25,6 +25,7 @@ class PatrolShoot (MonoBehaviour):
 	private walkingState as int
 	private jumpState as int
 	private tazerState as int
+	private tazerTime as single = 0
 
 	def setHit(isHit as bool):
 		HIT = isHit    
@@ -50,14 +51,9 @@ class PatrolShoot (MonoBehaviour):
 			HIT = false
 
 		if HIT:
-			if (inSameWorld):
-				SHOOTER=false
-				SEEKING=true
-			else:
-				#hit and phased out
-				SHOOTER=false
-				SEEKING=false
-				PATROL=true
+			SHOOTER=false
+			SEEKING=false
+			PATROL=true
 		elif inSameWorld and (Mathf.Abs(xDis) <=shootDistance) and (yDis < 2) and ((xDis<0 and direction<0) or (xDis>0 and direction>0)):
 			SHOOTER=true #close enough/facing right direction to shoot
 			SEEKING=true 
@@ -78,22 +74,25 @@ class PatrolShoot (MonoBehaviour):
 				direction = direction*-1
 				transform.Rotate(0, 180*direction, 0)
 
-		if (Time.time-shootTime > 0.1): 
+		if (Time.time-shootTime > 0.3): 
 			lazer.SetActive(false)
+			tazerTime=0
 			anim.SetBool(tazerState, false)
-		if (SHOOTER and Time.time-shootTime > 3): #shoot every 3 secs
+		if (SHOOTER and Time.time-shootTime > 3 and tazerTime==0): #shoot every 3 secs
 			anim.SetBool(tazerState, true)
+			shootTime = Time.time
+			tazerTime = Time.time
+
+		if (SHOOTER and ((Time.time-tazerTime) > 0.1)): #wait for guard animation to lift arm
 			pos as Vector3 = Vector3(transform.position.x,transform.position.y+1,transform.position.z)
 			shootDir = Vector3(direction,0,0)
 			layerMask = 1 << gameObject.layer #filter ray to objects level only
 			hitinfo as RaycastHit
-
 			hitPlayer = Physics.Raycast (pos, shootDir, hitinfo, shootDistance, layerMask)
-
 			#Audio.
 			GameObject.Find("SoundEffects").GetComponent(SoundEffects).PlayZap(transform.position)
 
-			#display gun's beam on screen (TODO: Designers can make this prettier...)
+			#display gun's beam on screen
 			lazer.transform.position = pos
 			lazer.GetComponent(LineRenderer).SetPosition(0, lazer.transform.position)
 			if direction < 0: 
@@ -111,14 +110,13 @@ class PatrolShoot (MonoBehaviour):
 			lazer.SetActive(true)
 			PATROL=false
 
-			shootTime = Time.time
 			if hitPlayer and hitinfo.transform.name == target.name: #hit player, so stun them
 				player1 as GameObject = GameObject.Find("Player1")
 				player1.GetComponent[of Player]().stunPlayer(target)
 				Camera.main.GetComponent(CameraPlay).Shake(0.5)
 				HIT = true
 				hitTime = Time.time
-		elif (SEEKING and Time.time-shootTime > 0.2): #move towards player
+		elif (SEEKING and Time.time-shootTime > 1.2): #move towards player
 			lazer.SetActive(false)
 			anim.SetBool(tazerState, false)
 			if(Vector3.Distance( transform.position, target.transform.position)<followDistance): 
