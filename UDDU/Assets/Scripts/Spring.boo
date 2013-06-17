@@ -8,18 +8,6 @@ class Spring (MonoBehaviour):
 	
 	private delay as single = 0.0
 
-	def Start ():
-		pass
-	
-	def Update ():
-
-		if transform.eulerAngles.z < 360 and transform.eulerAngles.z > 305 :
-			transform.Rotate(0,0,-5)
-	
-		if (transform.eulerAngles.z <=305 and not transform.eulerAngles.z==0) and (Time.time-rotatedTime>2):
-			rotatedTime = 0
-			transform.eulerAngles.z = 0
-
 
 	def OnCollisionEnter(collision as Collision):
 		if (collision.gameObject.tag == "Player" or collision.gameObject.tag == "Pickup1" or collision.gameObject.tag == "Pickup2") and not rotatedTime>0:
@@ -31,16 +19,15 @@ class Spring (MonoBehaviour):
 #			rotatedTime = Time.time
 
 	def OnCollisionStay(collision as Collision):
-		if (collision.gameObject.tag == "Player" or collision.gameObject.tag == "Pickup1" or collision.gameObject.tag == "Pickup2") and not rotatedTime>0:
+		if (collision.gameObject.tag == "Player" or collision.gameObject.tag == "Pickup1" or collision.gameObject.tag == "Pickup2") :
 			if Time.time - delay > 0.25:
 				GameObject.Find("SoundEffects").GetComponent(SoundEffects).PlayLaunch(transform.position)
-
-				transform.Rotate(0,0,-5)
+				if GetComponent(Animation):
+					GetComponent(Animation).Play("SpringDown")
+				# transform.Rotate(0,0,-5)
 				collision.gameObject.rigidbody.velocity = Vector3(0, 0, 0)
 				
 				flipAngle = Vector3(xForce,yForce,0)
 				collision.gameObject.rigidbody.AddForce(flipAngle)
-				collision.gameObject.transform.position = transform.position
-				collision.gameObject.transform.position.y += 2.0
 				rotatedTime = Time.time
 		
