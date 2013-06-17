@@ -13,7 +13,7 @@ class Player2 (MonoBehaviour):
 	private anim as Animator
 	
 	private turn_speed as single = 500.0
-	private facing as bool = true
+	private facing as int = 1
 	private turning as bool = false
 
 	public static holding as GameObject = null
@@ -48,10 +48,10 @@ class Player2 (MonoBehaviour):
 		#Rotation
 		turning = false
 		if Input.GetAxis("Horizontal") < 0:
-			facing = false
+			facing = -1
 		elif Input.GetAxis("Horizontal") > 0:
-			facing = true
-		if facing:
+			facing = 1
+		if facing == 1:
 			if Mathf.Round(transform.eulerAngles.y) <= 85 or Mathf.Round(transform.eulerAngles.y) >= 95:
 				turning = true
 				transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y+(turn_speed*Time.deltaTime))
@@ -60,25 +60,16 @@ class Player2 (MonoBehaviour):
 				turning = true
 				transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y-(turn_speed*Time.deltaTime))
 				
+		#Movement.
 		anim.SetBool(walkingState, false)
-		if holding == null:
-			if Physics.Raycast(transform.position + Vector3(0, -0.9, 0), Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 8)) == false:
-				if Physics.Raycast(transform.position + Vector3(0, 0.9, 0), Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 8)) == false:
-					if Physics.Raycast(transform.position, Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 8)) == false:
-						transform.position.x += Input.GetAxis("Horizontal") * Player.speed * Time.deltaTime
-						if Mathf.Abs(Input.GetAxis("Horizontal")) > 0.1:
-							anim.SetBool(walkingState, true)
-		else:
-			if Physics.Raycast(transform.position + Vector3(0, -0.9, 0), Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 8)) == false:
-				if Input.GetAxis("Horizontal") > 0:
-					x = 1.5
-				else:
-					x = -1.5
-				if Physics.Raycast(transform.position + Vector3(x, 1.3, 0), Vector3.right * Input.GetAxis("Horizontal"), 1.5, ~(1 << 8)) == false:
-					if Physics.Raycast(transform.position, Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 8)) == false:
-						transform.position.x += Input.GetAxis("Horizontal") * Player.speed * Time.deltaTime
-						if Mathf.Abs(Input.GetAxis("Horizontal")) > 0.1:
-							anim.SetBool(walkingState, true)
+		if isClear():
+			if other.GetComponent(Player).GetPhase() > -1 and other.GetComponent(Player).isClear() == false:
+				pass
+			else:
+				transform.position.x += Input.GetAxis("Horizontal") * Mathf.Abs(Mathf.Clamp(Player.speed*facing - Mathf.Clamp(rigidbody.velocity.x, -Player.speed, Player.speed), -Player.speed, Player.speed))  * Time.deltaTime
+				if Mathf.Abs(Input.GetAxis("Horizontal")) > 0.1:
+					anim.SetBool(walkingState, true)
+
 					
 		if grounded:
 			
@@ -99,6 +90,22 @@ class Player2 (MonoBehaviour):
 						nearest.GetComponent[of Pickup2]().PickUp()
 				else:
 					holding.GetComponent[of Pickup2]().Drop()
+					
+	def isClear():
+		if holding == null:
+			if Physics.Raycast(transform.position + Vector3(0, -0.9, 0), Vector3.right * facing, 0.7, ~(1 << 8)) == false:
+				if Physics.Raycast(transform.position + Vector3(0, 0.9, 0), Vector3.right * facing, 0.7, ~(1 << 8)) == false:
+					if Physics.Raycast(transform.position, Vector3.right * facing, 0.7, ~(1 << 9)) == false:
+						return true
+		else:
+			if Physics.Raycast(transform.position + Vector3(0, -0.9, 0), Vector3.right * facing, 0.7, ~(1 << 8)) == false:
+				if Input.GetAxis("Horizontal") > 0:
+					x = 1.5
+				else:
+					x = -1.5
+				if Physics.Raycast(transform.position + Vector3(x, 1.3, 0), Vector3.right * facing, 1.5, ~(1 << 8)) == false:
+					if Physics.Raycast(transform.position, Vector3.right * facing, 0.7, ~(1 << 9)) == false:
+						return true
 
 
 	#enable/disable the collider and render of an object AND all its children
