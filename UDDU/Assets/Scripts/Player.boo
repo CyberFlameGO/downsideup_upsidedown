@@ -49,9 +49,15 @@ class Player (MonoBehaviour):
 	private exit as GameObject
 	
 	private explodeGuard as GameObject
+	
+	private facing as bool = true
+	private turn_speed as single = 500.0
+	private turning as bool = false
 
 
 	def Start ():
+		transform.eulerAngles.y = 90
+		
 		walkingState = Animator.StringToHash('Walk')
 		jumpState = Animator.StringToHash('Jump')
 		anim = GetComponent[of Animator]()
@@ -178,12 +184,22 @@ class Player (MonoBehaviour):
 			p.layer = other.layer
 		
 		#Rotation
+		turning = false
 		if Input.GetAxis("Horizontal") < 0:
-			if Mathf.Round(transform.eulerAngles.y) != 270:
-				transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y+10)
+			facing = false
 		elif Input.GetAxis("Horizontal") > 0:
-			if Mathf.Round(transform.eulerAngles.y) != 90:
-				transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y-10)
+			facing = true
+		if facing:
+			if Mathf.Round(transform.eulerAngles.y) >= 90:
+				turning = true
+				transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y-(turn_speed*Time.deltaTime))
+		else:
+			if Mathf.Round(transform.eulerAngles.y) <= 270:
+				turning = true
+				transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y+(turn_speed*Time.deltaTime))
+			
+		
+			
 				
 		anim.SetBool(walkingState, false)
 		if holding == null:
@@ -249,17 +265,18 @@ class Player (MonoBehaviour):
 		
 		
 		if Input.GetButtonDown('Pickup1'):
-			if holding == null:
-				nearest = GetNearestTagged()
-				if nearest != null:
-					nearest.GetComponent[of Pickup1]().PickUp()
-			else:
-				holding.GetComponent[of Pickup1]().Drop()
+			if turning == false:
+				if holding == null:
+					nearest = GetNearestTagged()
+					if nearest != null:
+						nearest.GetComponent[of Pickup1]().PickUp()
+				else:
+					holding.GetComponent[of Pickup1]().Drop()
 				
 		
 	def OnMouseDown():
 		
-		if holding != null:
+		if holding != null and turning == false:
 			holding.GetComponent[of Pickup1]().Drop()
 
 	def changeTransparency(alpha as single):

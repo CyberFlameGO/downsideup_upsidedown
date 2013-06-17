@@ -11,6 +11,10 @@ class Player2 (MonoBehaviour):
 	grounded = false
 
 	private anim as Animator
+	
+	private turn_speed as single = 500.0
+	private facing as bool = true
+	private turning as bool = false
 
 	public static holding as GameObject = null
 
@@ -19,6 +23,8 @@ class Player2 (MonoBehaviour):
 	private jumpState as int
 
 	def Start ():
+		transform.eulerAngles.y = 90
+		
 		walkingState = Animator.StringToHash('Walk')
 		jumpState = Animator.StringToHash('Jump')
 		anim = GetComponent[of Animator]()
@@ -39,12 +45,20 @@ class Player2 (MonoBehaviour):
 			else: changeTransparency(1)
 		
 			
+		#Rotation
+		turning = false
 		if Input.GetAxis("Horizontal") < 0:
-			if Mathf.Round(transform.eulerAngles.y) != 270:
-				transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y-10)
+			facing = false
 		elif Input.GetAxis("Horizontal") > 0:
-			if Mathf.Round(transform.eulerAngles.y) != 90:
-				transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y+10)
+			facing = true
+		if facing:
+			if Mathf.Round(transform.eulerAngles.y) <= 85 or Mathf.Round(transform.eulerAngles.y) >= 95:
+				turning = true
+				transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y+(turn_speed*Time.deltaTime))
+		else:
+			if Mathf.Round(transform.eulerAngles.y) <= 265 or Mathf.Round(transform.eulerAngles.y) >= 275:
+				turning = true
+				transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y-(turn_speed*Time.deltaTime))
 				
 		anim.SetBool(walkingState, false)
 		if holding == null:
@@ -78,12 +92,13 @@ class Player2 (MonoBehaviour):
 			
 			
 		if Input.GetButtonDown('Pickup2'):
-			if holding == null:
-				nearest = GetNearestTagged()
-				if nearest != null:
-					nearest.GetComponent[of Pickup2]().PickUp()
-			else:
-				holding.GetComponent[of Pickup2]().Drop()
+			if turning == false:
+				if holding == null:
+					nearest = GetNearestTagged()
+					if nearest != null:
+						nearest.GetComponent[of Pickup2]().PickUp()
+				else:
+					holding.GetComponent[of Pickup2]().Drop()
 
 
 	#enable/disable the collider and render of an object AND all its children
@@ -112,7 +127,7 @@ class Player2 (MonoBehaviour):
 
 	def OnMouseDown():
 		
-		if holding != null:
+		if holding != null and turning == false:
 			holding.GetComponent[of Pickup2]().Drop()
 			
 	def OnTriggerStay(other as Collider):
