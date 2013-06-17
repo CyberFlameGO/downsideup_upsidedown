@@ -67,6 +67,8 @@ class Player (MonoBehaviour):
 		else: #player 2 has been stunned, so force into top world
 			current_phase = 1
 		stunnedTime = Time.time
+		GameObject.Find("SoundEffects").GetComponent(SoundEffects).PlayStun(transform.position)
+
 
 	def Update ():
 		isPaused = GameObject.Find('Pause').GetComponent[of Pause]().GetIsPaused()
@@ -213,6 +215,8 @@ class Player (MonoBehaviour):
 		if grounded:
 			if Input.GetButtonDown("Jump"):
 				anim.SetBool(jumpState, true)
+				GameObject.Find("SoundEffects").GetComponent(SoundEffects).PlayHup(transform.position)
+
 				rigidbody.velocity.y = jump_speed
 			else:
 				anim.SetBool(jumpState, false)

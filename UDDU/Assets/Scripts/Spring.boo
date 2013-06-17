@@ -33,7 +33,8 @@ class Spring (MonoBehaviour):
 	def OnCollisionStay(collision as Collision):
 		if (collision.gameObject.tag == "Player" or collision.gameObject.tag == "Pickup1" or collision.gameObject.tag == "Pickup2") and not rotatedTime>0:
 			if Time.time - delay > 0.25:
-				
+				GameObject.Find("SoundEffects").GetComponent(SoundEffects).PlayLaunch(transform.position)
+
 				transform.Rotate(0,0,-5)
 				collision.gameObject.rigidbody.velocity = Vector3(0, 0, 0)
 				
