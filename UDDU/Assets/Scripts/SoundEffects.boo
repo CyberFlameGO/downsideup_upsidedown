@@ -57,7 +57,7 @@ class SoundEffects (MonoBehaviour):
 			z = Resources.Load("gfoot" + n.ToString())
 			if z != null:
 				gfoot.Add(z)
-			z = Resources.Load("pipe" + n.ToString())
+			z = Resources.Load("clang" + n.ToString())
 			if z != null:
 				pipe.Add(z)
 			z = Resources.Load("box" + n.ToString())
