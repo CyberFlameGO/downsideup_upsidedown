@@ -16,8 +16,8 @@ class MainMenuButton (MonoBehaviour):
 			Application.LoadLevel("Level1")
 		if name=="Select Level":
 			Application.LoadLevel("LoadLevel")
-		# if GUILayout.Button("Controls"):
-			# Application.LoadLevel("Controls")
+		if name=="Controls":
+			Application.LoadLevel("ControlsScreen")
 		if name=="Quit":
 			Application.Quit()
 
