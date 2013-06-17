@@ -63,7 +63,7 @@ class Player2 (MonoBehaviour):
 		#Movement.
 		anim.SetBool(walkingState, false)
 		if isClear():
-			if other.GetComponent(Player).GetPhase() > -1 and other.GetComponent(Player).isClear() == false:
+			if current_phase > -1 and other.GetComponent(Player).isClear() == false:
 				pass
 			else:
 				transform.position.x += Input.GetAxis("Horizontal") * Mathf.Abs(Mathf.Clamp(Player.speed*facing - Mathf.Clamp(rigidbody.velocity.x, -Player.speed, Player.speed), -Player.speed, Player.speed))  * Time.deltaTime
@@ -95,7 +95,7 @@ class Player2 (MonoBehaviour):
 		if holding == null:
 			if Physics.Raycast(transform.position + Vector3(0, -0.9, 0), Vector3.right * facing, 0.7, ~(1 << 8)) == false:
 				if Physics.Raycast(transform.position + Vector3(0, 0.9, 0), Vector3.right * facing, 0.7, ~(1 << 8)) == false:
-					if Physics.Raycast(transform.position, Vector3.right * facing, 0.7, ~(1 << 9)) == false:
+					if Physics.Raycast(transform.position, Vector3.right * facing, 0.7, ~(1 << 8)) == false:
 						return true
 		else:
 			if Physics.Raycast(transform.position + Vector3(0, -0.9, 0), Vector3.right * facing, 0.7, ~(1 << 8)) == false:
@@ -104,7 +104,7 @@ class Player2 (MonoBehaviour):
 				else:
 					x = -1.5
 				if Physics.Raycast(transform.position + Vector3(x, 1.3, 0), Vector3.right * facing, 1.5, ~(1 << 8)) == false:
-					if Physics.Raycast(transform.position, Vector3.right * facing, 0.7, ~(1 << 9)) == false:
+					if Physics.Raycast(transform.position, Vector3.right * facing, 0.7, ~(1 << 8)) == false:
 						return true
 
 

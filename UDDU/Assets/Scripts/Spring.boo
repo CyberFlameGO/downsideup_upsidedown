@@ -10,7 +10,7 @@ class Spring (MonoBehaviour):
 
 
 	def OnCollisionEnter(collision as Collision):
-		if (collision.gameObject.tag == "Player" or collision.gameObject.tag == "Pickup1" or collision.gameObject.tag == "Pickup2") and not rotatedTime>0:
+		if (collision.gameObject.tag == "Player" or collision.gameObject.tag == "Pickup1" or collision.gameObject.tag == "Pickup2"):
 			delay = Time.time
 			
 #			transform.Rotate(0,0,-5)
@@ -26,6 +26,9 @@ class Spring (MonoBehaviour):
 					GetComponent(Animation).Play("SpringDown")
 				# transform.Rotate(0,0,-5)
 				collision.gameObject.rigidbody.velocity = Vector3(0, 0, 0)
+				collision.gameObject.transform.position = transform.position
+				collision.gameObject.transform.position.y += 1.5
+				collision.gameObject.transform.position.x += 2.5
 				
 				flipAngle = Vector3(xForce,yForce,0)
 				collision.gameObject.rigidbody.AddForce(flipAngle)
