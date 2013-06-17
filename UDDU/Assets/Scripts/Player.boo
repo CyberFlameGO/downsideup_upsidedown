@@ -141,9 +141,14 @@ class Player (MonoBehaviour):
 		if stunnedTime == 0:
 			changeGlow(glow*2)
 			other.GetComponent(Player2).changeGlow(glow*2)
+			GameObject.Find("PhaseTop").GetComponent(PhaseTop).setRed(false)
+			GameObject.Find("PhaseBot").GetComponent(PhaseBot).setRed(false)
 		else:
 			changeRedGlow(glow*2)
 			other.GetComponent(Player2).changeRedGlow(glow*2)
+			GameObject.Find("PhaseTop").GetComponent(PhaseTop).setRed(true)
+			GameObject.Find("PhaseBot").GetComponent(PhaseBot).setRed(true)
+
 		
 #		old_phase = current_phase
 #		vert_input = Input.GetAxisRaw("Vertical")
@@ -366,10 +371,14 @@ class Player (MonoBehaviour):
 		canHit = ["Player","Guard","Ground","Lazer", "Feet"]
 		for h in hitTop:
 			if isSameWorld(h.gameObject, phaseLevel) and (h.tag not in canHit):
+				GameObject.Find("PhaseTop").GetComponent(PhaseTop).setTimer()
+				GameObject.Find("PhaseBot").GetComponent(PhaseBot).setTimer()
 				return false #hit something, so cant phase!
 		hitBot = Physics.OverlapSphere(bot_pos, collider_rad)
 		for h in hitBot:
 			if isSameWorld(h.gameObject, phaseLevel) and (h.tag not in canHit):
+				GameObject.Find("PhaseTop").GetComponent(PhaseTop).setTimer()
+				GameObject.Find("PhaseBot").GetComponent(PhaseBot).setTimer()
 				return false #hit something, so cant phase!
 		return true
 
