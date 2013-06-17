@@ -13,12 +13,14 @@ class StaticShoot (MonoBehaviour):
 	private shootTime as single = 0
 	private shootDir as Vector3 = Vector3(-1,0,0)
 	private hitTime as single = 0
+	private tazerTime as single = 0
 
 	# HashID
 	private walkingState as int
 	private tazerState as int
 	
 	private anim as Animator
+
 	
 	def Start():
 		anim = GetComponent[of Animator]()
@@ -43,11 +45,7 @@ class StaticShoot (MonoBehaviour):
 			HIT = false
 
 		if HIT:
-			if (inSameWorld):
-				SHOOTER=false
-			else:
-				#hit and phased out
-				SHOOTER=false
+			SHOOTER=false
 		elif inSameWorld and (Mathf.Abs(xDis) <=shootDistance) and (yDis < 2) and ((xDis<0 and direction<0) or (xDis>0 and direction>0)):
 			SHOOTER=true #close enough/facing right direction to shoot
 			HIT = false
@@ -55,11 +53,15 @@ class StaticShoot (MonoBehaviour):
 			SHOOTER=false
 			HIT = false
 
-		if (Time.time-shootTime > 0.1): 
+		if (Time.time-shootTime > 0.3): 
 			lazer.SetActive(false)
+			tazerTime=0
 			anim.SetBool(tazerState, false)
 		if (SHOOTER and Time.time-shootTime > 3): #shoot every 3 secs
 			anim.SetBool(tazerState, true)
+			shootTime = Time.time
+			tazerTime = Time.time
+		elif (SHOOTER and ((Time.time-tazerTime) > 0.1)): #wait for guard animation to lift arm
 			pos as Vector3 = Vector3(transform.position.x,transform.position.y+1,transform.position.z)
 			shootDir = Vector3(direction,0,0)
 			layerMask = 1 << gameObject.layer #filter ray to objects level only
@@ -93,6 +95,6 @@ class StaticShoot (MonoBehaviour):
 				Camera.main.GetComponent(CameraPlay).Shake(0.5)
 				HIT = true
 				hitTime = Time.time
-		else:
+		elif (Time.time-shootTime > 1.2):
 			anim.SetBool(tazerState, false)
 
