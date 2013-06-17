@@ -66,6 +66,12 @@ class Player (MonoBehaviour):
 	def GetPhase():
 		return current_phase
 
+	def GetGrounded():
+		return grounded
+
+	def GetOther():
+		return other
+
 	def stunPlayer(target as GameObject):
 		if target.name == gameObject.name: #player 1 has been stunned, so force into bottom world
 			current_phase = -1
@@ -344,7 +350,7 @@ class Player (MonoBehaviour):
 			gameObject.collider.enabled = isActive
 
 		for  child  as Transform in gameObject.transform:
-			if child.CompareTag("Particle") == false:
+			if child.CompareTag("Particle") == false and child.name!="Feet":
 				switch_states(child.gameObject, isActive)
 
 	def finishLevel():

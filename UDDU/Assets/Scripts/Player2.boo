@@ -26,6 +26,9 @@ class Player2 (MonoBehaviour):
 		walkingState = Animator.StringToHash('Walk')
 		jumpState = Animator.StringToHash('Jump')
 		anim = GetComponent[of Animator]()
+
+	def GetGrounded():
+		return grounded
 	
 	def Update ():
 		current_phase = other.GetComponent(Player).GetPhase()
@@ -116,7 +119,7 @@ class Player2 (MonoBehaviour):
 			gameObject.collider.enabled = isActive
 
 		for  child  as Transform in gameObject.transform:
-			if child.CompareTag("Particle") == false:
+			if child.CompareTag("Particle") == false and child.name!="Feet":
 				switch_states(child.gameObject, isActive)
 
 	def changeTransparency(alpha as single):
