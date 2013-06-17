@@ -64,7 +64,11 @@ class Player2 (MonoBehaviour):
 			if current_phase > -1 and other.GetComponent(Player).isClear() == false:
 				pass
 			else:
-				transform.position.x += Input.GetAxis("Horizontal") * Mathf.Abs(Mathf.Clamp(Player.speed*facing - Mathf.Clamp(rigidbody.velocity.x, -Player.speed, Player.speed), -Player.speed, Player.speed))  * Time.deltaTime
+				if grounded == false:
+					max_speed = Mathf.Abs(Mathf.Clamp(Player.speed*facing - Mathf.Clamp(rigidbody.velocity.x, -Player.speed, Player.speed), -Player.speed, Player.speed))
+				else:
+					max_speed = Player.speed
+				transform.position.x += Input.GetAxis("Horizontal") * max_speed  * Time.deltaTime
 				if Mathf.Abs(Input.GetAxis("Horizontal")) > 0.1:
 					anim.SetBool(walkingState, true)
 
