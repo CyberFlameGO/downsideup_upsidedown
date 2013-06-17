@@ -58,7 +58,7 @@ class Player2 (MonoBehaviour):
 		else:
 			if Mathf.Round(transform.eulerAngles.y) <= 265 or Mathf.Round(transform.eulerAngles.y) >= 275:
 				turning = true
-				transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y-(turn_speed*Time.deltaTime))
+				transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y-Mathf.Clamp(turn_speed*Time.deltaTime, 0, 10))
 				
 		#Movement.
 		anim.SetBool(walkingState, false)
