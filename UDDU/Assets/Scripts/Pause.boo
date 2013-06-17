@@ -26,8 +26,8 @@ class Pause (MonoBehaviour):
 					Application.LoadLevel("Level1")
 				if GUILayout.Button("Select Level"):
 					loadLevel = true
-				# if GUILayout.Button("Controls"):
-					# Application.LoadLevel("Controls")
+				if GUILayout.Button("Controls"):
+					Application.LoadLevel("ControlsScreen")
 				if GUILayout.Button("Quit"):
 					Application.Quit()
 			else:
