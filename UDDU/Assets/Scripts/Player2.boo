@@ -54,7 +54,7 @@ class Player2 (MonoBehaviour):
 		if facing == 1:
 			if Mathf.Round(transform.eulerAngles.y) <= 85 or Mathf.Round(transform.eulerAngles.y) >= 95:
 				turning = true
-				transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y+(turn_speed*Time.deltaTime))
+				transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y+Mathf.Clamp(turn_speed*Time.deltaTime, 0, 10))
 		else:
 			if Mathf.Round(transform.eulerAngles.y) <= 265 or Mathf.Round(transform.eulerAngles.y) >= 275:
 				turning = true
@@ -131,6 +131,13 @@ class Player2 (MonoBehaviour):
 				child.GetComponent(SkinnedMeshRenderer).material.color.r = 1 + glow
 				child.GetComponent(SkinnedMeshRenderer).material.color.g = 1 + glow
 				child.GetComponent(SkinnedMeshRenderer).material.color.b = 1 + glow
+				
+	def changeRedGlow(glow as single):
+		for child as Transform in gameObject.transform:
+			if child.GetComponent(SkinnedMeshRenderer):
+				child.GetComponent(SkinnedMeshRenderer).material.color.r = 1 + glow
+				child.GetComponent(SkinnedMeshRenderer).material.color.g = 1 + glow/3
+				child.GetComponent(SkinnedMeshRenderer).material.color.b = 1 + glow/3
 
 	def OnMouseDown():
 		

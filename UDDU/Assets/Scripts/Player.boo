@@ -70,8 +70,14 @@ class Player (MonoBehaviour):
 	def stunPlayer(target as GameObject):
 		if target.name == gameObject.name: #player 1 has been stunned, so force into bottom world
 			current_phase = -1
+			PhaseDown()
+			PhaseDown()
+			PhaseDown()
 		else: #player 2 has been stunned, so force into top world
 			current_phase = 1
+			PhaseUp()
+			PhaseUp()
+			PhaseUp()
 		stunnedTime = Time.time
 		GameObject.Find("SoundEffects").GetComponent(SoundEffects).PlayStun(transform.position)
 
@@ -112,25 +118,33 @@ class Player (MonoBehaviour):
 			vert_input = Mathf.Clamp(vert_input, -1, 0)
 		elif current_phase == -1:
 			vert_input = Mathf.Clamp(vert_input, 0, 1)
-		if vert_input >= 1.0:
-			if current_phase < 1: 
-				if current_phase == -1: 			
-					GameObject.Find("SoundEffects").GetComponent(SoundEffects).PlayPhase(transform.position)
-				current_phase+=0.5
-				vert_input = 0
-		elif vert_input <= -1.0:
-			if current_phase > -1: 
-				if current_phase == 1: 			
-					GameObject.Find("SoundEffects").GetComponent(SoundEffects).PlayPhase(transform.position)
-				current_phase-=0.5
-				vert_input = 0
+			
+		if stunnedTime == 0:
+			if vert_input >= 1.0:
+				if current_phase < 1: 
+					if current_phase == -1: 			
+						GameObject.Find("SoundEffects").GetComponent(SoundEffects).PlayPhase(transform.position)
+					current_phase+=0.5
+					vert_input = 0
+			elif vert_input <= -1.0:
+				if current_phase > -1: 
+					if current_phase == 1: 			
+						GameObject.Find("SoundEffects").GetComponent(SoundEffects).PlayPhase(transform.position)
+					current_phase-=0.5
+					vert_input = 0
+		elif Mathf.Abs(vert_input) >= 1:
+			Camera.main.GetComponent(CameraPlay).Shake(0.1)
 			
 		if glow <= Mathf.Abs(vert_input):
 			glow = Mathf.Abs(vert_input)
 		else:
 			glow -= Time.deltaTime/0.25
-		changeGlow(glow*2)
-		other.GetComponent(Player2).changeGlow(glow*2)
+		if stunnedTime == 0:
+			changeGlow(glow*2)
+			other.GetComponent(Player2).changeGlow(glow*2)
+		else:
+			changeRedGlow(glow*2)
+			other.GetComponent(Player2).changeRedGlow(glow*2)
 		
 #		old_phase = current_phase
 #		vert_input = Input.GetAxisRaw("Vertical")
@@ -147,10 +161,14 @@ class Player (MonoBehaviour):
 #			Camera.main.GetComponent(CameraPlay).Shake(0.1)
 
 					
-		if (old_phase != 0.5 and current_phase==0.5) or (old_phase != -0.5 and current_phase==-0.5) : 
+		if (old_phase == 1 and current_phase == 0.5) or (old_phase == -1 and current_phase == -0.5) : 
 				#phased into other world, so check valid and if hit guard
 				if not checkPhaseSafe(old_phase):
-					current_phase= old_phase
+					#if old_phase = 1:
+					#	stunPlayer(gameObject)
+					#else:
+					#	stunPlayer(other)
+					current_phase = old_phase
 				else:
 					checkPhaseKill(old_phase)
 					
@@ -167,27 +185,11 @@ class Player (MonoBehaviour):
 			if current_phase == -0.5: changeTransparency(0.5)
 			else: changeTransparency(1)
 			
-		#Chasing effects.
+		#Phasing effects.
 		if (current_phase > old_phase) and isPaused == false:
-			#timeScale -= 0.3
-			#phase_freeze = Time.realtimeSinceStartup
-			p = Instantiate(PhaseIn, transform.position, transform.rotation)
-			p.transform.parent = transform
-			p.layer = gameObject.layer
-			
-			p = Instantiate(PhaseOut, other.transform.position, other.transform.rotation)
-			p.layer = other.layer
-			p.transform.parent = other.transform
+			PhaseUp()
 		elif (current_phase < old_phase) and isPaused == false:
-			#timeScale -= 0.3
-			#phase_freeze = Time.realtimeSinceStartup
-			p = Instantiate(PhaseOut, transform.position, transform.rotation)
-			p.layer = gameObject.layer
-			p.transform.parent = transform
-			
-			p = Instantiate(PhaseIn, other.transform.position, other.transform.rotation)
-			p.transform.parent = other.transform
-			p.layer = other.layer
+			PhaseDown()
 		
 		#Rotation
 		turning = false
@@ -269,6 +271,24 @@ class Player (MonoBehaviour):
 				else:
 					holding.GetComponent[of Pickup1]().Drop()
 					
+	def PhaseUp():
+		p = Instantiate(PhaseIn, transform.position, transform.rotation)
+		p.transform.parent = transform
+		p.layer = gameObject.layer
+			
+		p = Instantiate(PhaseOut, other.transform.position, other.transform.rotation)
+		p.layer = other.layer
+		p.transform.parent = other.transform
+		
+	def PhaseDown():
+		p = Instantiate(PhaseOut, transform.position, transform.rotation)
+		p.layer = gameObject.layer
+		p.transform.parent = transform
+			
+		p = Instantiate(PhaseIn, other.transform.position, other.transform.rotation)
+		p.transform.parent = other.transform
+		p.layer = other.layer
+		
 	def isClear():
 		if holding == null:
 			if Physics.Raycast(transform.position + Vector3(0, -0.9, 0), Vector3.right * facing, 0.7, ~(1 << 9)) == false:
@@ -302,6 +322,13 @@ class Player (MonoBehaviour):
 				child.GetComponent(SkinnedMeshRenderer).material.color.r = 1 + glow
 				child.GetComponent(SkinnedMeshRenderer).material.color.g = 1 + glow
 				child.GetComponent(SkinnedMeshRenderer).material.color.b = 1 + glow
+				
+	def changeRedGlow(glow as single):
+		for child as Transform in gameObject.transform:
+			if child.GetComponent(SkinnedMeshRenderer):
+				child.GetComponent(SkinnedMeshRenderer).material.color.r = 1 + glow
+				child.GetComponent(SkinnedMeshRenderer).material.color.g = 1 + glow/3
+				child.GetComponent(SkinnedMeshRenderer).material.color.b = 1 + glow/3
 
 	#enable/disable the collider and render of an object AND all its children
 	# (in particular, the foot trigger child)
