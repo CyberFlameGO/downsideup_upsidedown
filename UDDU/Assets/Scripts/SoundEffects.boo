@@ -26,9 +26,13 @@ class SoundEffects (MonoBehaviour):
 	private phasefail = []
 	
 	private intercom_queue = []
+	private intercom_chime as AudioClip
 	
 	
 	def Start ():
+		audio.volume = 2.0
+		intercom_chime = Resources.Load("interchime")
+		
 		for n in range(10):
 			z = Resources.Load("zap" + n.ToString())
 			if z != null:
@@ -93,75 +97,88 @@ class SoundEffects (MonoBehaviour):
 	
 	def Update ():
 		if audio.isPlaying:
-			sfxVol = 0.5
+			sfxVol = 2.0
 		else:
 			if intercom_queue != []:
 				audio.clip = intercom_queue.Pop(0)
 				audio.Play()
 			else:
-				sfxVol = 1.0
+				sfxVol = 3.0
 			
 	
 	def PlayZap(position as Vector3):
-		audio.PlayClipAtPoint(zap[Random.Range(0, zap.Count)], position, sfxVol)
+		PlayClipAt(zap[Random.Range(0, zap.Count)], position, sfxVol)
 		
 	def PlayGrowl(position as Vector3):
-		audio.PlayClipAtPoint(growl[Random.Range(0, growl.Count)], position, sfxVol)
+		PlayClipAt(growl[Random.Range(0, growl.Count)], position, sfxVol)
 		
 	def PlayUchatter(position as Vector3):
-		audio.PlayClipAtPoint(uchatter[Random.Range(0, uchatter.Count)], position, sfxVol)
+		PlayClipAt(uchatter[Random.Range(0, uchatter.Count)], position, sfxVol)
 
 	def PlayChain(position as Vector3):
-		audio.PlayClipAtPoint(chain[Random.Range(0, chain.Count)], position, sfxVol)
+		PlayClipAt(chain[Random.Range(0, chain.Count)], position, sfxVol)
 
 	def PlayDoor(position as Vector3):
-		audio.PlayClipAtPoint(door[Random.Range(0, door.Count)], position, sfxVol)
+		PlayClipAt(door[Random.Range(0, door.Count)], position, sfxVol)
 		
 	def PlayHup(position as Vector3):
-		audio.PlayClipAtPoint(hup[Random.Range(0, hup.Count)], position, sfxVol)
+		PlayClipAt(hup[Random.Range(0, hup.Count)], position, sfxVol)
 		
 	def PlayOof(position as Vector3):
-		audio.PlayClipAtPoint(oof[Random.Range(0, oof.Count)], position, sfxVol)
+		PlayClipAt(oof[Random.Range(0, oof.Count)], position, sfxVol)
 		
 	def PlayUfoot(position as Vector3):
-		audio.PlayClipAtPoint(ufoot[Random.Range(0, ufoot.Count)], position, sfxVol)
+		PlayClipAt(ufoot[Random.Range(0, ufoot.Count)], position, sfxVol)
 		
 	def PlayGfoot(position as Vector3):
-		audio.PlayClipAtPoint(gfoot[Random.Range(0, gfoot.Count)], position, sfxVol)
+		PlayClipAt(gfoot[Random.Range(0, gfoot.Count)], position, sfxVol)
 		
 	def PlayPipe(position as Vector3):
-		audio.PlayClipAtPoint(pipe[Random.Range(0, pipe.Count)], position, sfxVol)
+		PlayClipAt(pipe[Random.Range(0, pipe.Count)], position, sfxVol)
 		
 	def PlayBox(position as Vector3):
-		audio.PlayClipAtPoint(box[Random.Range(0, box.Count)], position, sfxVol)
+		PlayClipAt(box[Random.Range(0, box.Count)], position, sfxVol)
 		
 	def PlayPlat(position as Vector3):
-		audio.PlayClipAtPoint(plat[Random.Range(0, plat.Count)], position, sfxVol)
+		PlayClipAt(plat[Random.Range(0, plat.Count)], position, sfxVol)
 		
 	def PlayLaunch(position as Vector3):
-		audio.PlayClipAtPoint(launch[Random.Range(0, launch.Count)], position, sfxVol)
+		PlayClipAt(launch[Random.Range(0, launch.Count)], position, sfxVol)
 		
 	def PlayStun(position as Vector3):
-		audio.PlayClipAtPoint(stun[Random.Range(0, stun.Count)], position, sfxVol)
+		PlayClipAt(stun[Random.Range(0, stun.Count)], position, sfxVol)
 		
 	def PlayGdeath(position as Vector3):
-		audio.PlayClipAtPoint(gdeath[Random.Range(0, gdeath.Count)], position, sfxVol)
+		PlayClipAt(gdeath[Random.Range(0, gdeath.Count)], position, sfxVol)
 		
 	def PlaySplatter(position as Vector3):
-		audio.PlayClipAtPoint(splatter[Random.Range(0, splatter.Count)], position, sfxVol)
+		PlayClipAt(splatter[Random.Range(0, splatter.Count)], position, sfxVol)
 		
 	def PlayAchatter(position as Vector3):
-		audio.PlayClipAtPoint(achatter[Random.Range(0, achatter.Count)], position, sfxVol)
+		PlayClipAt(achatter[Random.Range(0, achatter.Count)], position, sfxVol)
 		
 	def PlayPhase(position as Vector3):
-		audio.PlayClipAtPoint(phase[Random.Range(0, phase.Count)], position, sfxVol)
+		PlayClipAt(phase[Random.Range(0, phase.Count)], position, sfxVol)
 		
 	def PlayInteridle():
+		intercom_queue.Add(intercom_chime)
 		intercom_queue.Add(interidle[0])
 		interidle.Add(interidle.Pop(0))
 		
 	def PlayPhasefail(position as Vector3):
-		audio.PlayClipAtPoint(phasefail[Random.Range(0, phasefail.Count)], position, sfxVol)
+		PlayClipAt(phasefail[Random.Range(0, phasefail.Count)], position, sfxVol)
 		
 	def PlayIntercom(clip as AudioClip):
+		intercom_queue.Add(intercom_chime)
 		intercom_queue.Add(clip)
+		
+		
+	def PlayClipAt(clip as AudioClip, pos, vol):
+		temp = GameObject("TempAudio")
+		temp.transform.position = pos
+		aSource as AudioSource = temp.AddComponent("AudioSource")
+		aSource.volume = vol
+		aSource.minDistance = 7.0
+		aSource.clip = clip
+		aSource.Play()
+		Destroy(temp, clip.length)
