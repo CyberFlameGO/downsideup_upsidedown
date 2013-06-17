@@ -6,8 +6,6 @@ class Player2 (MonoBehaviour):
 	
 	public other as GameObject
 
-	public weightDisplay as GUIText
-
 	grounded = false
 
 	private anim as Animator
@@ -77,10 +75,7 @@ class Player2 (MonoBehaviour):
 				anim.SetBool(jumpState, true)
 				rigidbody.velocity.y = Player.jump_speed
 			else:
-				anim.SetBool(jumpState, false)
-
-		weightDisplay.text = "Weight: " + Mathf.Round(((current_phase-1)/2) * -100.0) +"%"
-			
+				anim.SetBool(jumpState, false)			
 			
 		if Input.GetButtonDown('Pickup2'):
 			if turning == false:

@@ -14,7 +14,6 @@ class Player (MonoBehaviour):
 	public phase_thresh as single = 0.8
 
 	#Gui variables
-	public weightDisplay as GUIText
 	public other as GameObject
 
 
@@ -257,10 +256,7 @@ class Player (MonoBehaviour):
 			other.transform.position.x = transform.position.x
 			other.transform.position.y = transform.position.y
 			other.rigidbody.velocity.x = rigidbody.velocity.x
-			other.rigidbody.velocity.y = rigidbody.velocity.y
-
-		weightDisplay.text = "Weight: " + Mathf.Round(((current_phase+1)/2) * 100.0) +"%"
-		
+			other.rigidbody.velocity.y = rigidbody.velocity.y		
 		
 		if Input.GetButtonDown('Pickup1'):
 			if turning == false:
