@@ -50,7 +50,7 @@ class Player (MonoBehaviour):
 	
 	private explodeGuard as GameObject
 	
-	private facing as bool = true
+	private facing as int = 1
 	private turn_speed as single = 500.0
 	private turning as bool = false
 
@@ -192,10 +192,10 @@ class Player (MonoBehaviour):
 		#Rotation
 		turning = false
 		if Input.GetAxis("Horizontal") < 0:
-			facing = false
+			facing = -1
 		elif Input.GetAxis("Horizontal") > 0:
-			facing = true
-		if facing:
+			facing = 1
+		if facing == 1:
 			if Mathf.Round(transform.eulerAngles.y) >= 90:
 				turning = true
 				transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y-(turn_speed*Time.deltaTime))
@@ -204,30 +204,18 @@ class Player (MonoBehaviour):
 				turning = true
 				transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y+(turn_speed*Time.deltaTime))
 			
-		
 			
-				
+		#Movement.
 		anim.SetBool(walkingState, false)
-		if holding == null:
-			if Physics.Raycast(transform.position + Vector3(0, -0.9, 0), Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 9)) == false:
-				if Physics.Raycast(transform.position + Vector3(0, 0.9, 0), Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 9)) == false:
-					if Physics.Raycast(transform.position, Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 9)) == false:
-						transform.position.x += Input.GetAxis("Horizontal") * speed * Time.deltaTime
-						if Mathf.Abs(Input.GetAxis("Horizontal")) > 0.1:
-							anim.SetBool(walkingState, true)
-		else:
-			if Physics.Raycast(transform.position + Vector3(0, -0.9, 0), Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 9)) == false:
-				if Input.GetAxis("Horizontal") > 0:
-					x = 1.5
-				else:
-					x = -1.5
-				if Physics.Raycast(transform.position + Vector3(x, 1.3, 0), Vector3.right * Input.GetAxis("Horizontal"), 1.5, ~(1 << 9)) == false:
-					if Physics.Raycast(transform.position, Vector3.right * Input.GetAxis("Horizontal"), 0.7, ~(1 << 9)) == false:
-						transform.position.x += Input.GetAxis("Horizontal") * speed * Time.deltaTime
-						if Mathf.Abs(Input.GetAxis("Horizontal")) > 0.1:
-							anim.SetBool(walkingState, true)
+		if isClear():
+			if current_phase < 1 and other.GetComponent(Player2).isClear() == false:
+				pass
+			else:
+				transform.position.x += Input.GetAxis("Horizontal") * Mathf.Abs(Mathf.Clamp(speed*facing - Mathf.Clamp(rigidbody.velocity.x, -speed, speed), -speed, speed)) * Time.deltaTime
+				if Mathf.Abs(Input.GetAxis("Horizontal")) > 0.1:
+					anim.SetBool(walkingState, true)
 					
-		#Only jump or move if we're grounded.
+		#Only jump if we're grounded.
 		if grounded:
 			if Input.GetButtonDown("Jump"):
 				anim.SetBool(jumpState, true)
@@ -280,6 +268,22 @@ class Player (MonoBehaviour):
 						nearest.GetComponent[of Pickup1]().PickUp()
 				else:
 					holding.GetComponent[of Pickup1]().Drop()
+					
+	def isClear():
+		if holding == null:
+			if Physics.Raycast(transform.position + Vector3(0, -0.9, 0), Vector3.right * facing, 0.7, ~(1 << 9)) == false:
+				if Physics.Raycast(transform.position + Vector3(0, 0.9, 0), Vector3.right * facing, 0.7, ~(1 << 9)) == false:
+					if Physics.Raycast(transform.position, Vector3.right * facing, 0.7, ~(1 << 9)) == false:
+						return true
+		else:
+			if Physics.Raycast(transform.position + Vector3(0, -0.9, 0), Vector3.right * facing, 0.7, ~(1 << 9)) == false:
+				if Input.GetAxis("Horizontal") > 0:
+					x = 1.5
+				else:
+					x = -1.5
+				if Physics.Raycast(transform.position + Vector3(x, 1.3, 0), Vector3.right * facing, 1.5, ~(1 << 9)) == false:
+					if Physics.Raycast(transform.position, Vector3.right * facing, 0.7, ~(1 << 9)) == false:
+						return true
 				
 		
 	def OnMouseDown():
