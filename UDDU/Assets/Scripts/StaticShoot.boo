@@ -42,7 +42,7 @@ class StaticShoot (MonoBehaviour):
 		idleState = Animator.StringToHash('Idle')
 		anim.SetBool(walkingState, false)
 		randomNumber as single = Mathf.Round(Random.Range(0.0f,1.0f))
-	    anim.SetInteger(idleState, randomNumber)
+		anim.SetInteger(idleState, randomNumber)
 
 	def setHit(isHit as bool):
 		HIT = isHit        
