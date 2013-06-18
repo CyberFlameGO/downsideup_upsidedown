@@ -21,22 +21,9 @@ class StaticShoot (MonoBehaviour):
 	private idleState as int
 	
 	private anim as Animator
-	//private controller1 as RuntimeAnimatorController
-	//private controller2 as RuntimeAnimatorController
-	private controllerArray = []
-
 	
 	def Start():
-		//controller1 = Resources.Load("Animators/GuardAnimator")
-		//controller2 = Resources.Load("Animators/GuardAnimator2")
-		temp = Resources.Load("Animators/GuardAnimator")
-		controllerArray.Add(temp)
-		temp = Resources.Load("Animators/GuardAnimator2")
-		controllerArray.Add(temp)
-		//controllerArray[0] = Resources.Load("Animators/GuardAnimator")
-		//controllerArray[1] = Resources.Load("Animators/GuardAnimator2")
 		anim = GetComponent[of Animator]()
-		anim.runtimeAnimatorController = controllerArray[Random.Range(0, controllerArray.Count)]
 		walkingState = Animator.StringToHash('Walk')
 		tazerState = Animator.StringToHash('Tazer')
 		idleState = Animator.StringToHash('Idle')
