@@ -83,7 +83,7 @@ class PatrolShoot (MonoBehaviour):
 			shootTime = Time.time
 			tazerTime = Time.time
 
-		if (SHOOTER and ((Time.time-tazerTime) > 0.1)): #wait for guard animation to lift arm
+		if (SHOOTER and ((Time.time-tazerTime) > 0.35)): #wait for guard animation to lift arm
 			pos as Vector3 = Vector3(transform.position.x,transform.position.y+1,transform.position.z)
 			shootDir = Vector3(direction,0,0)
 			layerMask = 1 << gameObject.layer #filter ray to objects level only
@@ -93,7 +93,7 @@ class PatrolShoot (MonoBehaviour):
 			GameObject.Find("SoundEffects").GetComponent(SoundEffects).PlayZap(transform.position)
 
 			#display gun's beam on screen
-			lazer.transform.position = pos
+			lazer.transform.position = Vector3(pos.x+(direction*2),pos.y+0.7,pos.z)
 			lazer.GetComponent(LineRenderer).SetPosition(0, lazer.transform.position)
 			if direction < 0: 
 				lazerEndXPos = lazer.transform.position.x - shootDistance

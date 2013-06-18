@@ -18,20 +18,27 @@ class StaticShoot (MonoBehaviour):
 	# HashID
 	private walkingState as int
 	private tazerState as int
-	private idleState as int
 	
 	private anim as Animator
-	
+	//private controller1 as RuntimeAnimatorController
+	//private controller2 as RuntimeAnimatorController
+	private controllerArray = []
 
 	
 	def Start():
+		//controller1 = Resources.Load("Animators/GuardAnimator")
+		//controller2 = Resources.Load("Animators/GuardAnimator2")
+		temp = Resources.Load("Animators/GuardAnimator")
+		controllerArray.Add(temp)
+		temp = Resources.Load("Animators/GuardAnimator2")
+		controllerArray.Add(temp)
+		//controllerArray[0] = Resources.Load("Animators/GuardAnimator")
+		//controllerArray[1] = Resources.Load("Animators/GuardAnimator2")
 		anim = GetComponent[of Animator]()
+		anim.runtimeAnimatorController = controllerArray[Random.Range(0, controllerArray.Count)]
 		walkingState = Animator.StringToHash('Walk')
 		tazerState = Animator.StringToHash('Tazer')
-		idleState = Animator.StringToHash('Idle')
 		anim.SetBool(walkingState, false)
-		randomNumber as single = Mathf.Round(Random.Range(0.0f,1.0f))
-		anim.SetInteger(idleState, randomNumber)
 
 	def setHit(isHit as bool):
 		HIT = isHit        
@@ -66,19 +73,19 @@ class StaticShoot (MonoBehaviour):
 			anim.SetBool(tazerState, true)
 			shootTime = Time.time
 			tazerTime = Time.time
-		elif (SHOOTER and ((Time.time-tazerTime) > 0.1)): #wait for guard animation to lift arm
+		elif (SHOOTER and ((Time.time-tazerTime) > 0.35)): #wait for guard animation to lift arm
 			pos as Vector3 = Vector3(transform.position.x,transform.position.y+1,transform.position.z)
+
 			shootDir = Vector3(direction,0,0)
 			layerMask = 1 << gameObject.layer #filter ray to objects level only
 			hitinfo as RaycastHit
-
 			hitPlayer = Physics.Raycast (pos, shootDir, hitinfo, shootDistance, layerMask)
 
 			#Audio.
 			GameObject.Find("SoundEffects").GetComponent(SoundEffects).PlayZap(transform.position)
 
 			#display gun's beam on screen (TODO: Designers can make this prettier...)
-			lazer.transform.position = pos
+			lazer.transform.position = Vector3(pos.x+(direction*2),pos.y+0.7,pos.z)
 			lazer.GetComponent(LineRenderer).SetPosition(0, lazer.transform.position)
 			if direction < 0: 
 				lazerEndXPos = lazer.transform.position.x - shootDistance
