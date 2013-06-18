@@ -214,11 +214,11 @@ class Player (MonoBehaviour):
 		if facing == 1:
 			if Mathf.Round(transform.eulerAngles.y) >= 90:
 				turning = true
-				transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y-(turn_speed*Time.deltaTime))
+				transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y-Mathf.Clamp(turn_speed*Time.deltaTime, 0, 8))
 		else:
 			if Mathf.Round(transform.eulerAngles.y) <= 270:
 				turning = true
-				transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y+(turn_speed*Time.deltaTime))
+				transform.eulerAngles.y = Mathf.Round(transform.eulerAngles.y+Mathf.Clamp(turn_speed*Time.deltaTime, 0, 8))
 			
 			
 		#Movement.
