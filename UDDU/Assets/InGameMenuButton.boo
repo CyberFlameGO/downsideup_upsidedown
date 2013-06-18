@@ -6,28 +6,39 @@ class InGameMenuButton (MonoBehaviour):
 	public controlsTextureTop as GUITexture
 	public controlsTextureBot as GUITexture
 	public backButton as GUIText
-
+	public levels as GameObject
 
 	def OnMouseDown():
-
-		numUnlocked = 1
-		for i in range(maxLevels):
-			if PlayerPrefs.GetInt("unlockedLevel" +i) == 1: #has unlocked this level
-				numUnlocked = i
-
-		if name=="Continue" and numUnlocked>1:
+		if name=="Continue":
 			GameObject.Find("Pause").GetComponent(Pause).UnPause()
 		if name=="Main Menu":
-			Application.LoadLevel("Main Menu")
+			paused = GameObject.Find("Pause")
+			if paused:
+				paused.GetComponent(Pause).UnPause()
+			Application.LoadLevel("MainMenu")
 		if name=="Select Level":
-			Application.LoadLevel("LoadLevel")
+
+			numUnlocked = 1
+			for i in range(maxLevels):
+				if PlayerPrefs.GetInt("unlockedLevel" +i) == 1: #has unlocked this level
+					numUnlocked = i
+
+			lvls = Instantiate(levels)
+			count =5
+			for child as Transform in lvls.transform:
+				if count>numUnlocked:
+					child.gameObject.SetActive(false)
+				count--
+			Instantiate(backButton)
+
+			menu = GameObject.Find("Menu Options(Clone)")
+			Destroy(menu)
 		if name=="Controls":
 			Instantiate(controlsTextureTop)
 			Instantiate(controlsTextureBot)
 			Instantiate(backButton)
 			menu = GameObject.Find("Menu Options(Clone)")
-			for child as Transform in menu.transform:
-				child.gameObject.SetActive(false)
+			Destroy(menu)
 		if name=="Quit":
 			Application.Quit()
 

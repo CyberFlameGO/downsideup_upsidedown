@@ -13,7 +13,11 @@ class BackButtonInGame (MonoBehaviour):
 	def OnMouseDown():
 		conTop = GameObject.Find("ControlsTop(Clone)")
 		conBot = GameObject.Find("ControlsBot(Clone)")
-		Destroy(conTop)
-		Destroy(conBot)
+		if not conTop:
+			levels = GameObject.Find("Levels(Clone)")
+			Destroy(levels)
+		else:
+			Destroy(conTop)
+			Destroy(conBot)
 		menu = Instantiate(MenuOptions)
 		Destroy(gameObject)

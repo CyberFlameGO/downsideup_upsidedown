@@ -7,8 +7,6 @@ class Pause (MonoBehaviour):
 	public maxLevels as single = 5
 	public MenuOptions as GameObject
 	
-	private menu as GameObject
-
 	def Update ():
 		if Input.GetKeyDown(KeyCode.Escape):
 
@@ -22,11 +20,13 @@ class Pause (MonoBehaviour):
 
 	def OnGUI ():
 		isActive = false
-		menu = GameObject.Find("Menu Option")
-		if not menu: menu = GameObject.Find("Menu Options(Clone)")
-		if isPaused and not menu:
+		menu = GameObject.Find("Menu Options(Clone)")
+		controls = GameObject.Find("ControlsTop(Clone)")
+		levels = GameObject.Find("Levels(Clone)")
+
+		if isPaused and not (menu or controls or levels):
 			Instantiate(MenuOptions)
-		elif menu and not isPaused:
+		elif not isPaused and (menu or levels):
 			Destroy(menu)
 			Time.timeScale=1.0F
 			isPaused = false
