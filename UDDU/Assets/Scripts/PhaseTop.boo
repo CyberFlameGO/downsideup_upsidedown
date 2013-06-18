@@ -9,8 +9,8 @@ class PhaseTop (MonoBehaviour):
 	private redTimer = 0
 	
 	def LateUpdate ():
-		particleSystem.emissionRate = (player.GetComponent(Player).GetPhase()*100 + 100)/2 + 10
-		transform.position = pcamera.ScreenToWorldPoint (Vector3 (75,Screen.height-75,pcamera.nearClipPlane + 1.5))
+		particleSystem.emissionRate = (((player.GetComponent(Player).GetPhase()+1.0)*10)**2)/2 + 10
+		transform.position = pcamera.ScreenToWorldPoint (Vector3 (75,Screen.height-75,pcamera.nearClipPlane + 2.0))
 		particleSystem.startColor = currentColour
 		if Time.time-redTimer<1 and Time.time > 2:
 			particleSystem.startColor  = Color.red
