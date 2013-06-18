@@ -61,43 +61,63 @@ class StaticShoot (MonoBehaviour):
 			tazerTime=0
 			anim.SetBool(tazerState, false)
 		if (SHOOTER and Time.time-shootTime > 3): #shoot every 3 secs
-			anim.SetBool(tazerState, true)
-			shootTime = Time.time
-			tazerTime = Time.time
+
+			initialPos as Vector3 = Vector3(transform.position.x,transform.position.y+1,transform.position.z)
+			shootDir = Vector3(direction,0,0)
+			layerMask = 1 << gameObject.layer #filter ray to objects level only
+			initialHitinfo as RaycastHit
+			hitPlayer = Physics.Raycast (initialPos, shootDir, initialHitinfo, shootDistance, layerMask)
+
+			if initialHitinfo.transform.name != target.name:
+				SHOOTER=false
+				SEEKING=false
+				PATROL=true
+				HIT = false
+			else:
+				anim.SetBool(tazerState, true)
+				shootTime = Time.time
+				tazerTime = Time.time
+				
 		elif (SHOOTER and ((Time.time-tazerTime) > 0.35)): #wait for guard animation to lift arm
 			pos as Vector3 = Vector3(transform.position.x,transform.position.y+1,transform.position.z)
-
 			shootDir = Vector3(direction,0,0)
 			layerMask = 1 << gameObject.layer #filter ray to objects level only
 			hitinfo as RaycastHit
 			hitPlayer = Physics.Raycast (pos, shootDir, hitinfo, shootDistance, layerMask)
 
-			#Audio.
-			GameObject.Find("SoundEffects").GetComponent(SoundEffects).PlayZap(transform.position)
+			if hitinfo.transform.name != target.name:
+				SHOOTER=false
+				SEEKING=false
+				PATROL=true
+				HIT = false
+			else:
 
-			#display gun's beam on screen (TODO: Designers can make this prettier...)
-			lazer.transform.position = Vector3(pos.x+(direction*2),pos.y+0.7,pos.z)
-			lazer.GetComponent(LineRenderer).SetPosition(0, lazer.transform.position)
-			if direction < 0: 
-				lazerEndXPos = lazer.transform.position.x - shootDistance
+				#Audio.
+				GameObject.Find("SoundEffects").GetComponent(SoundEffects).PlayZap(transform.position)
 
-				if hitPlayer and hitinfo.transform.position.x > lazerEndXPos:
-					lazerEndXPos = hitinfo.transform.position.x
-			else: 
-				lazerEndXPos = lazer.transform.position.x + shootDistance
-				if hitPlayer and hitinfo.transform.position.x < lazerEndXPos:
-					lazerEndXPos = hitinfo.transform.position.x
-			lazerEndPos = Vector3(lazerEndXPos, lazer.transform.position.y,lazer.transform.position.z)
-			lazer.GetComponent(LineRenderer).SetPosition(1, lazerEndPos)
-			lazer.SetActive(true)
+				#display gun's beam on screen (TODO: Designers can make this prettier...)
+				lazer.transform.position = Vector3(pos.x+(direction*2),pos.y+0.7,pos.z)
+				lazer.GetComponent(LineRenderer).SetPosition(0, lazer.transform.position)
+				if direction < 0: 
+					lazerEndXPos = lazer.transform.position.x - shootDistance
 
-			shootTime = Time.time
-			if hitPlayer and hitinfo.transform.name == target.name: #hit player, so stun them
-				player1 as GameObject = GameObject.Find("Player1")
-				player1.GetComponent[of Player]().stunPlayer(target)
-				Camera.main.GetComponent(CameraPlay).Shake(0.5)
-				HIT = true
-				hitTime = Time.time
+					if hitPlayer and hitinfo.transform.position.x > lazerEndXPos:
+						lazerEndXPos = hitinfo.transform.position.x
+				else: 
+					lazerEndXPos = lazer.transform.position.x + shootDistance
+					if hitPlayer and hitinfo.transform.position.x < lazerEndXPos:
+						lazerEndXPos = hitinfo.transform.position.x
+				lazerEndPos = Vector3(lazerEndXPos, lazer.transform.position.y,lazer.transform.position.z)
+				lazer.GetComponent(LineRenderer).SetPosition(1, lazerEndPos)
+				lazer.SetActive(true)
+
+				shootTime = Time.time
+				if hitPlayer and hitinfo.transform.name == target.name: #hit player, so stun them
+					player1 as GameObject = GameObject.Find("Player1")
+					player1.GetComponent[of Player]().stunPlayer(target)
+					Camera.main.GetComponent(CameraPlay).Shake(0.5)
+					HIT = true
+					hitTime = Time.time
 		elif (Time.time-shootTime > 1.2):
 			anim.SetBool(tazerState, false)
 
