@@ -23,12 +23,10 @@ class GUIDragTip (MonoBehaviour):
 			startUpText = GameObject.Find("FirstInstructions")
 
 			if not startUpText:
-
 				if overhangTimer==0:
 					overhangTimer = Time.time
 
 				guiText.text = text
-				guiText.material.color.a = 0.65
 
 				if (Time.time-overhangTimer)> 5:	
 					Destroy(guiText)
