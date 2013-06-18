@@ -5,6 +5,9 @@ class Pause (MonoBehaviour):
 	private isPaused as bool = false
 	private loadLevel as bool = false
 	public maxLevels as single = 5
+	public MenuOptions as GameObject
+	
+	private menu as GameObject
 
 	def Update ():
 		if Input.GetKeyDown(KeyCode.Escape):
@@ -18,33 +21,22 @@ class Pause (MonoBehaviour):
 				isPaused = false
 
 	def OnGUI ():
-		if isPaused:
-			GUILayout.BeginArea( Rect(Screen.width/2-100, Screen.height/2-100,200,200))
-			GUILayout.FlexibleSpace()
-			if not loadLevel:
-				if GUILayout.Button("New Game"):
-					Application.LoadLevel("Level1")
-				if GUILayout.Button("Select Level"):
-					loadLevel = true
-				if GUILayout.Button("Controls"):
-					Application.LoadLevel("ControlsScreen")
-				if GUILayout.Button("Quit"):
-					Application.Quit()
-			else:
-				for i in range(maxLevels):
-					if PlayerPrefs.GetInt("unlockedLevel" +(i+1)) == 1: #has unlocked this level
-						if GUILayout.Button("Level " + (i+1)):
-							Application.LoadLevel("Level"+(i+1))
-				if GUILayout.Button("Back"):
-					loadLevel = false
+		Debug.Log("pause " + isPaused)
+		isActive = false
+		menu = GameObject.Find("Menu Option")
+		if not menu: menu = GameObject.Find("Menu Options(Clone)")
+		if isPaused and not menu:
+			Instantiate(MenuOptions)
+		elif menu and not isPaused:
+			Destroy(menu)
+			Time.timeScale=1.0F
+			isPaused = false
 			
-			GUILayout.FlexibleSpace()
-			GUILayout.EndArea()
-
+	def UnPause():
+		isPaused = false
 				
 	def GetIsPaused() as bool:
 		return isPaused
-
 
 		
 	
