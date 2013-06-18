@@ -52,9 +52,13 @@ class Player (MonoBehaviour):
 	private facing as int = 1
 	private turn_speed as single = 500.0
 	private turning as bool = false
+	
+	private end_movie as MovieTexture
 
 
 	def Start ():
+		end_movie = Resources.Load("end_movie")
+		
 		transform.eulerAngles.y = 90
 		
 		walkingState = Animator.StringToHash('Walk')
@@ -96,7 +100,8 @@ class Player (MonoBehaviour):
 		if transform.position.x > exit.transform.position.x or timeWon>0:
 			if timeWon==0:
 				timeWon = Time.time
-			if Time.time > (timeWon+4.0):
+				end_movie.Play()
+			if Time.time > (timeWon+end_movie.duration):
 				finishLevel()
 			else:
 				rigidbody.isKinematic = true
@@ -447,3 +452,7 @@ class Player (MonoBehaviour):
 	        child.gameObject.layer = layer
 	        ChangeLayersRecursively(child, layer)
 		
+	def OnGUI():
+		
+		if timeWon > 0:
+			GUI.DrawTexture(Rect(0, 0, Screen.width, Screen.height), end_movie)
