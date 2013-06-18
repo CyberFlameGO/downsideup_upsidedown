@@ -101,13 +101,12 @@ class Player (MonoBehaviour):
 			if timeWon==0:
 				timeWon = Time.time
 				end_movie.Play()
-			if Time.time > (timeWon+end_movie.duration):
+			endTime = 1.0
+			if end_movie:
+				endTime = end_movie.duration
+			if Time.time > (timeWon+endTime):
 				finishLevel()
 			else:
-				rigidbody.isKinematic = true
-				other.rigidbody.isKinematic = true
-				transform.Translate(Vector3.up * Time.deltaTime * 5)
-				other.transform.Translate(Vector3.up * Time.deltaTime * 5)
 				return
 				
 				
@@ -361,8 +360,6 @@ class Player (MonoBehaviour):
 	def finishLevel():
 		# #Finished level, load one level past current 
 		# #(accounting for index0=main menu, index1=loadLevelScreen, index(n)=winningscreen)
-		rigidbody.isKinematic = false
-		other.rigidbody.isKinematic = false
 		nextLevelNum = Application.loadedLevel
 		PlayerPrefs.SetInt("unlockedLevel"+(nextLevelNum-1),1)
 

@@ -18,6 +18,7 @@ class StaticShoot (MonoBehaviour):
 	# HashID
 	private walkingState as int
 	private tazerState as int
+	private idleState as int
 	
 	private anim as Animator
 	//private controller1 as RuntimeAnimatorController
@@ -38,7 +39,10 @@ class StaticShoot (MonoBehaviour):
 		anim.runtimeAnimatorController = controllerArray[Random.Range(0, controllerArray.Count)]
 		walkingState = Animator.StringToHash('Walk')
 		tazerState = Animator.StringToHash('Tazer')
+		idleState = Animator.StringToHash('Idle')
 		anim.SetBool(walkingState, false)
+		randomNumber as single = Mathf.Round(Random.Range(0.0f,1.0f))
+	    anim.SetInteger(idleState, randomNumber)
 
 	def setHit(isHit as bool):
 		HIT = isHit        
