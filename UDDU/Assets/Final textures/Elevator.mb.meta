@@ -2,7 +2,42 @@ fileFormatVersion: 2
 guid: 053c4c7d2aa558d4981b3372d78d1605
 ModelImporter:
   serializedVersion: 15
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: pCube1
+    100004: pCube2
+    100006: pCube3
+    100008: pCube4
+    100010: pCylinder1
+    100012: pCylinder2
+    100014: place3dTexture1
+    400000: //RootNode
+    400002: pCube1
+    400004: pCube2
+    400006: pCube3
+    400008: pCube4
+    400010: pCylinder1
+    400012: pCylinder2
+    400014: place3dTexture1
+    2300000: pCube1
+    2300002: pCube2
+    2300004: pCube3
+    2300006: pCube4
+    2300008: pCylinder1
+    2300010: pCylinder2
+    3300000: pCube1
+    3300002: pCube2
+    3300004: pCube3
+    3300006: pCube4
+    3300008: pCylinder1
+    3300010: pCylinder2
+    4300000: pCube1
+    4300002: pCube2
+    4300004: pCylinder1
+    4300006: pCylinder2
+    4300008: pCube3
+    4300010: pCube4
+    9500000: //RootNode
   materials:
     importMaterials: 1
     materialName: 0

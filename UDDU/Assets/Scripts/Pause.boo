@@ -21,7 +21,6 @@ class Pause (MonoBehaviour):
 				isPaused = false
 
 	def OnGUI ():
-		Debug.Log("pause " + isPaused)
 		isActive = false
 		menu = GameObject.Find("Menu Option")
 		if not menu: menu = GameObject.Find("Menu Options(Clone)")
