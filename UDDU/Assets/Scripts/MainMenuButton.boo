@@ -15,7 +15,7 @@ class MainMenuButton (MonoBehaviour):
 		if name=="Continue":
 			Application.LoadLevel("Level" + numUnlocked)
 		if name=="New Game":
-			Application.LoadLevel("Level1")
+			Application.LoadLevel("Level0")
 		if name=="Select Level":
 			Application.LoadLevel("LoadLevel")
 		if name=="Controls":
