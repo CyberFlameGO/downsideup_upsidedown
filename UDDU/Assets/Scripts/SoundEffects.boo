@@ -30,7 +30,7 @@ class SoundEffects (MonoBehaviour):
 	
 	
 	def Start ():
-		audio.volume = 2.0
+		audio.volume = 3.0
 		intercom_chime = Resources.Load("interchime")
 		
 		for n in range(10):
