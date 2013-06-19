@@ -62,6 +62,7 @@ class Player (MonoBehaviour):
 		g = GameObject.Find("Camera1")
 		aSource = g.AddComponent("AudioSource")
 		aSource.clip = end_movie.audioClip
+		aSource.volume = 2.0
 		
 		transform.eulerAngles.y = 90
 		
