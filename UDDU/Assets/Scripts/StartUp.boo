@@ -18,7 +18,7 @@ class StartUp (MonoBehaviour):
 	def Start ():
 		text.Add("")
 		text.Add(" ")
-		text.Add("Phase balls indicate you existence level\n in each world")
+		text.Add("Plasma balls indicate your existence level\n in each world")
 		guiText.text = text[currentText]
 		arrowTexture.texture  = Resources.Load("Controls/direction_LR") as Texture2D
 		pointTop.texture = Resources.Load("Controls/point_up") as Texture2D

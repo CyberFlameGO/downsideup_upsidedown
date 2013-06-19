@@ -3,7 +3,7 @@ import UnityEngine
 class GUIDragTip (MonoBehaviour): 
 
 	public target as GameObject
-	private text = "Careful of hanging in mid-air, \nyour drag will prevent you from jumping high"
+	private text = "Careful when one version of you is hanging in mid-air, \nthe other version will be carrying the weight of both."
 
 	private overhangTimer as single =0
 	private playerScript as Player
@@ -28,7 +28,7 @@ class GUIDragTip (MonoBehaviour):
 
 				guiText.text = text
 
-				if (Time.time-overhangTimer)> 5:	
+				if (Time.time-overhangTimer)> 10:	
 					Destroy(guiText)
 					overhangTimer=0
 
