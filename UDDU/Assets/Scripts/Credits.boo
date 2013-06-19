@@ -28,3 +28,6 @@ class Credits (MonoBehaviour):
 	def Update ():
 		if (transform.position.y < stopAt):
 			transform.Translate(Vector3.up * Time.deltaTime * creditSpeed)
+			
+		if Input.GetKeyDown(KeyCode.Escape):
+			Application.LoadLevel("MainMenu")

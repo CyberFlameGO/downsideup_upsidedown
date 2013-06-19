@@ -11,8 +11,8 @@ class GUIHelpPickup (MonoBehaviour):
 	private dropTimer as single =0
 
 	def Start ():
-		text.Add("Press the 'X' key to pick up")
-		text.Add("Press 'X' key again to drop")
+		text.Add("")
+		text.Add("")
 
 	def Update ():
 		if target.transform.position.x > position.position.x and guiText:
