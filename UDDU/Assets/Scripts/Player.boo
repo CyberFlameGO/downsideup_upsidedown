@@ -54,10 +54,14 @@ class Player (MonoBehaviour):
 	private turning as bool = false
 	
 	private end_movie as MovieTexture
+	private aSource as AudioSource
 
 
 	def Start ():
 		end_movie = Resources.Load("end_movie")
+		g = GameObject.Find("Camera1")
+		aSource = g.AddComponent("AudioSource")
+		aSource.clip = end_movie.audioClip
 		
 		transform.eulerAngles.y = 90
 		
@@ -101,6 +105,8 @@ class Player (MonoBehaviour):
 			if timeWon==0:
 				timeWon = Time.time
 				end_movie.Play()
+				aSource.Play()
+				Destroy(GameObject.Find("Music"))
 			endTime = 1.0
 			if end_movie:
 				endTime = end_movie.duration

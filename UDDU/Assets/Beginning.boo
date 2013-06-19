@@ -7,8 +7,11 @@ class Beginning (MonoBehaviour):
 
 	def Start ():
 		start_movie = Resources.Load("start_movie")
+		print(start_movie)
 		start = Time.time + start_movie.duration
+		audio.clip = start_movie.audioClip
 		start_movie.Play()
+		audio.Play()
 	
 	def Update ():
 		if Time.time > start:
